@@ -1,13 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\fitayo;
+use App\Http\Controllers\logic;
+use App\Http\Controllers\view;
 
-Route::get("/", [fitayo::class,"index"])->name("index");
-Route::get("/login", [fitayo::class,"login"])->name("login");
-Route::get("/account", [fitayo::class,  "account"])->name("account");
-Route::get("/register", [fitayo::class,  "register"])->name("register");
+Route::get("/", [view::class,"index"])->name("index");
+Route::get("/login", [view::class,"login"])->name("login");
+Route::get("/account", [view::class,  "account"])->name("account");
+Route::get("/register", [view::class,  "register"])->name("register");
+Route::get("/account", [view::class,  "account"])->name("account");
 
-
-Route::post("/login", [fitayo::class,"loginPost"])->name("loginPost");
-Route::post("/register", [fitayo::class,"registerPost"])->name("registerPost");
+Route::get("/push", [logic::class,"push"])->name("push");
+Route::post("/login", [logic::class,"loginPost"])->name("loginPost");
+Route::post("/register", [logic::class,"registerPost"])->name("registerPost");
