@@ -10,15 +10,35 @@ use App\Models\User;
 class logic extends Controller
 {
     public function push(){
-        $username = "jdoee";
-        $email = "jdoee@jdoe.com";
-        $password = "thissucks";
-        $type = "user";
+        //reference for inserting data
         $user = new User();
-        $user->username = $username;
-        $user->user_email = $email;
-        $user->password = Hash::make($password);
-        $user->user_type = $type;
+        $user->username = "sumGuy";
+        $user->user_email = 'sguy@example.com';
+        $user->password = Hash::make("FITAYO");
+        $user->user_type = "user";
+        $user->firstName = "Some";
+        $user->lastName = "Guy";
+        $user->profileBio ="A member who wants to develop muscle";
+        $user->contactDetails = "09123456789";
+        $user->birthdate = date("Y-m-d", mktime(0,0,0,8,12,2003));
+        $user->address_num = "102";
+        $user->address_street = "Somewhere Street";
+        $user->address_city = "Middle City";
+        $user->address_region = "Rainbow";
+        $user->height = 5.7;
+        $user->weight = 139;
+        $user->bmi = ($user->weight/2.2/($user->height*0.3048));
+        $user->bmi_classification = "Normal";
+        $user->medical_history = "None";
+        $user->hasIllness = false;
+        $user->hasInjuries = false;
+        $user->membership_type = "Premium";
+        $user->membership_desc = "Includes all services offered";
+        $user->start_date = now();
+        $user->expiry_date = date("Y-m-d", mktime(0,0,0,5,30,2024));
+        $user->next_payment = date("Y-m-d", mktime(0,0,0,5,12,2024));
+        $user->payment_status = true;
+        $user->Trainer = "John Wick";
         $user->save();
     }
     
