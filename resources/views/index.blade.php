@@ -346,7 +346,7 @@
                                         <option value="1">Member</option>
                                         <option value="2">Non-Member</option>
                                     </select>
-                                    
+
                                 </div>
                             </div>
                             <br>
@@ -480,11 +480,13 @@
                 </div>
     </div>
     @endif
-@elseif (session('user') == 'user')
-    <h1>
-        this is not yet implemented as it is still in development -Happy 2.0 Friends
-    </h1>
-@else
+    @if (session('user') == 'user')
+        <h1>
+            this is not yet implemented as it is still in development -Happy 2.0 Friends
+        </h1>
+    @endif
+        
+        @else
     <a href="{{ route('login') }}"><button class="btn btn-primary">Login</button></a>
     @endif
 

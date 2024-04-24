@@ -67,7 +67,8 @@ class logic extends Controller
             
             return redirect()->intended(route('index'))->with(["user"=>$user->user_type,"name"=>$user->username]);
         }
-        return redirect()->intended(route('login'))->with(["error"=>"wrong"]);
+        //returns to login page with error message
+        return redirect()->intended(route('login'))->with(["error"=>"The user \"$username\" is not found in our system"]);
         
     }
     public function registerPost(Request $request){
