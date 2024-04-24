@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use App\Models\User;
 class logic extends Controller
 {
@@ -58,20 +59,41 @@ class logic extends Controller
             "password"=> "required",
             
         ]);
-        $username = $request->username;
-        $password = $request->password;
-        //attempt authorization
-        if(Auth::attempt(["username"=>$username,"password"=>$password])){
-            //get user credentials 
-            $user = User::where("username",$username)->first();
-            
-            return redirect()->intended(route('index'))->with(["user"=>$user->user_type,"name"=>$user->username]);
+        $credentials = $request->only("username","password");
+        if(Auth::attempt($credentials)){
+            Session::put("user",userAuth());
+            Session::put("logged",true);
+            Session::keep(['user','logged']);
+            return redirect()->intended(route('index'));
         }
-        //returns to login page with error message
-        return redirect()->intended(route('login'))->with(["error"=>"The user \"$username\" is not found in our system"]);
+        
+        return redirect()->intended(route('login'))->with(["error"=>"The user \"$request->username\" is not found in our system"]);
         
     }
     public function registerPost(Request $request){
         //
+        $request->validate([
+            'first-name' => 'required|string|max:150',
+            'last-name' => 'required|string|max:150',
+            'contact-number' => 'required|max:11',
+            'address' => 'required|string|max:255',
+            'membership-plan' => 'required|string|in:basic,standard,premium',
+            'email' => 'required|string|email|max:150|unique:users,user_email',
+        ]);
+    
+        // Create a new user instance and assign validated data directly from the request
+        $user = new User();
+        $user->firstName = $request->input('first-name');
+        $user->lastName = $request->input('last-name');
+        $user->contactDetails = $request->input('contact-number');
+        $user->address = $request->input('address');
+        $user->membership_type = $request->input('membership-plan');
+        $user->user_email = $request->input('email');
+        $user->password = Hash::make('defaultPassword'); // Ideally, the password should also be input by the user
+        $user->start_date = now();
+        $user->expiry_date = now()->addMonth();
+        $user->save();
+    
+        return redirect('login')->with('success', 'Member registered successfully!');
     }
 }
