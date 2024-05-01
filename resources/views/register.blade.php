@@ -3,7 +3,5 @@
 
 
 @section("content")
-{{-- 
-    Put frontend code here    
---}}
+    {{session('first_name')}}
 @endsection

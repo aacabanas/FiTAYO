@@ -7,93 +7,71 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use App\Models\User;
+use App\Models\user_credentials;
+use App\Models\user_membership;
+use App\Models\user_profile;
+use Carbon\Carbon;
+
+
+use App\Models\user_assessment;
+
 class logic extends Controller
 {
-    public function push(){
+    public function push()
+    {
         //reference for inserting data
-        $user = new User();
-        $user->username = "sumGuy";
-        $user->user_email = 'sguy@example.com';
-        $user->password = Hash::make("FITAYO");
-        $user->user_type = "user";
-        $user->firstName = "Some";
-        $user->lastName = "Guy";
-        $user->profileBio ="A member who wants to develop muscle";
-        $user->contactDetails = "09123456789";
-        $user->birthdate = date("Y-m-d", mktime(0,0,0,8,12,2003));
-        $user->address_num = "102";
-        $user->address_street = "Somewhere Street";
-        $user->address_city = "Middle City";
-        $user->address_region = "Rainbow";
-        $user->height = 5.7;
-        $user->weight = 139;
-        $user->bmi = ($user->weight/2.2/($user->height*0.3048));
-        $user->bmi_classification = "Normal";
-        $user->medical_history = "None";
-        $user->hasIllness = false;
-        $user->hasInjuries = false;
-        $user->membership_type = "Premium";
-        $user->membership_desc = "Includes all services offered";
-        $user->start_date = now();
-        $user->expiry_date = date("Y-m-d", mktime(0,0,0,5,30,2024));
-        $user->next_payment = date("Y-m-d", mktime(0,0,0,5,12,2024));
-        $user->payment_status = true;
-        $user->Trainer = "John Wick";
-        $user->save();
+        $credentials = [
+            "username"      => "walalang",
+            "password"      => Hash::make("sadboi"),
+            "user_email"    => "somethingsomething@mail.com",
+            "user_type"     => getUserType(1),
+        ];
+        $date_now = Carbon::now();
+        //membership
+        $membership = [
+            "membership_type"   => getMembershipType(1),
+            "membership_plan"   => getPlan(1),
+            "membership_desc"   => "LOL",
+            "start_date"        => $date_now,
+            "expiry_date"       => $date_now->addMonth(),
+            "next_payment"      => $date_now->addWeek()->addWeek(),
+            "payment_status"    => 0,
+            "Trainer"           => "WHO?????"
+        ];
+        //profile
+        $profile = [
+            "firstName"         => "hello",
+            "lastName"          =>  "world",
+            "profileBio"        => "undisclosed",
+            "contactDetails"    => "09123456789",
+            "birthdate"         =>  date("Y-m-d"),
+            "address_num"       =>  "124",
+            "address_street"    =>  "sowm",
+            "address_city"      =>  "hello",
+            "address_region"    =>  "thanks",
+            "user_ID"           => (DB::table("user_credentials")->count("user_ID")==0)? 1:DB::table("user_credentials")->get("user_ID")->last()->user_ID,
+            "userMem_ID"        => (DB::table("user_membership")->count()==0)?1:DB::table("user_membership")->get("userMem_ID")->last()->userMem_ID,
+        ];
+        //assessment
+        $assessment = [
+            "height"                => 5.2,
+            "weight"                => 130.25,
+            "bmi"                   => getBMI(130.25,5.2),
+            "bmi_classification"    => getBMIType(getBMI(130.25,5.2)),
+            "medical_history"       => "NONE",
+            "hasIllness"            => 1,
+            "hasInjuries"           => 0,
+            "profile_ID"            => (DB::table("user_profile")->count()==0)?1:DB::table("user_profile")->get("profile_ID")->last()->profile_ID,
+        ];
+        user_credentials::insert($credentials);
+        user_membership::insert($membership);
+        user_profile::insert($profile);
+        user_assessment::insert($assessment);
     }
+
+
     
-    
-    public function account(){
-        $credentials = DB::table('user_credentials')->select(['user_ID','username','user_email'])->where('user_email',session()->get('success'));
-        $vals = (String) $credentials->get('user_ID');
-        echo $vals;
-        
-        return view("account");
-    }
     //data handling + more    
-    public function loginPost(Request $request){
-        //validate form data
-        $request->validate([
-            "username"=> "required",
-            "password"=> "required",
-            
-        ]);
-        $credentials = $request->only("username","password");
-        if(Auth::attempt($credentials)){
-            Session::put("user",userAuth());
-            Session::put("logged",true);
-            Session::keep(['user','logged']);
-            return redirect()->intended(route('index'));
-        }
-        
-        return redirect()->intended(route('login'))->with(["error"=>"The user \"$request->username\" is not found in our system"]);
-        
-    }
-    public function registerPost(Request $request){
-        //
-        $request->validate([
-            'first-name' => 'required|string|max:150',
-            'last-name' => 'required|string|max:150',
-            'contact-number' => 'required|max:11',
-            'address' => 'required|string|max:255',
-            'membership-plan' => 'required|string|in:basic,standard,premium',
-            'email' => 'required|string|email|max:150|unique:users,user_email',
-        ]);
     
-        // Create a new user instance and assign validated data directly from the request
-        $user = new User();
-        $user->firstName = $request->input('first-name');
-        $user->lastName = $request->input('last-name');
-        $user->contactDetails = $request->input('contact-number');
-        $user->address = $request->input('address');
-        $user->membership_type = $request->input('membership-plan');
-        $user->user_email = $request->input('email');
-        $user->password = Hash::make('defaultPassword'); // Ideally, the password should also be input by the user
-        $user->start_date = now();
-        $user->expiry_date = now()->addMonth();
-        $user->save();
     
-        return redirect('login')->with('success', 'Member registered successfully!');
-    }
 }

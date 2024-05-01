@@ -10,7 +10,7 @@
                 {{ session('error') }}
             </div>
         @endif
-        <form action="{{ route('login') }}" method="post">
+        <form action="{{ route('login.Post') }}" method="post">
             @csrf
             <div class="row">
                 <div class="col-1"><label for="username" class="form-label"><h5>Username:</h5></label>

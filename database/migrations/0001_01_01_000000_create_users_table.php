@@ -10,59 +10,28 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create("users", function (Blueprint $table) {
+        //tables without foreign keys(FK)
+        Schema::create('user_credentials', function (Blueprint $table) {
             $table->id('user_ID');
             $table->string('username', length: 16);
             $table->string('password');
             $table->string('user_email', length: 320)->unique();
             $table->string('user_type', length: 16);
-            $table->string('firstName', length: 255);
-            $table->string('lastName', length: 255);
-            $table->string('profileBio', length: 500);
-            $table->string('contactDetails', length: 11);
-            $table->date('birthdate');
-            $table->string('address_num', length: 255);
-            $table->string('address_street', length: 255);
-            $table->string('address_city', length: 255);
-            $table->string('address_region', length: 255);
-            $table->decimal('height', 5, 2)->default(0);
-            $table->decimal('weight', 6, 2)->default(0);
-            $table->decimal('bmi', 5, 2)->default(0);
-            $table->string('bmi_classification', length: 255);
-            $table->string('medical_history', length: 999);
-            $table->boolean('hasIllness');
-            $table->boolean('hasInjuries');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamps();
+            $table->rememberToken();
+        });
+        Schema::create('user_membership', function (Blueprint $table) {
+            $table->id('userMem_ID');
             $table->string('membership_type', length: 255);
+            $table->string('membership_plan', length: 255);
             $table->string('membership_desc', length: 255);
             $table->date('start_date');
             $table->date('expiry_date');
             $table->date('next_payment');
             $table->boolean('payment_status');
             $table->string('Trainer', length: 255);
-            $table->timestamp('email_verified_at')->nullable();
-            $table->timestamps();
         });
-        //tables without foreign keys(FK)
-        //Schema::create('user_credentials', function (Blueprint $table) {
-        //    $table->id('user_ID');
-        //    $table->string('username', length: 16);
-        //    $table->string('password');
-        //    $table->string('user_email', length: 320)->unique();
-        //    $table->string('user_type', length: 16);
-        //    $table->timestamp('email_verified_at')->nullable();
-        //    $table->timestamps();
-        //    $table->rememberToken();
-        //});
-        //Schema::create('user_membership', function (Blueprint $table) {
-        //    $table->id('userMem_ID');
-        //    $table->string('membership_type', length: 255);
-        //    $table->string('membership_desc', length: 255);
-        //    $table->date('start_date');
-        //    $table->date('expiry_date');
-        //    $table->date('next_payment');
-        //    $table->boolean('payment_status');
-        //    $table->string('Trainer', length: 255);
-        //});
         Schema::create('milestone_details', function (Blueprint $table) {
             $table->id('milestone_ID');
             $table->string('milestoneName', length: 255);
@@ -72,22 +41,20 @@ return new class extends Migration {
             $table->string('goal', length: 255);
         });
         //tables with foreign keys(FK)
-        //Schema::create('user_profile', function (Blueprint $table) {
-        //    $table->id('profile_ID');
-        //    $table->string('firstName', length: 255);
-        //    $table->string('lastName', length: 255);
-        //    $table->string('profileBio', length: 500);
-        //    $table->string('contactDetails', length: 11);
-        //    $table->date('birthdate');
-        //    $table->string('address_num', length: 255);
-        //    $table->string('address_street', length: 255);
-        //    $table->string('address_city', length: 255);
-        //    $table->string('address_region', length: 255);
-        //    $table->foreignId('user_ID');
-        //    $table->foreignId('userMem_ID');
-        //    $table->foreign('user_ID')->references('user_ID')->on('user_credentials')->onDelete('cascade');
-        //    $table->foreign('userMem_ID')->references('userMem_ID')->on('user_membership')->onDelete('cascade');
-        //});
+        Schema::create('user_profile', function (Blueprint $table) {
+            $table->id('profile_ID');
+            $table->string('firstName', length: 255);
+            $table->string('lastName', length: 255);
+            $table->string('profileBio', length: 500);
+            $table->string('contactDetails', length: 11);
+            $table->date('birthdate');
+            $table->string('address_num', length: 255);
+            $table->string('address_street', length: 255);
+            $table->string('address_city', length: 255);
+            $table->string('address_region', length: 255);
+            $table->foreignId('user_ID')->constrained('user_credentials','user_ID');
+            $table->foreignId('userMem_ID')->constrained('user_membership','userMem_ID');
+        });
         Schema::create('user_milestones', function (Blueprint $table) {
             $table->id('userMilestone_ID');
             $table->time('date_created')->default(date('H:i:s'));
@@ -95,24 +62,21 @@ return new class extends Migration {
             $table->float('currentProgress');
             $table->boolean('status');
             $table->boolean('checked_in');
-            $table->foreignId('profile_ID');
-            $table->foreign('profile_ID')->references('user_ID')->on('users')->onDelete('cascade');
+            $table->foreignId('profile_ID')->constrained('user_profile','profile_ID');
 
         });
-        //Schema::create('user_assessment', function (Blueprint $table) {
-        //    $table->id('userAsses_ID');
-        //    $table->foreignId('profile_ID');
-        //    $table->foreign('profile_ID')->references('profile_ID')->on('user_profile')->onDelete('cascade');
-        //    $table->decimal('height', 5, 2)->default(0);
-        //    $table->decimal('weight', 6, 2)->default(0);
-        //    $table->decimal('bmi', 5, 2)->default(0);
-        //    $table->string('bmi_classification', length: 255);
-        //    $table->string('medical_history', length: 999);
-        //    $table->boolean('hasIllness');
-        //    $table->boolean('hasInjuries');
-        //    $table->time('date_created')->default(date('H:i:s'));
-        //    $table->time('date_modified')->default(date('H:i:s'));
-        //});
+        Schema::create('user_assessment', function (Blueprint $table) {
+            $table->id('userAsses_ID');
+            $table->foreignId('profile_ID')->constrained('user_profile','profile_ID');
+            $table->decimal('height', 5, 2)->default(0);
+            $table->decimal('weight', 6, 2)->default(0);
+            $table->decimal('bmi', 5, 2)->default(0);
+            $table->string('bmi_classification', length: 255);
+            $table->string('medical_history', length: 999);
+            $table->boolean('hasIllness');
+            $table->boolean('hasInjuries');
+            $table->timestamps();
+        });
         //laravel auto generated
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
