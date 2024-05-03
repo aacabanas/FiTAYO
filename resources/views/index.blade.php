@@ -5,20 +5,19 @@
     @section('title', 'Home')
 @endif
 @section('content')
-    <script></script>
     <div class="container">
 
     </div>
     @if (session()->has('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-        @if (session()->has('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if (session()->has('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     @if (session('logged'))
         @if (session('user')->user_type == 'admin')
             <script>
@@ -472,17 +471,20 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="post">
+                            <form id="updateForm" method="POST" action="{{route('update.Post')}}">
                                 @csrf
                                 <input type="hidden" name="userID" id="userID">
                                 <div class="row">
-                                    <div class="col-6"><label for="editUsername" class="form-label">Username: </label></div>
-                                    <div class="col-6"><label for="editUserType" class="form-label">User Type</label></div>
+                                    <div class="col-6"><label for="editUsername" class="form-label">Username: </label>
+                                    </div>
+                                    <div class="col-6"><label for="editUserType" class="form-label">User Type</label>
+                                    </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6"><input type="text" name="editUsername" id="editUsername" class="form-control"></div>
+                                    <div class="col-6"><input type="text" name="editUsername" id="editUsername"
+                                            class="form-control"></div>
                                     <div class="col-6">
-                                        <select name="editUserType" id="editUserType">
+                                        <select name="editUserType" id="editUserType" class="form-select">
                                             <option value="1">Admin</option>
                                             <option value="2">User</option>
                                         </select>
@@ -490,8 +492,10 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-6"><label class="form-label" for="editFname">First Name: </label></div>
-                                    <div class="col-6"><label class="form-label" for="editLname">Last Name: </label></div>
+                                    <div class="col-6"><label class="form-label" for="editFname">First Name: </label>
+                                    </div>
+                                    <div class="col-6"><label class="form-label" for="editLname">Last Name: </label>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6"><input type="text" name="editFname" id="editFname"
@@ -501,8 +505,10 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-6"><label class="form-label" for="editProfileBio">Profile Bio: </label></div>
-                                    <div class="col-6"><label class="form-label" for="editContactNum">Contact Number: </label></div>
+                                    <div class="col-6"><label class="form-label" for="editProfileBio">Profile Bio:
+                                        </label></div>
+                                    <div class="col-6"><label class="form-label" for="editContactNum">Contact Number:
+                                        </label></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
@@ -513,8 +519,10 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-6"><label class="form-label" for="editBirthdate">Birthdate: </label></div>
-                                    <div class="col-6"><label class="form-label" for="editMembershipType">Membership Type: </label></div>
+                                    <div class="col-6"><label class="form-label" for="editBirthdate">Birthdate: </label>
+                                    </div>
+                                    <div class="col-6"><label class="form-label" for="editMembershipType">Membership
+                                            Type: </label></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6"><input type="date" name="editBirthdate" id="editBirthdate"
@@ -530,8 +538,10 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-6"><label class="form-label" for="editMembershipPlan">Membership Plan: </label></div>
-                                    <div class="col-6"><label class="form-label" for="editMembershipDesc">Membership Description: </label></div>
+                                    <div class="col-6"><label class="form-label" for="editMembershipPlan">Membership
+                                            Plan: </label></div>
+                                    <div class="col-6"><label class="form-label" for="editMembershipDesc">Membership
+                                            Description: </label></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
@@ -541,7 +551,9 @@
                                             <option value="3">Premium</option>
                                         </select>
                                     </div>
-                                    <div class="col-6"><textarea name="editMembershipDesc" id="editMembershipDesc" class="form-control"></textarea></div>
+                                    <div class="col-6">
+                                        <textarea name="editMembershipDesc" id="editMembershipDesc" class="form-control"></textarea>
+                                    </div>
                                 </div>
                                 <br>
                                 <div class="row">
@@ -556,8 +568,10 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-6"><label class="form-label" for="editBMI">Body Mass Index: </label></div>
-                                    <div class="col-6"><label class="form-label" for="editBMIType">Body Mass Index Classification: </label>
+                                    <div class="col-6"><label class="form-label" for="editBMI">Body Mass Index:
+                                        </label></div>
+                                    <div class="col-6"><label class="form-label" for="editBMIType">Body Mass Index
+                                            Classification: </label>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -570,48 +584,64 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <label class="form-label" for="editAddressNum">Address Number: </label>
-                                        
+
                                     </div>
-                                    <div class="col-6"><label class="form-label" for="editAddressStreet">Address Street: </label></div>
+                                    <div class="col-6"><label class="form-label" for="editAddressStreet">Address Street:
+                                        </label></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6"><input type="text" name="editAddressNum" id="editAddressNum" class="form-control"></div>
-                                    <div class="col-6"><input type="text" name="editAddressStreet" id="editAddressStreet" class="form-control"></div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-6"><label for="editAddressCity" class="form-label">Address City</label></div>
-                                    <div class="col-6"><label for="editAddressRegion" class="form-label">Address Region</label></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6"><input type="text" name="editAddressCity" id="editAddressCity" class="form-control"></div>
-                                    <div class="col-6"><input type="text" name="editAddressRegion" id="editAddressRegion" class="form-control"></div>
+                                    <div class="col-6"><input type="text" name="editAddressNum" id="editAddressNum"
+                                            class="form-control"></div>
+                                    <div class="col-6"><input type="text" name="editAddressStreet"
+                                            id="editAddressStreet" class="form-control"></div>
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-6"><label for="editEmail" class="form-label">EMail: </label></div>
+                                    <div class="col-6"><label for="editAddressCity" class="form-label">Address
+                                            City</label></div>
+                                    <div class="col-6"><label for="editAddressRegion" class="form-label">Address
+                                            Region</label></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6"><input type="text" name="editAddressCity"
+                                            id="editAddressCity" class="form-control"></div>
+                                    <div class="col-6"><input type="text" name="editAddressRegion"
+                                            id="editAddressRegion" class="form-control"></div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-6"><label for="editEmail" class="form-label">Email: </label></div>
                                     <div class="col-6"><label for="editTrainer" class="form-label">Trainer</label></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6"><input type="email" name="editEmail" id="editEmail" class="form-control"></div>
-                                    <div class="col-6"><input type="text" name="editTrainer" id="editTrainer" class="form-control"></div>
+                                    <div class="col-6"><input type="email" name="editEmail" id="editEmail"
+                                            class="form-control"></div>
+                                    <div class="col-6"><input type="text" name="editTrainer" id="editTrainer"
+                                            class="form-control"></div>
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-6"><label for="editStartDate" class="form-label">Start Date: </label></div>
-                                    <div class="col-6"><label for="editExpiryDate" class="form-label">Expiry Date: </label></div>
+                                    <div class="col-6"><label for="editStartDate" class="form-label">Start Date:
+                                        </label></div>
+                                    <div class="col-6"><label for="editExpiryDate" class="form-label">Expiry Date:
+                                        </label></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6"><input type="date" name="editStartDate" id="editStartDate" class="form-control"></div>
-                                    <div class="col-6"><input type="date" name="editExpiryDate" id="editExpiryDate" class="form-control"></div>
+                                    <div class="col-6"><input type="date" name="editStartDate" id="editStartDate"
+                                            class="form-control"></div>
+                                    <div class="col-6"><input type="date" name="editExpiryDate" id="editExpiryDate"
+                                            class="form-control"></div>
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-6"><label for="editNextPayment" class="form-label">Next Payment: </label></div>
-                                    <div class="col-6"><label for="editPaymentStatus" class="form-control">Payment Status: </label></div>
+                                    <div class="col-6"><label for="editNextPayment" class="form-label">Next Payment:
+                                        </label></div>
+                                    <div class="col-6"><label for="editPaymentStatus" class="form-label">Payment Status:
+                                        </label></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6"><input type="date" name="editNextPayment" id="editNextPayment" class="form-control"></div>
+                                    <div class="col-6"><input type="date" name="editNextPayment"
+                                            id="editNextPayment" class="form-control"></div>
                                     <div class="col-6">
                                         <select name="editPaymentStatus" id="editPaymentStatus" class="form-control">
                                             <option value="1">Paid</option>
@@ -621,34 +651,39 @@
                                 </div>
                                 <br>
                                 <div class="row">
-                                    <div class="col-6"><label for="editHasIllness" class="form-label">Has Illness: </label></div>
-                                    <div class="col-6"><label for="editHasInjuries" class="form-label">Has Injuries</label></div>
+                                    <div class="col-6"><label for="editHasIllness" class="form-label">Has Illness:
+                                        </label></div>
+                                    <div class="col-6"><label for="editHasInjuries" class="form-label">Has
+                                            Injuries</label></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
                                         <select name="editHasIllness" id="editHasIllness" class="form-control">
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
+                                            <option value="0">Yes</option>
+                                            <option value="1">No</option>
                                         </select>
                                     </div>
                                     <div class="col-6">
                                         <select name="editHasInjuries" id="editHasInjuries" class="form-control">
-                                            <option value="1">Yes</option>
-                                            <option value="2">No</option>
+                                            <option value="0">Yes</option>
+                                            <option value="1">No</option>
                                         </select>
                                     </div>
                                     <br>
-                                    <div class="row"><label for="editMedicalHistory" class="form-label">Medical History</label></div>
-                                    <div class="row"><textarea name="editMedicalHistory" id="editMedicalHistory" class="form-control"></textarea></div>
+                                    <div class="row"><label for="editMedicalHistory" class="form-label">Medical
+                                            History</label></div>
+                                    <div class="row">
+                                        <textarea name="editMedicalHistory" id="editMedicalHistory" class="form-control"></textarea>
+                                    </div>
                                 </div>
                                 <br>
-                            
+
 
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </form>
+                            <button type="submit" id="submitUpdateForm" class="btn btn-primary">Save changes</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -657,39 +692,41 @@
             <h1>Not implemented -Happy 2.0 Friends</h1>
         @endif
     @else
-    <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
-    Login
-  </button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="loginModalLabel">Login</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form action="{{route('login.Post')}}" method="post">
-                @csrf
-                <div class="row text-center">
-                    <label for="username" class="form-label">Username: </label>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+            Login
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="loginModalLabel">Login</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('login.Post') }}" method="post">
+                            @csrf
+                            <div class="row text-center">
+                                <label for="username" class="form-label">Username: </label>
+                            </div>
+                            <div class="row"><input type="text" name="username" id="username"
+                                    placeholder="Enter your username" class="form-control" required></div>
+                            <br>
+                            <div class="row text-center">
+                                <label for="password" class="form-label">Password: </label>
+                            </div>
+                            <div class="row"><input type="password" name="password" id="password"
+                                    placeholder="Enter your password" class="form-control" required></div>
+                            <br>
+                            <div class="row"><button type="submit" class="btn btn-primary">Login</button></div>
+                        </form>
+                    </div>
+
                 </div>
-                <div class="row"><input type="text" name="username" id="username" placeholder="Enter your username" class="form-control" required></div>
-                <br>
-                <div class="row text-center">
-                    <label for="password" class="form-label">Password: </label>
-                </div>
-                <div class="row"><input type="password" name="password" id="password" placeholder="Enter your password" class="form-control" required></div>
-                <br>
-                <div class="row"><button type="submit" class="btn btn-primary">Login</button></div>
-            </form>
+            </div>
         </div>
-        
-      </div>
-    </div>
-  </div>
     @endif
 
 @endsection

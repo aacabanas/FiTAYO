@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class user_profile extends Model
+class user_profile extends Authenticatable
 {
     use HasFactory;
     protected $table = "user_profile";
@@ -23,8 +24,13 @@ class user_profile extends Model
         'address_street',
         'address_city',
         'address_region',
+        'created_at',
         'user_ID',
         'userMem_ID'
+        ];
+        protected $hidden = [
+            'password',
+            'remember_token',
         ];
         public function user_credentials(): HasOne{
             return $this->hasOne(user_credentials::class,'user_ID','profile_ID');

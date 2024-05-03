@@ -17,6 +17,7 @@ class user_assessment extends Model
     'medical_history',
     'hasIllness',
     'hasInjuries',
-    'profile_ID',
+    'created_at',
+    'profile_ID'
     ];
 }

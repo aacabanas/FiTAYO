@@ -13,12 +13,15 @@ class user_milestones extends Model
     protected $fillable = [
         'currentProgress',
         'status',
-        'checked_in'	
-        ];
-    public function milestone_details():HasOne{
-        return $this->hasOne(milestone_details::class,'milestone_ID','userMilestone_ID');
+        'checked_in',
+        'created_at'
+    ];
+    public function milestone_details(): HasOne
+    {
+        return $this->hasOne(milestone_details::class, 'milestone_ID', 'userMilestone_ID');
     }
-    public function user_profile(): HasOne{
-        return $this->hasOne(user_profile::class,'profile_ID','userMilestone_ID');
+    public function user_profile(): HasOne
+    {
+        return $this->hasOne(user_profile::class, 'profile_ID', 'userMilestone_ID');
     }
 }

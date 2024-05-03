@@ -31,6 +31,7 @@ return new class extends Migration {
             $table->date('next_payment');
             $table->boolean('payment_status');
             $table->string('Trainer', length: 255);
+            $table->timestamps();
         });
         Schema::create('milestone_details', function (Blueprint $table) {
             $table->id('milestone_ID');
@@ -39,6 +40,7 @@ return new class extends Migration {
             $table->string('repetitions', length: 255);
             $table->string('weight_increment', length: 255);
             $table->string('goal', length: 255);
+            $table->timestamps();
         });
         //tables with foreign keys(FK)
         Schema::create('user_profile', function (Blueprint $table) {
@@ -52,13 +54,13 @@ return new class extends Migration {
             $table->string('address_street', length: 255);
             $table->string('address_city', length: 255);
             $table->string('address_region', length: 255);
+            $table->timestamps();
             $table->foreignId('user_ID')->constrained('user_credentials','user_ID');
             $table->foreignId('userMem_ID')->constrained('user_membership','userMem_ID');
         });
         Schema::create('user_milestones', function (Blueprint $table) {
             $table->id('userMilestone_ID');
-            $table->time('date_created')->default(date('H:i:s'));
-            $table->time('date_modified')->default(date('H:i:s'));
+            $table->timestamps();
             $table->float('currentProgress');
             $table->boolean('status');
             $table->boolean('checked_in');

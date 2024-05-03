@@ -11,10 +11,19 @@ class user_membership extends Model
     use HasFactory;
     protected $table = "user_membership";
     protected $fillable = [
-        'membership_type','membership_desc','membership_plan','start_date','expiry_date','next_payment','payment_status','Trainer'	
-        ];
-        
-        public function user_profile(): BelongsTo{
-            return $this->belongsTo(user_profile::class);
-        }
+        'membership_type',
+        'membership_desc',
+        'membership_plan',
+        'start_date',
+        'expiry_date',
+        'next_payment',
+        'payment_status',
+        'Trainer',
+        'created_at'
+    ];
+
+    public function user_profile(): BelongsTo
+    {
+        return $this->belongsTo(user_profile::class);
+    }
 }

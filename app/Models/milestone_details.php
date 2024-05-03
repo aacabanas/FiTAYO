@@ -16,6 +16,7 @@ class milestone_details extends Model
         "repetitions",
         "weight_increment",
         "goal",
+        'created_at'
     ];
     public function user_milestones(): BelongsTo{
         return $this->belongsTo(user_milestones::class);

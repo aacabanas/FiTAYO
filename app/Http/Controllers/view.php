@@ -14,4 +14,7 @@ class view extends Controller
     public function register(){
         return view("register");
     }
+    public function update(){
+        return view("update");
+    }
 }
