@@ -143,7 +143,7 @@
                         <td>{{$members[$i]['MemStart']}}</td>
                         <td>{{$members[$i]['MemEnd']}}</td>
                         <td>{{$members[$i]['PayStat']}}</td>
-                        <td><button class="btn btn-primary" onclick="getData({{$i+1}})" data-bs-toggle='modal' data-bs-target='#edit_user'>Edit</button></td>
+                        <td><button class="btn btn-primary" onclick="window.memData({{$i+1}})" data-bs-toggle='modal' data-bs-target='#edit_user'>Edit</button></td>
                         <td class='d-none'>{{$i+1}} {{$members[$i]['LastName']}} {{$members[$i]['FirstName']}}</td>
                         </tr>
                         @endfor
