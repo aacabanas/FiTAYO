@@ -18,7 +18,8 @@ Route::post('/login', [AuthController::class,'loginPost'])->name('login.POST');
 Route::post('/register', [AuthController::class,'registerPost'])->name('register.POST');
 Route::post('/update', [AuthController::class,'updateUser'])->name('update.POST');
 Route::get('/member/{id}', function (int $id){
-    if(User::count()==0)return response('User not found',404);
+    if(User::count()==0){
+    return redirect()->intended();}
     $user = User::where('id', $id)->first();
     $profile = user_profile::where("profile_ID",$id)->first();
     $membership = user_membership::where("userMem_ID",$id)->first();
