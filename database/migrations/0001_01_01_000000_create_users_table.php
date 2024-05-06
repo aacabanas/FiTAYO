@@ -9,17 +9,16 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void
-    {
-        //tables without foreign keys(FK)
-        Schema::create('user_credentials', function (Blueprint $table) {
-            $table->id('user_ID');
-            $table->string('username', length: 16);
+    {   
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('username')->unique();
+            $table->string('email')->unique();
             $table->string('password');
-            $table->string('user_email', length: 320)->unique();
-            $table->string('user_type', length: 16);
+            $table->string('user_type')->default("user");
             $table->timestamp('email_verified_at')->nullable();
-            $table->timestamps();
             $table->rememberToken();
+            $table->timestamps();
         });
         Schema::create('user_membership', function (Blueprint $table) {
             $table->id('userMem_ID');
@@ -55,8 +54,8 @@ return new class extends Migration {
             $table->string('address_city', length: 255);
             $table->string('address_region', length: 255);
             $table->timestamps();
-            $table->foreignId('user_ID')->constrained('user_credentials','user_ID');
-            $table->foreignId('userMem_ID')->constrained('user_membership','userMem_ID');
+            $table->foreignId('user_ID')->constrained('users', 'id');
+            $table->foreignId('userMem_ID')->constrained('user_membership', 'userMem_ID');
         });
         Schema::create('user_milestones', function (Blueprint $table) {
             $table->id('userMilestone_ID');
@@ -64,12 +63,12 @@ return new class extends Migration {
             $table->float('currentProgress');
             $table->boolean('status');
             $table->boolean('checked_in');
-            $table->foreignId('profile_ID')->constrained('user_profile','profile_ID');
+            $table->foreignId('profile_ID')->constrained('user_profile', 'profile_ID');
 
         });
         Schema::create('user_assessment', function (Blueprint $table) {
             $table->id('userAsses_ID');
-            $table->foreignId('profile_ID')->constrained('user_profile','profile_ID');
+            $table->foreignId('profile_ID')->constrained('user_profile', 'profile_ID');
             $table->decimal('height', 5, 2)->default(0);
             $table->decimal('weight', 6, 2)->default(0);
             $table->decimal('bmi', 5, 2)->default(0);
@@ -79,7 +78,6 @@ return new class extends Migration {
             $table->boolean('hasInjuries');
             $table->timestamps();
         });
-        //laravel auto generated
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
@@ -104,12 +102,5 @@ return new class extends Migration {
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
-        //Schema::dropIfExists('user_assessment');
-        Schema::dropIfExists('user_milestones');
-        //Schema::dropIfExists('user_profile');
-        //Schema::dropIfExists('user_credentials');
-        //Schema::dropIfExists('user_membership');
-        Schema::dropIfExists('milestone_details');
-        
     }
 };

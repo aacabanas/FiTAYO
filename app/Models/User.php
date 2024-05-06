@@ -6,23 +6,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    protected $table = "user_credentials";
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        
         'username',
+        'email',
         'password',
-        'user_email',
-        'user_type',
-        'created_at'
+        'user_type'
     ];
 
     /**
@@ -46,5 +45,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function user_membership(): BelongsTo
+    {
+        return $this->belongsTo(user_membership::class);
     }
 }
