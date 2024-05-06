@@ -13,7 +13,7 @@
 
 
     @if (View::getSection('title') == 'Login' )
-        <div class="container d-flex my-auto mx-auto align-items-center justify-content-center">
+        <div class="container d-flex my-auto mx-auto align-items-center justify-content-center" style="height:100vh">
             
             @yield('content')
 

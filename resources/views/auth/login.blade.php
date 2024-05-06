@@ -9,10 +9,10 @@
         <br>
         <div class="row">   
             <div class="col-3">
-                <label for="email" class="form-label text-center my-auto">Email: </label>
+                <label for="email" class="form-label text-center my-auto">Username: </label>
             </div>
             <div class="col-9">
-                <input type="email" name="email" id="email" class="form-control">
+                <input type="text" name="username" id="username" class="form-control">
             </div>
         </div>
         <br>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <br>
-        <div class="row"><button type="submit" class="btn btn-primary">Submit</button></div>
+        <div class="row"><button type="submit" class="btn btn-primary">Login</button></div>
         
     </form>
     @if (session()->has('error'))
