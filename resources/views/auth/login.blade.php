@@ -28,6 +28,7 @@
         <div class="row"><button type="submit" class="btn btn-primary">Login</button></div>
         
     </form>
+    
     @if (session()->has('error'))
         <div class="alert alert-danger">
             {{ session('error') }}

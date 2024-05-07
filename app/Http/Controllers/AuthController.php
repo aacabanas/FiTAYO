@@ -52,7 +52,7 @@ class AuthController extends Controller
 
             return redirect()->intended('/dashboard');
         }
-        return view('index',["count"=>User::count()]);
+        return view('index', ["count" => User::count()]);
     }
 
     public function login()
@@ -68,7 +68,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             return redirect()->intended('/dashboard');
         }
-        return view('auth.register',['count'=>User::count()]);
+        return view('auth.register', ['count' => User::count()]);
     }
 
 
@@ -93,7 +93,7 @@ class AuthController extends Controller
     }
 
     public function registerPost(Request $request)
-    {   
+    {
         $request->validate([
             'newProfID' => 'required',
             'username' => 'required',
@@ -124,7 +124,7 @@ class AuthController extends Controller
             "username" => $request->get("username"),
             "password" => Hash::make($request->get("password")),
             "email" => $request->get("email"),
-            "user_type" => ["admin","user"][$request->get("user_type")-1],
+            "user_type" => ["admin", "user"][$request->get("user_type") - 1],
             "created_at" => Carbon::now()
         ];
 
@@ -174,79 +174,80 @@ class AuthController extends Controller
         user_assessment::create($assessment);
         return redirect()->intended();
     }
-    public function updateUser(Request $request){
+    public function updateUser(Request $request)
+    {
         $request->validate([
-            "userID"                => "required",
-            "editUsername"          => "required",
-            "editUserType"          => "required",
-            "editFname"             => "required",
-            "editLname"             => "required",
-            "editProfileBio"        => "required",
-            "editContactNum"        => "required",
-            "editBirthdate"         => "required",
-            "editMembershipType"    => "required",
-            "editMembershipPlan"    => "required",
-            "editMembershipDesc"    => "required",
-            "editWeight"            => "required",
-            "editHeight"            => "required",
-            "editAddressNum"        => "required",
-            "editAddressStreet"     => "required",
-            "editAddressCity"       => "required",
-            "editAddressRegion"     => "required",
-            "editEmail"             => "required",
-            "editTrainer"           => "required",
-            "editStartDate"         => "required",
-            "editExpiryDate"        => "required",
-            "editNextPayment"       => "required",
-            "editPaymentStatus"     => "required",
-            "editHasIllness"        => "required",
-            "editHasInjuries"       => "required",
-            "editMedicalHistory"    => "required"
+            "userID" => "required",
+            "editUsername" => "required",
+            "editUserType" => "required",
+            "editFname" => "required",
+            "editLname" => "required",
+            "editProfileBio" => "required",
+            "editContactNum" => "required",
+            "editBirthdate" => "required",
+            "editMembershipType" => "required",
+            "editMembershipPlan" => "required",
+            "editMembershipDesc" => "required",
+            "editWeight" => "required",
+            "editHeight" => "required",
+            "editAddressNum" => "required",
+            "editAddressStreet" => "required",
+            "editAddressCity" => "required",
+            "editAddressRegion" => "required",
+            "editEmail" => "required",
+            "editTrainer" => "required",
+            "editStartDate" => "required",
+            "editExpiryDate" => "required",
+            "editNextPayment" => "required",
+            "editPaymentStatus" => "required",
+            "editHasIllness" => "required",
+            "editHasInjuries" => "required",
+            "editMedicalHistory" => "required"
         ]);
 
         $credentials = [
             "username" => $request->get("editUsername"),
-            "user_email"=> $request->get("editEmail"),
+            "user_email" => $request->get("editEmail"),
             "user_type" => $request->get("editUserType"),
         ];
         $membership = [
-            "membership_type"   => $this->getMembershipType($request->get("editMembershipType")),
-            "membership_plan"   => $this->getPlan($request->input("editMembershipPlan")),
-            "membership_desc"   => $request->get("editMembershipDesc"),
-            "start_date"        => $request->get("editStartDate"),
-            "expiry_date"       => $request->get("editExpiryDate"),
-            "next_payment"      => $request->get("editNextPayment"),
-            "payment_status"    => $request->get("editPaymentStatus"),
-            "Trainer"           => $request->get("editTrainer")
+            "membership_type" => $this->getMembershipType($request->get("editMembershipType")),
+            "membership_plan" => $this->getPlan($request->input("editMembershipPlan")),
+            "membership_desc" => $request->get("editMembershipDesc"),
+            "start_date" => $request->get("editStartDate"),
+            "expiry_date" => $request->get("editExpiryDate"),
+            "next_payment" => $request->get("editNextPayment"),
+            "payment_status" => $request->get("editPaymentStatus"),
+            "Trainer" => $request->get("editTrainer")
         ];
         $profile = [
-            "firstName"         => $request->get("editFname"),
-            "lastName"          => $request->get("editLname"),
-            "profileBio"        => $request->get("editProfileBio"),
-            "contactDetails"    => $request->get("editContactNum"),
-            "birthdate"         => $request->get("editBirthdate"),
-            "address_num"       => $request->get("editAddressNum"),
-            "address_street"    => $request->get("editAddressStreet"),
-            "address_city"      => $request->get("editAddressCity"),
-            "address_region"    => $request->get("editAddressRegion"),
+            "firstName" => $request->get("editFname"),
+            "lastName" => $request->get("editLname"),
+            "profileBio" => $request->get("editProfileBio"),
+            "contactDetails" => $request->get("editContactNum"),
+            "birthdate" => $request->get("editBirthdate"),
+            "address_num" => $request->get("editAddressNum"),
+            "address_street" => $request->get("editAddressStreet"),
+            "address_city" => $request->get("editAddressCity"),
+            "address_region" => $request->get("editAddressRegion"),
         ];
         $assessment = [
-            "height"                => $request->get("editHeight"),
-            "weight"                => $request->get("editWeight"),
-            "bmi"                   => $this->getBMI($request->get("editWeight"),$request->get("editHeight")),
-            "bmi_classification"    => $this->getBMIType($this->getBMI($request->get("editWeight"),$request->get("editHeight"))),
-            "medical_history"       => $request->get("editMedicalHistory"),
-            "hasIllness"            => $request->get("editHasIllness"),
-            "hasInjuries"           => $request->get("editHasInjuries")
+            "height" => $request->get("editHeight"),
+            "weight" => $request->get("editWeight"),
+            "bmi" => $this->getBMI($request->get("editWeight"), $request->get("editHeight")),
+            "bmi_classification" => $this->getBMIType($this->getBMI($request->get("editWeight"), $request->get("editHeight"))),
+            "medical_history" => $request->get("editMedicalHistory"),
+            "hasIllness" => $request->get("editHasIllness"),
+            "hasInjuries" => $request->get("editHasInjuries")
         ];
-        
-        User::where("user_ID","=",$request->userID)->update($credentials);
-        user_membership::where("userMem_ID","=",$request->userID)->update($membership);
-        user_profile::where("profile_ID","=",$request->userID)->update($profile);
-        user_assessment::where("userAsses_ID","=",$request->userID)->update($assessment);
 
-        
-        return redirect()->intended()->with(["success"=>"User successfully updated"]);
+        User::where("user_ID", "=", $request->userID)->update($credentials);
+        user_membership::where("userMem_ID", "=", $request->userID)->update($membership);
+        user_profile::where("profile_ID", "=", $request->userID)->update($profile);
+        user_assessment::where("userAsses_ID", "=", $request->userID)->update($assessment);
+
+
+        return redirect()->intended()->with(["success" => "User successfully updated"]);
     }
     public function account($id)
     {
@@ -263,29 +264,22 @@ class AuthController extends Controller
             if (User::where('id', Auth::id())->first()->user_type == "user") {
                 return view('dashboard.user');
             }
-            return view('dashboard.index', ["members" => $this->all_members_for_member_list(), "count" => User::count()]);
+            return view('dashboard.index', ["members" => $this->all_members_for_member_list(), "count" => user_membership::where("membership_type","Member")->count()]);
         }
-
         return redirect("login")->withSuccess('Opps! You do not have access');
     }
 
 
-    public function create(array $data)
+    
+    public function get_user(int $id)
     {
-        return User::create([
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => $data['password']
-        ]);
-    }
-    public function get_user(int $id){
         $user = User::find($id);
         $profile = user_profile::find($id);
         $membership = user_membership::find($id);
         $assessment = user_assessment::find($id);
 
         return [
-            "editUserLabel" => "Details of " . $profile->firstName ." ". $profile->lastName,
+            "editUserLabel" => "Details of " . $profile->firstName . " " . $profile->lastName,
             "editUsername" => $user->username,
             "editUserType" => $user->user_type,
             "editFname" => $profile->firstName,
@@ -294,20 +288,20 @@ class AuthController extends Controller
             "editContactNum" => $profile->contactDetails,
             "editWeight" => $assessment->height,
             "editHeight" => $assessment->height,
-            "editBMI" =>$assessment->bmi,
+            "editBMI" => $assessment->bmi,
             "editBMIType" => $assessment->bmi_classification,
-            "editBirthdate"=>$profile->birthdate,
-            "editMembershipType" => ["Member"=> 1, "Non-Member"=> 2 ][$membership->membership_type],
-            "editMembershipPlan" => ["Basic"=>1,"Standard"=>2,"Premium"=>3][$membership->membership_plan],
-            "editMembershipDesc" =>$membership->membership_desc,
-            "editAddressNum"=>$profile->address_num,
-            "editAddressStreet"=>$profile->address_street,
-            "editAddressCity" =>$profile->address_city,
-            "editAddressRegion"=> $profile->address_region,
-            "editEmail"=>$user->email,
-            "editTrainer"=>$membership->Trainer,
-            "editStartDate"=>$membership->start_date,
-            "editExpiryDate"=>$membership->expiry_date,
+            "editBirthdate" => $profile->birthdate,
+            "editMembershipType" => ["Member" => 1, "Non-Member" => 2][$membership->membership_type],
+            "editMembershipPlan" => ["Basic" => 1, "Standard" => 2, "Premium" => 3][$membership->membership_plan],
+            "editMembershipDesc" => $membership->membership_desc,
+            "editAddressNum" => $profile->address_num,
+            "editAddressStreet" => $profile->address_street,
+            "editAddressCity" => $profile->address_city,
+            "editAddressRegion" => $profile->address_region,
+            "editEmail" => $user->email,
+            "editTrainer" => $membership->Trainer,
+            "editStartDate" => $membership->start_date,
+            "editExpiryDate" => $membership->expiry_date,
             "editNextPayment" => $membership->next_payment,
             "editHasIllness" => $assessment->hasIllness,
             "editHasInjuries" => $assessment->hasInjuries,
@@ -333,16 +327,18 @@ class AuthController extends Controller
         $data = [];
 
         for ($i = 0; $i < User::count(); $i++) {
-            $prof = user_profile::select(["lastName","firstName"])->where("profile_ID",$i+1)->first();
-            $memb = user_membership::select(["membership_plan","start_date","expiry_date","payment_status"])->where("userMem_ID",$i+ 1)->first();
-            $data[$i] = [
-                "LastName" => $prof->lastName,
-                "FirstName" => $prof->firstName,
-                "MemPlan" => $memb->membership_plan,
-                "MemStart" => $memb->start_date,
-                "MemEnd" => $memb->expiry_date,
-                'PayStat' => ["Unpaid", "Paid"][$memb->payment_status]
-            ];
+            $prof = user_profile::select(["lastName", "firstName"])->where("profile_ID", $i + 1)->first();
+            $memb = user_membership::select(["membership_plan", "start_date", "expiry_date", "payment_status", "membership_type"])->where("userMem_ID", $i + 1)->first();
+            if ($memb->membership_type == 'Member') {
+                array_push($data, [
+                    "LastName" => $prof->lastName,
+                    "FirstName" => $prof->firstName,
+                    "MemPlan" => $memb->membership_plan,
+                    "MemStart" => $memb->start_date,
+                    "MemEnd" => $memb->expiry_date,
+                    'PayStat' => ["Unpaid", "Paid"][$memb->payment_status]
+                ]);
+            }
         }
 
 
