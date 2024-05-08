@@ -29,7 +29,7 @@ Route::get('/member/{id}', function (int $id) {
     return response()->json([
         "editUserLabel" => "Details of " . $profile->firstName . " " . $profile->lastName,
         "editUsername" => $user->username,
-        "editUserType" => ["admin" => 1, "user" => 2][$user->user_type],
+        "editUserType" => $user->user_type,
         "editFname" => $profile->firstName,
         "editLname" => $profile->lastName,
         "editProfileBio" => $profile->profileBio,

@@ -12,6 +12,7 @@ window.memData = function(id){
         method:"GET",
         async: false,
         success: function(data){
+            $("#userID").val(id)
             $.each(data,function(k,v){
                 console.log(k+" "+v)
                 if(k=="editUserLabel"){

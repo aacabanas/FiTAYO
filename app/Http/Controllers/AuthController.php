@@ -207,7 +207,7 @@ class AuthController extends Controller
 
         $credentials = [
             "username" => $request->get("editUsername"),
-            "user_email" => $request->get("editEmail"),
+            "email" => $request->get("editEmail"),
             "user_type" => $request->get("editUserType"),
         ];
         $membership = [
@@ -241,7 +241,7 @@ class AuthController extends Controller
             "hasInjuries" => $request->get("editHasInjuries")
         ];
 
-        User::where("user_ID", "=", $request->userID)->update($credentials);
+        User::where("id", "=", $request->userID)->update($credentials);
         user_membership::where("userMem_ID", "=", $request->userID)->update($membership);
         user_profile::where("profile_ID", "=", $request->userID)->update($profile);
         user_assessment::where("userAsses_ID", "=", $request->userID)->update($assessment);
@@ -336,7 +336,7 @@ class AuthController extends Controller
                     "MemPlan" => $memb->membership_plan,
                     "MemStart" => $memb->start_date,
                     "MemEnd" => $memb->expiry_date,
-                    'PayStat' => ["Unpaid", "Paid"][$memb->payment_status]
+                    'PayStat' => $memb->payment_status == 1 ? "Paid" : "Unpaid"
                 ]);
             }
         }
