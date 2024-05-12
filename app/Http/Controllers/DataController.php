@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\user_assessment;
-use App\Models\user_profile;
-use App\Models\user_membership;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Carbon\Carbon;
-
-
-class AuthController extends Controller
-{   
+use App\Models\User;
+use App\Models\user_assessment;
+use App\Models\user_membership;
+use App\Models\user_profile;
+class DataController extends Controller
+{
     private function getPlan(int $plan): string
     {
         return ["Basic", "Standard", "Premium"][$plan - 1];
@@ -44,55 +41,7 @@ class AuthController extends Controller
         }
         return $bmitypee;
     }
-
-    public function index()
-    {
-        if (Auth::check()) {
-
-            return redirect()->intended('/dashboard');
-        }
-        return view('index', ["count" => User::count()]);
-    }
-
-    public function login()
-    {
-        if (Auth::check()) {
-            return redirect()->intended('/dashboard');
-        }
-        return view('auth.login');
-    }
-
-    public function registration()
-    {
-        if (Auth::check()) {
-            return redirect()->intended('/dashboard');
-        }
-        return view('auth.register', ['count' => User::count()]);
-    }
-
-
-    public function loginPost(Request $request)
-    {
-        $request->validate([
-            'username' => 'required',
-            'password' => 'required',
-        ]);
-
-        $credentials = $request->only('username', 'password');
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended('/dashboard')
-                ->withSuccess('You have Successfully loggedin');
-        }
-
-        return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
-    }
-    public function count()
-    {
-        return response()->json(['count' => DB::table('users')->count()]);
-    }
-
-    public function registerPost(Request $request)
-    {
+    public function register(Request $request){
         $request->validate([
             'newProfID' => 'required',
             'username' => 'required',
@@ -165,7 +114,7 @@ class AuthController extends Controller
         ]);
         return redirect()->intended();
     }
-    public function updateUser(Request $request)
+    public function update(Request $request)
     {
         $request->validate([
             "userID" => "required",
@@ -239,104 +188,5 @@ class AuthController extends Controller
 
 
         return redirect()->intended()->with(["success" => "User successfully updated"]);
-    }
-    public function account($id)
-    {   
-        if (Auth::check()) {
-            $data = $this->get_user($id)->getData();
-            if(isset($data->error)){
-                abort(404);
-            }
-            return view('auth.account', ["data" => $this->get_user($id)->getData()]);
-        }
-        return redirect('/');
-    }
-    public function dashboard()
-    {
-        if (Auth::check()) {
-            if (User::where('id', Auth::id())->first()->user_type == "user") {
-                return view('dashboard.user');
-            }
-            return view('dashboard.index', ["members" => $this->all_members_for_member_list(), "count" => user_membership::where("membership_type", "Member")->count()]);
-        }
-        return redirect("login")->withSuccess('Opps! You do not have access');
-    }
-
-
-
-    public function get_user(int $id)
-    {
-        if(!Auth::check()) {
-            return back();
-        }
-        if (User::find($id) == null) {
-            abort(404);
-        }
-        $user = User::where('id', $id)->first();
-        $profile = user_profile::where("profile_ID", $id)->first();
-        $membership = user_membership::where("userMem_ID", $id)->first();
-        $assessment = user_assessment::where("userAsses_ID", $id)->first();
-
-        return response()->json([
-            "editUserLabel" => "Details of " . $profile->firstName . " " . $profile->lastName,
-            "editUsername" => $user->username,
-            "editUserType" => $user->user_type,
-            "editFname" => $profile->firstName,
-            "editLname" => $profile->lastName,
-            "editProfileBio" => $profile->profileBio,
-            "editContactNum" => $profile->contactDetails,
-            "editWeight" => $assessment->weight,
-            "editHeight" => $assessment->height,
-            "editBMI" => $assessment->bmi,
-            "editBMIType" => $assessment->bmi_classification,
-            "editBirthdate" => $profile->birthdate,
-            "editMembershipType" => ["Member" => 1, "Non-Member" => 2][$membership->membership_type],
-            "editMembershipPlan" => ["Basic" => 1, "Standard" => 2, "Premium" => 3][$membership->membership_plan],
-            "editMembershipDesc" => $membership->membership_desc,
-            "editAddressNum" => $profile->address_num,
-            "editAddressStreet" => $profile->address_street,
-            "editAddressCity" => $profile->address_city,
-            "editAddressRegion" => $profile->address_region,
-            "editEmail" => $user->email,
-            "editTrainer" => $membership->Trainer,
-            "editStartDate" => $membership->start_date,
-            "editExpiryDate" => $membership->expiry_date,
-            "editNextPayment" => $membership->next_payment,
-            "editHasIllness" => $assessment->hasIllness,
-            "editHasInjuries" => $assessment->hasInjuries,
-            "editMedicalHistory" => $assessment->medical_history
-        ]);
-
-    }
-    
-    private function all_members_for_member_list()
-    {
-        $data = [];
-
-        for ($i = 0; $i < User::count(); $i++) {
-            $prof = user_profile::select(["lastName", "firstName"])->where("profile_ID", $i + 1)->first();
-            $memb = user_membership::select(["membership_plan", "start_date", "expiry_date", "payment_status", "membership_type"])->where("userMem_ID", $i + 1)->first();
-            if ($memb->membership_type == 'Member') {
-                array_push($data, [
-                    "LastName" => $prof->lastName,
-                    "FirstName" => $prof->firstName,
-                    "MemPlan" => $memb->membership_plan,
-                    "MemStart" => $memb->start_date,
-                    "MemEnd" => $memb->expiry_date,
-                    'PayStat' => $memb->payment_status == 1 ? "Paid" : "Unpaid"
-                ]);
-            }
-        }
-
-
-
-        return $data;
-    }
-    public function logout()
-    {
-        Session::flush();
-        Auth::logout();
-
-        return redirect()->intended();
     }
 }

@@ -2,7 +2,7 @@
 @section("title","Register")
 
 @section("content")
-<form id="reg-form" action="{{ route('register.POST') }}" method="POST">
+<form id="reg-form" action="{{ route('action','register') }}" method="POST">
     @csrf
     <div class="row"><h3 class="text-center">Register</h3><br></div>
     <input type="hidden" name="newProfID" id="newProfID" value="{{ $count + 1 }}">

@@ -45,6 +45,7 @@
 
     <br>
     <div class="tab-content" id="nav-tabContent">
+        
         <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="nav-dashboard-tab">
             <h2>Dashboard</h2>
             <div class="row">
@@ -56,9 +57,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <br>
-            <div class="row">
                 <div class="col-4">
                     <div class="card">
                         <div class="card-body">
@@ -67,9 +65,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <br>
-            <div class="row">
                 <div class="col-4">
                     <div class="card">
                         <div class="card-body">
@@ -78,6 +73,14 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <br>
+            <div class="row">
+                
+            </div>
+            <br>
+            <div class="row">
+                
             </div>
             <br>
             <div class="row">
@@ -114,11 +117,16 @@
                     <h2>Members List</h2>
 
                 </div>
-                <div class="col-4"><input type="text" name="" id="search" class="form-control"></div>
+                <div class="col-4"><input type="text" name="" id="search" class="form-control" placeholder="Search for member"></div>
 
             </div>
             <br>
+            
+            <!-- Horizontal under breakpoint -->
+
+            
             <div class="row">
+                
                 <table class="table table-hover text-center" id="mem-list">
                     <thead>
                         <tr>
@@ -135,7 +143,7 @@
                     </thead>
                     <tbody id="content">
                         @for ($i = 0; $i < $count; $i++)
-                            <tr>
+                            <tr class="mx-auto my-auto align-items-center justify-content center">
                                 <td>{{ $i + 1 }}</td>
                                 <td>{{ $members[$i]['LastName'] }}</td>
                                 <td>{{ $members[$i]['FirstName'] }}</td>
@@ -143,14 +151,19 @@
                                 <td>{{ $members[$i]['MemStart'] }}</td>
                                 <td>{{ $members[$i]['MemEnd'] }}</td>
                                 <td>{{ $members[$i]['PayStat'] }}</td>
-                                <td><button class="btn btn-primary" onclick="window.memData({{ $i + 1 }})"
-                                        data-bs-toggle='modal' data-bs-target='#edit_user'>Edit</button></td>
-                                <td class='d-none'>{{ $i + 1 }} {{ $members[$i]['LastName'] }}
+                                <td><button class="btn btn-primary" onclick="window.memData({{ $i+1 }})"
+                                    data-bs-toggle='modal' data-bs-target='#edit_user'>Edit</button>
+                                    <a href="{{route('account',$i+1)}}"><button class="btn btn-secondary">View</button></a>
+                                </td>
+                                
+                                        <td class='d-none'>{{ $i+1  }} {{ $members[$i]['LastName'] }}
                                     {{ $members[$i]['FirstName'] }}</td>
                             </tr>
+                            
                         @endfor
                     </tbody>
                 </table>
+
             </div>
         </div>
         <div class="tab-pane fade" id="newmemb" role="tabpanel" aria-labelledby="nav-newmemb-tab">

@@ -14,7 +14,6 @@ window.memData = function(id){
         success: function(data){
             $("#userID").val(id)
             $.each(data,function(k,v){
-                console.log(k+" "+v)
                 if(k=="editUserLabel"){
                     $("#"+k).text(v)
                 }
@@ -26,6 +25,7 @@ window.memData = function(id){
 //search
 $("#search").on("keyup keydown", function () {
     var val = $(this).val().toLowerCase();
+
     $("#mem-list>tbody>tr").filter(function () {
         $(this).toggle($(this).find("td:eq(8)").text().toLowerCase().indexOf(val) > -1)
 

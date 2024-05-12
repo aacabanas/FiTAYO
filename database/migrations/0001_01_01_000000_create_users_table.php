@@ -10,6 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {   
+        
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
@@ -29,7 +30,7 @@ return new class extends Migration {
             $table->date('expiry_date');
             $table->date('next_payment');
             $table->boolean('payment_status');
-            $table->string('Trainer', length: 255);
+            $table->string('Trainer', length: 255)->nullable();
             $table->timestamps();
         });
         Schema::create('milestone_details', function (Blueprint $table) {
