@@ -55,8 +55,8 @@ return new class extends Migration {
             $table->string('address_city', length: 255);
             $table->string('address_region', length: 255);
             $table->timestamps();
-            $table->foreignId('user_ID')->constrained('users', 'id');
-            $table->foreignId('userMem_ID')->constrained('user_membership', 'userMem_ID');
+            $table->foreignId('user_ID')->constrained('users', 'id')->onDelete('cascade');
+            $table->foreignId('userMem_ID')->constrained('user_membership', 'userMem_ID')->onDelete('cascade');
         });
         Schema::create('user_milestones', function (Blueprint $table) {
             $table->id('userMilestone_ID');
@@ -64,12 +64,12 @@ return new class extends Migration {
             $table->float('currentProgress');
             $table->boolean('status');
             $table->boolean('checked_in');
-            $table->foreignId('profile_ID')->constrained('user_profile', 'profile_ID');
+            $table->foreignId('profile_ID')->constrained('user_profile', 'profile_ID')->onDelete('cascade');
 
         });
         Schema::create('user_assessment', function (Blueprint $table) {
             $table->id('userAsses_ID');
-            $table->foreignId('profile_ID')->constrained('user_profile', 'profile_ID');
+            $table->foreignId('profile_ID')->constrained('user_profile', 'profile_ID')->onDelete('cascade');
             $table->decimal('height', 5, 2)->default(0);
             $table->decimal('weight', 6, 2)->default(0);
             $table->decimal('bmi', 5, 2)->default(0);

@@ -10,7 +10,7 @@
 
         <div class="col-2 border-dark">
             <a class="nav-link active" id="nav-dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab"
-                aria-controls="dashboard" aria-selected="true">Dashboard</a>
+                aria-controls="dashboard" aria-selected="true"><i class="fa fa-home"></i>   Dashboard</a>
 
         </div>
         <div class="col-2 border-dark">
@@ -53,7 +53,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Monthly New Members</h5>
-                            <p class="card-text">(rt count)</p>
+                            <p class="card-text">{{$monthly}}</p>
                         </div>
                     </div>
                 </div>
@@ -144,6 +144,8 @@
                     <tbody id="content">
                         @for ($i = 0; $i < $count; $i++)
                             <tr class="mx-auto my-auto align-items-center justify-content center">
+                                <td class='d-none'>{{ $i+1  }} {{ $members[$i]['LastName'] }}
+                                    {{ $members[$i]['FirstName'] }}</td>
                                 <td>{{ $i + 1 }}</td>
                                 <td>{{ $members[$i]['LastName'] }}</td>
                                 <td>{{ $members[$i]['FirstName'] }}</td>
@@ -151,13 +153,19 @@
                                 <td>{{ $members[$i]['MemStart'] }}</td>
                                 <td>{{ $members[$i]['MemEnd'] }}</td>
                                 <td>{{ $members[$i]['PayStat'] }}</td>
-                                <td><button class="btn btn-primary" onclick="window.memData({{ $i+1 }})"
-                                    data-bs-toggle='modal' data-bs-target='#edit_user'>Edit</button>
+
+                                <td>
+                                    <button type="fitayo-edit"  class="btn btn-primary" data-bs-toggle='modal' data-bs-target='#edit_user'>Edit</button>
+                                    {{-- <input type="button" value="Edit" id="memEditBtn" class="btn btn-primary" data-bs-toggle='modal' data-bs-target='#edit_user' fitayo-member="{{$i+1}}"> --}}
+
                                     <a href="{{route('account',$i+1)}}"><button class="btn btn-secondary">View</button></a>
+                                    <button type="fitayo-delete" class="btn btn-danger">Delete</button>
+                                </td>
+                                <td>
+                                    
                                 </td>
                                 
-                                        <td class='d-none'>{{ $i+1  }} {{ $members[$i]['LastName'] }}
-                                    {{ $members[$i]['FirstName'] }}</td>
+                                        
                             </tr>
                             
                         @endfor
@@ -168,6 +176,7 @@
         </div>
         <div class="tab-pane fade" id="newmemb" role="tabpanel" aria-labelledby="nav-newmemb-tab">
             <h2>Register New Member</h2>
+            <br>
             <form id="reg-form" action="{{ route('register.POST') }}" method="POST">
                 @csrf
                 <input type="hidden" name="newProfID" id="newProfID" value="{{ $count + 1 }}">
@@ -471,12 +480,12 @@
         </div>
     </div>
     </div>
-    <div class="modal fade" id="edit_user" tabindex="-1" aria-labelledby="edit_userLabel" aria-hidden="true">
+    <div class="modal fade" id="edit_user" tabindex="-1" aria-labelledby="edit_userLabel" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="editUserLabel"></h1>
-                    <button type="button" class="btn-close" data-bs-backdrop="static" data-bs-dismiss="modal"
+                    <button id="dismiss" type="button" class="btn-close" data-bs-backdrop="static" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -690,7 +699,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Close</button>
                     <button type="submit" id="submitUpdateForm" class="btn btn-primary">Save changes</button>
                     </form>
                 </div>

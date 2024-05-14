@@ -17,6 +17,51 @@ use Carbon\Carbon;
 
 class AuthController extends Controller
 {   
+    public function push(){
+        User::create([
+            "username" => 'aleba678',
+            "password" => Hash::make('123456'),
+            "email" => "test@mail.com",
+            "user_type" => "admin",
+            "created_at" => Carbon::now()
+        ]);
+        user_membership::create([
+            "membership_type" => $this->getMembershipType(1),
+            "membership_plan" => $this->getPlan(3),
+            "membership_desc" => "desc goes here",
+            "start_date" => date("Y-m-d"),
+            "expiry_date" => date("Y-m-d", strtotime("+1 month", strtotime(date("Y-m-d")))),
+            "next_payment" => date("Y-m-d", strtotime("+1 month", strtotime(date("Y-m-d")))),
+            "payment_status" =>true,
+            "Trainer" => null,
+            "created_at" => Carbon::now()
+        ]);
+        user_profile::create([
+            "firstName" => "fname",
+            "lastName" => "lname",
+            "profileBio" => "insert bio",
+            "contactDetails" => "09123456789",
+            "birthdate" => "2000-11-30",
+            "address_num" => "321",
+            "address_street" => "X",
+            "address_city" => "Y",
+            "address_region" => "Z",
+            "user_ID" => 1,
+            "userMem_ID" => 1,
+            "created_at" => Carbon::now()
+        ]);
+        user_assessment::create([
+            "height" => 5.2,
+            "weight" => 160.2,
+            "bmi" => $this->getBMI(160.2,5.2),
+            "bmi_classification" => $this->getBMI(160.2,5.2),
+            "medical_history" => "Medical history",
+            "hasIllness" => false,
+            "hasInjuries" => false,
+            "created_at" => Carbon::now(),
+            "profile_ID" => 1,
+        ]);
+    }
     private function getPlan(int $plan): string
     {
         return ["Basic", "Standard", "Premium"][$plan - 1];
@@ -257,13 +302,17 @@ class AuthController extends Controller
             if (User::where('id', Auth::id())->first()->user_type == "user") {
                 return view('dashboard.user');
             }
-            return view('dashboard.index', ["members" => $this->all_members_for_member_list(), "count" => user_membership::where("membership_type", "Member")->count()]);
+            return view('dashboard.index', ["members" => $this->all_members_for_member_list(), "count" => user_membership::where("membership_type", "Member")->count(),"monthly"=>User::whereMonth('created_at',"=",date('m'))->count()]);
         }
         return redirect("login")->withSuccess('Opps! You do not have access');
     }
 
 
-
+    public function deleteUser(int $id){
+        User::find($id)->delete();
+        user_membership::where('userMem_ID',$id)->delete();
+        return back();
+    }
     public function get_user(int $id)
     {
         if(!Auth::check()) {
@@ -331,6 +380,28 @@ class AuthController extends Controller
 
 
         return $data;
+    }
+    public function create_assessment(Request $request){
+        $request->validate([
+            "userID"=>"required",
+            "userWeight"=>"required",
+            "userHeight"=> "required",
+            "userMedHist"=> "required",
+            "userHasIllness"=>"required",
+            "userHasInjuries"=> "required",
+        ]);
+        user_assessment::create([
+            "profile_ID" => $request->userID,
+            "height" => $request->userHeight,
+            "weight" =>$request->userWeight,
+            "bmi" => $this->getBMI($request->userWeight,$request->userHeight),
+            "bmi_classification" => $this->getBMIType($this->getBMI($request->userWeight,$request->userHeight)),
+            "medical_history" => $request->userMedHist,
+            "hasIllness" => $request->userHasIllness,
+            "hasInjuries"=> $request->userHasInjuries,
+            "created_at" => Carbon::now()
+        ]);
+        return back();
     }
     public function logout()
     {
