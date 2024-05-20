@@ -16,14 +16,14 @@ use Carbon\Carbon;
 use Brick\PhoneNumber\PhoneNumber;
 
 class AuthController extends Controller
-{   
-    private function convert_contact($contact):string{
+{
+    private function convert_contact($contact):string {
         $contact_split = str_split($contact);
-            $contact_split[0] = "+63";
-            return join($contact_split);
-            
+        $contact_split[0] = "+63";
+        return join($contact_split);
     }
-    public function push(){
+
+    public function push() {
         User::create([
             "username" => 'fitayo',
             "password" => Hash::make('123abc'),
@@ -38,7 +38,7 @@ class AuthController extends Controller
             "start_date" => date("Y-m-d"),
             "expiry_date" => date("Y-m-d", strtotime("+1 month", strtotime(date("Y-m-d")))),
             "next_payment" => date("Y-m-d", strtotime("+1 month", strtotime(date("Y-m-d")))),
-            "payment_status" =>true,
+            "payment_status" => true,
             "Trainer" => null,
             "created_at" => Carbon::now()
         ]);
@@ -57,23 +57,21 @@ class AuthController extends Controller
             "userMem_ID" => 1,
             "created_at" => Carbon::now()
         ]);
-
-        
     }
-    private function getPlan(int $plan): string
-    {
+
+    private function getPlan(int $plan): string {
         return ["Basic", "Standard", "Premium"][$plan - 1];
     }
-    private function getMembershipType(int $type)
-    {
+
+    private function getMembershipType(int $type) {
         return ["Member", "Non-Member"][$type - 1];
     }
-    private function getBMI($weight, $height)
-    {
+
+    private function getBMI($weight, $height) {
         return round(($weight / (($height * 12) * ($height * 12)) * 703), 2);
     }
-    private function getBMIType($bmi): string
-    {
+
+    private function getBMIType($bmi): string {
         $bmitypee = "";
         $category = ["Underweight", "Normal weight", "Overweight", "Obesity"];
         if ($bmi < 18.5) {
@@ -88,34 +86,28 @@ class AuthController extends Controller
         return $bmitypee;
     }
 
-    public function index()
-    {
+    public function index() {
         if (Auth::check()) {
-
             return redirect()->intended('/dashboard');
         }
         return view('index', ["count" => User::count()]);
     }
 
-    public function login()
-    {
+    public function login() {
         if (Auth::check()) {
             return redirect()->intended('/dashboard');
         }
         return view('auth.login');
     }
 
-    public function registration()
-    {
+    public function registration() {
         if (Auth::check()) {
             return redirect()->intended('/dashboard');
         }
         return view('auth.register', ['count' => User::count()]);
     }
 
-
-    public function loginPost(Request $request)
-    {
+    public function loginPost(Request $request) {
         $request->validate([
             'username' => 'required',
             'password' => 'required',
@@ -124,76 +116,77 @@ class AuthController extends Controller
         $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
             return redirect()->intended('/dashboard')
-                ->withSuccess('You have Successfully loggedin');
+                ->withSuccess('You have Successfully logged in');
         }
-        
+
         return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
-
-        
     }
-  
 
-    
-    public function dashboard()
-    {   
+    public function dashboard() {
         if (Auth::check()) {
             if (User::where('id', Auth::id())->first()->user_type == "user") {
                 return view('dashboard.user');
             }
-            
-            return view('dashboard.index', [
 
-                "members" => members(),
-                 "member_count" => user_membership::where("membership_type", "Member")->count(),
-                 "monthly"=>user_membership::whereMonth('created_at',"=",date('m'))->where("membership_type","Member")->count()]);
+            return view('dashboard.index', [
+                "members" => $this->members(), // Call the function defined in this class
+                "member_count" => user_membership::where("membership_type", "Member")->count(),
+                "monthly" => user_membership::whereMonth('created_at', "=", date('m'))->where("membership_type", "Member")->count()
+            ]);
         }
         return redirect("login")->withSuccess('Opps! You do not have access');
     }
 
+    // Add the members() function definition here
+    public function members() {
+        // Implement your logic here
+        return User::all(); // Example: returning all users
+    }
 
-    public function create_assessment(Request $request){
+    public function create_assessment(Request $request) {
         $request->validate([
-            "userID"=>"required",
-            "userWeight"=>"required",
-            "userHeight"=> "required",
-            "userMedHist"=> "required",
-            "userHasIllness"=>"required",
-            "userHasInjuries"=> "required",
+            "userID" => "required",
+            "userWeight" => "required",
+            "userHeight" => "required",
+            "userMedHist" => "required",
+            "userHasIllness" => "required",
+            "userHasInjuries" => "required",
         ]);
         user_assessment::create([
             "profile_ID" => $request->userID,
             "height" => $request->userHeight,
-            "weight" =>$request->userWeight,
-            "bmi" => $this->getBMI($request->userWeight,$request->userHeight),
-            "bmi_classification" => $this->getBMIType($this->getBMI($request->userWeight,$request->userHeight)),
+            "weight" => $request->userWeight,
+            "bmi" => $this->getBMI($request->userWeight, $request->userHeight),
+            "bmi_classification" => $this->getBMIType($this->getBMI($request->userWeight, $request->userHeight)),
             "medical_history" => $request->userMedHist,
             "hasIllness" => $request->userHasIllness,
-            "hasInjuries"=> $request->userHasInjuries,
+            "hasInjuries" => $request->userHasInjuries,
             "created_at" => Carbon::now()
         ]);
         return back();
     }
-    
-    public function update_assessent(Request $request){
+
+    public function update_assessent(Request $request) {
         $request->validate([
-            "userID"=>"required",
-            "userWeight"=>"required",
-            "userHeight"=> "required",
-            "userMedHist"=> "required",
-            "userHasIllness"=>"required",
-            "userHasInjuries"=> "required",
+            "userID" => "required",
+            "userWeight" => "required",
+            "userHeight" => "required",
+            "userMedHist" => "required",
+            "userHasIllness" => "required",
+            "userHasInjuries" => "required",
         ]);
-        user_assessment::where("userAssess_ID","=", $request->userID)->update([
-        "height" => $request->userHeight,
-        "weight" =>$request->userWeight,
-        "bmi" => $this->getBMI($request->userWeight,$request->userHeight),
-        "bmi_classification" => $this->getBMIType($this->getBMI($request->userWeight,$request->userHeight)),
-        "medical_history" => $request->userMedHist,
-        "hasIllness" => $request->userHasIllness,
-        "hasInjuries"=> $request->userHasInjuries,]);
+        user_assessment::where("userAssess_ID", "=", $request->userID)->update([
+            "height" => $request->userHeight,
+            "weight" => $request->userWeight,
+            "bmi" => $this->getBMI($request->userWeight, $request->userHeight),
+            "bmi_classification" => $this->getBMIType($this->getBMI($request->userWeight, $request->userHeight)),
+            "medical_history" => $request->userMedHist,
+            "hasIllness" => $request->userHasIllness,
+            "hasInjuries" => $request->userHasInjuries,
+        ]);
     }
-    public function logout()
-    {
+
+    public function logout() {
         Session::flush();
         Auth::logout();
 
