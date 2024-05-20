@@ -1,59 +1,42 @@
 @extends('base')
 @section('title', 'Dashboard')
 @section('content')
-    <script>
-        function getData(id) {
-            window.memData(id)
-        }
-    </script>
-    <div class="row nav nav-tabs  text-center" id="nav-tab" role="tablist">
-
-        <div class="col-2 border-dark">
-            <a class="nav-link active" id="nav-dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab"
-                aria-controls="dashboard" aria-selected="true"><i class="fa fa-home"></i>   Dashboard</a>
-
+    <div class="nav nav-tabs text-center row" id="nav-tab" role="tablist">
+        <div class="col border-dark">
+            <a href="#dashboard" class="nav-link active" id="nav-dashboard" data-bs-toggle="tab" role="tab"
+                aria-controls="dashboard" aria-selected="true"><i class="fa-solid fa-home"></i> Dashboard</a>
         </div>
-        <div class="col-2 border-dark">
-            <a class="nav-link " id="nav-memlist-tab" data-bs-toggle="tab" href="#memlist" role="tab"
-                aria-controls="memlist" aria-selected="false">Members' List</a>
-
+        <div class="col border-dark">
+            <a href="#memberlist" class="nav-link" id="nav-memberlist" data-bs-toggle="tab" role="tab"
+                aria-controls="memberlist" aria-selected="false"><i class="fa-solid fa-list"></i> Member List</a>
         </div>
-        <div class="col-2 border-dark">
-            <a class="nav-link " id="nav-newmemb-tab" data-bs-toggle="tab" href="#newmemb" role="tab"
-                aria-controls="newmemb" aria-selected="false">New Members</a>
-
+        <div class="col border-dark">
+            <a href="#newmember" class="nav-link" id="nav-newmember" data-bs-toggle="tab" role="tab"
+                aria-controls="newmember" aria-selected="false"><i class="fa-solid fa-user-plus"></i> Register Member</a>
         </div>
-        <div class="col-2 border-dark">
-            <a class="nav-link " id="nav-memcheckins-tab" data-bs-toggle="tab" href="#memcheckins" role="tab"
-                aria-controls="memcheckins" aria-selected="false">Member Check-ins</a>
-
+        <div class="col border-dark">
+            <a href="#assignto" class="nav-link" id="nav-assign" data-bs-toggle="tab" role="tab"
+                aria-controls="assignto" aria-selected="false"><i class="fa-solid fa-gears"></i> Assign Trainer</a>
         </div>
-        <div class="col-2 border-dark">
-            <a class="nav-link" id="nav-nonmem-tab" data-bs-toggle="tab" href="#nonmem" role="tab"
-                aria-controls="nonmem" aria-selected="false">Non-member Entries</a>
-
-        </div>
-        <div class="col-2 border-dark dropdown">
-            <button class="text-center nav-link justify-content-center" data-bs-toggle="dropdown"
-                aria-expanded="false">Hello {{ auth()->user()->username }}</button>
-            <ul class="dropdown-menu">
-                <li><a href="{{ route('account', auth()->user()->id) }}" class="dropdown-item">Account</a></li>
-                <li><a href="{{ route('logout') }}" class='dropdown-item'>Logout</a></li>
+        <div class="col border-dark">
+            <a class="text-center nav-link justify-content-center" data-bs-toggle="dropdown" aria-expanded="false"><i
+                    class="fa-solid fa-user" data-bs-toggle="dropdown" aria-expanded="false"></i> Hello
+                {{ auth()->user()->username }}</a>
+            <ul class="dropdown-menu" style="width:360px">
+                <li><a id="col-blue" href="{{ route('logout') }}" class='dropdown-item text-center'><i
+                            class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
             </ul>
         </div>
     </div>
-
-    <br>
     <div class="tab-content" id="nav-tabContent">
-        
-        <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="nav-dashboard-tab">
+        <div class="tab-pane fade show active" id="dashboard" role="tabpanel" aria-labelledby="nav-dashboard">
             <h2>Dashboard</h2>
             <div class="row">
                 <div class="col-4">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Monthly New Members</h5>
-                            <p class="card-text">{{$monthly}}</p>
+                            <p class="card-text">{{ $monthly }}</p>
                         </div>
                     </div>
                 </div>
@@ -76,11 +59,11 @@
             </div>
             <br>
             <div class="row">
-                
+
             </div>
             <br>
             <div class="row">
-                
+
             </div>
             <br>
             <div class="row">
@@ -111,597 +94,531 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="memlist" role="tabpanel" aria-labelledby="nav-memlist-tab">
-            <div class="row">
-                <div class="col-8">
-                    <h2>Members List</h2>
-
-                </div>
-                <div class="col-4"><input type="text" name="" id="search" class="form-control" placeholder="Search for member"></div>
-
-            </div>
+        <div class="tab-pane" id="memberlist" role="tabpanel" aria-labelledby="nav-memberlist">
+            <h2>Member List</h2>
             <br>
-            
-            <!-- Horizontal under breakpoint -->
+            <div class="nav nav-tabs text-center" id="nav-memb">
+                <div class="col">
+                    <a href="#memlist" class="nav-link active border-dark" id="nav-memlist" data-bs-toggle="tab"
+                        role="tab" aria-controls="memlist" aria-selected="true">Member</a>
+                </div>
+                <div class="col">
+                    <a href="#nonmemlist" class="nav-link border-dark" id="nav-nonmemlist" data-bs-toggle="tab"
+                        role="tab" aria-controls="nonmemlist" aria-selected="false">Non-Member</a>
 
-            
-            <div class="row">
-                
-                <table class="table table-hover text-center" id="mem-list">
-                    <thead>
-                        <tr>
-                            <th>Membership ID</th>
-                            <th>Last Name</th>
-                            <th>First Name</th>
-                            <th>Membership Plan</th>
-                            <th>Membership Date</th>
-                            <th>Membership Expiry</th>
-                            <th>Payment Status</th>
-                            <th>Action</th>
+                </div>
+            </div>
+            <div class="tab-content" id="nav-membContent">
+                <div class="tab-pane fade show active" id="memlist" role="tabpanel" aria-labelledby="nav-memlist">
+                    <br>
+                    <div class="row">
+                        <div class="col-8">
+                            <h2>Members List</h2>
 
-                        </tr>
-                    </thead>
-                    <tbody id="content">
-                        @for ($i = 0; $i < $count; $i++)
-                            <tr class="mx-auto my-auto align-items-center justify-content center">
-                                <td class='d-none'>{{ $i+1  }} {{ $members[$i]['LastName'] }}
-                                    {{ $members[$i]['FirstName'] }}</td>
-                                <td>{{ $i + 1 }}</td>
-                                <td>{{ $members[$i]['LastName'] }}</td>
-                                <td>{{ $members[$i]['FirstName'] }}</td>
-                                <td>{{ $members[$i]['MemPlan'] }}</td>
-                                <td>{{ $members[$i]['MemStart'] }}</td>
-                                <td>{{ $members[$i]['MemEnd'] }}</td>
-                                <td>{{ $members[$i]['PayStat'] }}</td>
+                        </div>
+                        <div class="col-4"><input type="text" id="search_member" class="form-control"
+                                placeholder="Search for member"></div>
 
-                                <td>
-                                    <button type="fitayo-edit"  class="btn btn-primary" data-bs-toggle='modal' data-bs-target='#edit_user'>Edit</button>
-                                    {{-- <input type="button" value="Edit" id="memEditBtn" class="btn btn-primary" data-bs-toggle='modal' data-bs-target='#edit_user' fitayo-member="{{$i+1}}"> --}}
+                    </div>
+                    <br>
+                    <div class="row">
 
-                                    <a href="{{route('account',$i+1)}}"><button class="btn btn-secondary">View</button></a>
-                                    <button type="fitayo-delete" class="btn btn-danger">Delete</button>
-                                </td>
-                                <td>
-                                    
-                                </td>
-                                
-                                        
-                            </tr>
-                            
-                        @endfor
-                    </tbody>
-                </table>
+                        <table class="table table-hover text-center" id="mem-list">
+                            <thead>
+                                <tr>
+                                    <th>Membership ID</th>
+                                    <th>Last Name</th>
+                                    <th>First Name</th>
+                                    <th>Membership Plan</th>
+                                    <th>Membership Date</th>
+                                    <th>Membership Expiry</th>
+                                    <th>Payment Status</th>
+                                    <th>Action</th>
 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for ($i = 0; $i < count($members); $i++)
+                                    <tr class="text-center align-items-center justify-content-center">
+                                        <td class='d-none'>{{ $members[$i]['ID'] }} {{ $members[$i]['lastName'] }}
+                                            {{ $members[$i]['firstName'] }}</td>
+                                        <td>{{ $members[$i]['ID'] }}</td>
+                                        <td>{{ $members[$i]['lastName'] }}</td>
+                                        <td>{{ $members[$i]['firstName'] }}</td>
+                                        <td>{{ $members[$i]['membership_plan'] }}</td>
+                                        <td>{{ $members[$i]['start_date'] }}</td>
+                                        <td>{{ $members[$i]['expiry_date'] }}</td>
+                                        <td>{{ $members[$i]['payment_status'] }}</td>
+
+                                        <td>
+                                            <button class="btn btn-primary" type="fitayo-view" edit-key="{{ $members[$i]['ID'] }}" data-bs-toggle="modal"
+                                                data-bs-target="#viewMemberModal">View</button>
+                                            <button class="btn btn-danger">Delete</button>
+                                        </td>
+                                    </tr>
+                                @endfor
+                            </tbody>
+                        </table>
+                    </div>
+
+
+
+                </div>
+                <div class="tab-pane" id="nonmemlist" role="tabpanel" aria-labelledby="nav-nonmemlist">
+                    <br>
+                    <div class="row">
+                        <div class="col-8">
+                            <h2>Non-Members List</h2>
+
+                        </div>
+                        <div class="col-4"><input type="text" id="search_non_member" class="form-control"
+                                placeholder="Search for non-member"></div>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <table class="table table-hover text-center" id="non_mem_list">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Not</td>
+                                    <td>yet</td>
+                                    <td>implemented</td>
+                                    <td>-Happy 2.0 Friends</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="tab-pane" id="newmember" role="tabpanel" aria-labelledby="nav-newmember">
+            <h2>Registration Form</h2><br>
+            <div class="nav nav-tabs text-center" id="nav-regmemb">
+                <div class="col">
+                    <a href="#regmemlist" class="nav-link active border-dark" id="nav-regmemlist" data-bs-toggle="tab"
+                        role="tab" aria-controls="regmemlist" aria-selected="true">Member</a>
+                </div>
+                <div class="col">
+                    <a href="#regnonmemlist" class="nav-link border-dark" id="nav-regnonmemlist" data-bs-toggle="tab"
+                        role="tab" aria-controls="regnonmemlist" aria-selected="false">Non-Member</a>
+
+                </div>
+            </div>
+            <div class="tab-content" id="nav-regmembContent">
+                <div class="tab-pane  fade show active" id="regmemlist" role="tabpanel"
+                    aria-labelledby="nav-regmemlist"><br>
+                    <form action="{{route('register.POST')}}" method="post">
+                        @csrf
+                        <input type="text" name="regMem" id="regMem" class="d-none" value="Member">
+                        <div class="row text-center border border-black">
+                            <h4>Profile</h4>
+                        </div>
+                        <br>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-6">
+                                <label for="regFName">&nbsp;&nbsp;First Name:&nbsp;</label>
+                                <input type="text" class="form-control" name="regFName" id="regFName"
+                                    placeholder="Enter your first name">
+                            </div>
+                            <div class="col-6">
+                                <label for="regLName">&nbsp;&nbsp;Last Name:&nbsp;</label>
+                                <input type="text" name="regLName" id="regLName" class="form-control"
+                                    placeholder="Enter your last name">
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-6">
+                                <label for="regContactDetails" class='form-label'>&nbsp;&nbsp;Contact
+                                    Details:&nbsp;</label>
+                                <input type="tel" name="regContactDetails" id="regContactDetails" placeholder="Enter your contact number"
+                                    class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label for="regBirthdate" class='form-label'>&nbsp;&nbsp;Birthdate:&nbsp;</label>
+                                <input type="date" name="regBirthdate" id="regBirthdate" class="form-control">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-6">
+                                <label for="regAddressNum" class="form-label">Address Number:&nbsp;</label>
+                                <input type="text" name="regAddressNum" id="regAddressNum" class="form-control" placeholder="Enter your Address Number">
+                            </div>
+                            <div class="col-6">
+                                <label for="regAddressStreet" class="form-label">Address Street:&nbsp;</label>
+                                <input type="text" name="regAddressStreet" id="regAddressStreet" placeholder="Enter your Address Street"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-6">
+                                <label for="regAddressCity" class="form-label">Address City:&nbsp;</label>
+                                <input type="text" name="regAddressCity" id="regAddressCity" class="form-control"placeholder="Enter your Address City">
+                            </div>
+                            <div class="col-6">
+                                <label for="regAddressRegion" class="form-label">Address Region:&nbsp;</label>
+                                <input type="text" name="regAddressRegion" id="regAddressRegion"placeholder="Enter your Address Region"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col">
+                                <label for="regProfileBio" class="form-label">Profile Bio:&nbsp;</label>
+
+                                <textarea class="form-control" name="regProfileBio" id="regProfileBio" rows="3" placeholder="Enter your Profile Bio"></textarea>
+
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row text-center border border-black">
+                            <h4>Membership</h4>
+                        </div>
+                        <br>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-6">
+                                <label for="regMembershipPlan" class="form-label">Membership Plan:&nbsp;</label>
+                                <select name="regMembershipPlan" id="regMembershipPlan" class="form-select">
+                                    <option selected>Choose Plan</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Premium">Premium</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="regStartDate" class="form-label">Start Date:&nbsp;</label>
+                                <input type="date" name="regStartDate" id="regStartDate" class="form-control">
+                            </div>
+                        </div><br>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-6">
+                                <label for="regPaymentStatus" class="form-label">Payment Status:&nbsp;</label>
+                                <select name="regPaymentStatus" id="regPaymentStatus" class="form-select">
+                                    <option selected>Has Paid?</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="regTrainer" class="form-label">Trainer</label>
+                                <input type="text" name="regTrainer" id="regTrainer" class="form-control">
+                            </div>
+                        </div><br>
+                        <div class="row text-center border border-black">
+                            <h4>Credentials</h4>
+                        </div>
+                        <br>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-6">
+                                <label for="regUsername" class="form-label">Username:&nbsp;</label>
+                                <input type="text" class="form-control" id="regUsername" name="regUsername" placeholder="Enter your Username">
+                            </div>
+                            <div class="col-6">
+                                <label for="regPassword">Password:&nbsp;</label>
+                                <input type="password" name="regPassword" id="regPassword" class="form-control" placeholder="Enter your Password">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row justify-content-center align-items-center">
+                            <div class="col-6">
+                                <label for="regEmail" class="form-label">Email:&nbsp;</label>
+                                <input type="email" name="regEmail" id="regEmail" class="form-control" placeholder="Enter your Email">
+                            </div>
+                            <div class="col-6">
+                                <label for="regUserType" class="form-label">User Type:&nbsp;</label>
+                                <select name="regUserType" id="regUserType" class="form-select">
+                                    <option selected>Choose user type</option>
+                                    <option value="user">User</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane" id="regnonmemlist" role="tabpanel" aria-labelledby="nav-regnonmemlist">
+                    Non-Members
+                </div>
             </div>
         </div>
-        <div class="tab-pane fade" id="newmemb" role="tabpanel" aria-labelledby="nav-newmemb-tab">
-            <h2>Register New Member</h2>
-            <br>
-            <form id="reg-form" action="{{ route('register.POST') }}" method="POST">
-                @csrf
-                <input type="hidden" name="newProfID" id="newProfID" value="{{ $count + 1 }}">
-                <div class="row">
-                    <div class="col-1 text-center ">
-                        <label for="first-name" class="form-label">First Name:</label>
-                    </div>
-                    <div class="col-5 border-right-black">
-                        <input type="text" class="form-control" name="first_name" id="first-name" required
-                            placeholder="Enter your First Name">
-                    </div>
-                    <div class="col-1 text-center">
-                        <label for="last-name" class="form-label">Last Name:</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="text" class="form-control" id="last-name" name="last_name" required
-                            placeholder="Enter your Last Name">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1 text-center">
-                        <label for="contact-number" class="form-label">Contact Number: </label>
-                    </div>
-                    <div class="col-5">
-                        <input type="tel" name="contact_number" id="contact-number" class="form-control"
-                            placeholder="Enter Contact Number">
-                    </div>
-                    <div class="col-1 text-center">
-                        <label for="email" class="form-label">Email</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="email" name="email" id="email" class="form-control"
-                            placeholder="Enter Email">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1 text-center">
-                        <label for="username" class="form-label">Username:</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="text" class="form-control" id="username" name="username" required
-                            placeholder="Enter your Username">
-                    </div>
-                    <div class="col-1 text-center">
-                        <label for="password" class="form-label">Password:</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="password" class="form-control" id="password" name="password" required
-                            placeholder="Enter your Password">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1 text-center">
-                        <label for="birthdate" class="form-label">Birthdate:</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="date" name="birthdate" class="form-control" id="birthdate" required>
-                    </div>
-                    <div class="col-1 text-center">
-                        <label for="address-num" class="form-label">Address Number:</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="text" class="form-control" id="address-num" name="address_num"required
-                            placeholder="Enter your Address Number">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1 text-center">
-                        <label for="address-street" class="form-label">Address Street:</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="text" class="form-control" name="address_street" id="address-street" required
-                            placeholder="Enter your Address Street">
-                    </div>
-                    <div class="col-1 text-center">
-                        <label for="address-city" class="form-label">Address City:</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="text" class="form-control" id="address-city" name="address_city" required
-                            placeholder="Enter your Address City">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1 text-center">
-                        <label for="address-region" class="form-label">Address Region:</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="text" class="form-control" name="address_region" id="address-region" required
-                            placeholder="Enter your Address Region">
-                    </div>
-                    <div class="col-1 text-center">
-                        <label for="height" class="form-label">Height:</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="number" step="0.01" class="form-control" name="height" id="height"
-                            required placeholder="Enter your Height">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1 text-center">
-                        <label for="weight" class="form-label">Weight:</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="number" step="0.01" class="form-control" name="weight" id="weight"
-                            required placeholder="Enter your Weight">
-                    </div>
-                    <div class="col-1 text-center">
-                        <label for="medical-history" class="form-label">Medical History:</label>
-                    </div>
-                    <div class="col-5">
-                        <textarea class="form-control" id="medical-history" name="medical_history" rows="3" required
-                            placeholder="Enter your Medical History"></textarea>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1 text-center">
-                        <label for="hasIllness" class="form-label">Has Illness:</label>
-                    </div>
-                    <div class="col-5">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="hasIllness" id="hasIllnessYes"
-                                value="1">
-                            <label class="form-check-label" for="hasIllnessYes">
-                                Yes
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="hasIllness" id="hasIllnessNo"
-                                value="0" checked>
-                            <label class="form-check-label" for="hasIllnessNo">
-                                No
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-1 text-center">
-                        <label for="hasInjuries" class="form-label">Has Injuries:</label>
-                    </div>
-                    <div class="col-5">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="hasInjuries" id="hasInjuriesYes"
-                                value="1">
-                            <label class="form-check-label" for="hasInjuriesYes">
-                                Yes
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="hasInjuries" id="hasInjuriesNo"
-                                value="0" checked>
-                            <label class="form-check-label" for="hasInjuriesNo">
-                                No
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1 text-center">
-                        <label for="user-type" class="form-label">User Type:</label>
-                    </div>
-                    <div class="col-5">
-                        <select name="user_type" id="user-type" class="form-select" required>
-                            <option selected="">Select User Type</option>
-                            <option value="1">User</option>
-                            <option value="2">Admin</option>
-                        </select>
-                    </div>
-                    <div class="col-1 text-center">
-                        <label for="membership-type" class="form-label">Membership Type:</label>
-                    </div>
-                    <div class="col-5">
-                        <select name="membership_type" id="membership-type" class="form-select" required>
-                            <option selected="">Select Membership Type</option>
-                            <option value="1">Member</option>
-                            <option value="2">Non-Member</option>
-                        </select>
+        <div class="tab-pane" id="assignto" role="tabpanel" aria-labelledby="nav-assign">Assign Trainer</div>
 
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1 text-center">
-                        <label for="membership-desc" class="form-label">Membership Description:</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="text" class="form-control" id="membership-desc" name="membership_desc" required
-                            placeholder="Enter your Membership Description">
-                    </div>
-                    <div class="col-1 text-center">
-                        <label for="membership-plan" class="form-label">Membership Plan:</label>
-                    </div>
-                    <div class="col-5">
-                        <select name="membership_plan" id="membership-plan" class="form-select">
-                            <option selected="">Select Membership Plan</option>
-                            <option value="1">Basic</option>
-                            <option value="2">Standard</option>
-                            <option value="3">Premium</option>
-                        </select>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1 text-center">
-                        <label for="payment-status" class="form-label">Payment Status:</label>
-                    </div>
-                    <div class="col-5">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_status"
-                                id="payment-status-paid" value="1" checked>
-                            <label class="form-check-label" for="payment-status-paid">
-                                Paid
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="payment_status"
-                                id="payment-status-unpaid" value="0">
-                            <label class="form-check-label" for="payment-status-unpaid">
-                                Unpaid
-                            </label>
-                        </div>
-                    </div>
-                    <div class="col-1 text-center">
-                        <label for="trainer" class="form-label">Trainer:</label>
-                    </div>
-                    <div class="col-5">
-                        <input type="text" name="trainer" class="form-control" id="trainer" required
-                            placeholder="Enter your Trainer">
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-1 text-center">
-                        <label for="profile-bio" class="form-label">Profile Bio:</label>
-                    </div>
-                    <div class="col-11">
-                        <textarea class="form-control" id="profile-bio" rows="3" required placeholder="Enter your Profile Bio"
-                            name="profile_bio"></textarea>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </form>
-        </div>
-        <div class="tab-pane fade" id="memcheckins" role="tabpanel" aria-labelledby="nav-memcheckins-tab">
-            <h2>Member Check-ins</h2>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Membership ID</th>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Check-in</th>
-                        <th>Check-out</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Doe</td>
-                        <td>John</td>
-                        <td>7:30 PM</td>
-                        <td>8:05 AM</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="tab-pane fade" id="nonmem" role="tabpanel" aria-labelledby="nav-nonmem-tab">
-            <h2>Non-Member Entries</h2>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Membership ID</th>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Check-in</th>
-                        <th>Check-out</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Doe</td>
-                        <td>John</td>
-                        <td>7:30 PM</td>
-                        <td>8:05 AM</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
-    </div>
-    <div class="modal fade" id="edit_user" tabindex="-1" aria-labelledby="edit_userLabel" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog">
+    <div class="modal fade" tabindex="-1" id="viewMemberModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="editUserLabel"></h1>
-                    <button id="dismiss" type="button" class="btn-close" data-bs-backdrop="static" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                <div class="modal-header row">
+
+                    <div class="col"></div>
+                    <div class="col">
+                        <h3 id="viewDetail"></h3>
+                    </div>
+                    <div class="col"></div>
+
+
+
                 </div>
                 <div class="modal-body">
-                    <form id="updateForm" method="POST" action="{{ route('update.POST') }}">
-                        @csrf
-                        <input type="hidden" name="userID" id="userID">
-                        <div class="row">
-                            <div class="col-6"><label for="editUsername" class="form-label">Username: </label>
-                            </div>
-                            <div class="col-6"><label for="editUserType" class="form-label">User Type</label>
-                            </div>
+                    <div class="nav nav-tabs text-center row" id="nav-view">
+                        <div class="col">
+                            <a href="#credential-view" class="nav-link active" id="nav-cred-view" data-bs-toggle="tab"
+                                role="tab" aria-controls="credential" aria-selected="true">Credentials</a>
                         </div>
-                        <div class="row">
-                            <div class="col-6"><input type="text" name="editUsername" id="editUsername"
-                                    class="form-control"></div>
-                            <div class="col-6">
-                                <select name="editUserType" id="editUserType" class="form-select">
-                                    <option value="1">Admin</option>
-                                    <option value="2">User</option>
-                                </select>
-                            </div>
+                        <div class="col">
+                            <a href="#profile-view" class="nav-link" id="nav-profile-view" data-bs-toggle="tab"
+                                role="tab" aria-controls="profile" aria-selected="false">Profile</a>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6"><label class="form-label" for="editFname">First Name: </label>
-                            </div>
-                            <div class="col-6"><label class="form-label" for="editLname">Last Name: </label>
-                            </div>
+                        <div class="col">
+                            <a href="#membership-view" class="nav-link" id="nav-membership-view" data-bs-toggle="tab"
+                                role="tab" aria-controls="membership" aria-selected="false">Membership</a>
                         </div>
-                        <div class="row">
-                            <div class="col-6"><input type="text" name="editFname" id="editFname"
-                                    class="form-control"></div>
-                            <div class="col-6"><input type="text" name="editLname" id="editLname"
-                                    class="form-control"></div>
+                        <div class="col">
+                            <a href="#assessment-view" class="nav-link" id="nav-assessment-view" data-bs-toggle="tab"
+                                role="tab" aria-controls="assessment" aria-selected="false">Assessment</a>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6"><label class="form-label" for="editProfileBio">Profile Bio:
-                                </label></div>
-                            <div class="col-6"><label class="form-label" for="editContactNum">Contact Number:
-                                </label></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <textarea name="editProfileBio" id="editProfileBio" class="form-control"></textarea>
-                            </div>
-                            <div class="col-6"><input type="tel" name="editContactNum" id="editContactNum"
-                                    class="form-control"></div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6"><label class="form-label" for="editBirthdate">Birthdate: </label>
-                            </div>
-                            <div class="col-6"><label class="form-label" for="editMembershipType">Membership
-                                    Type: </label></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6"><input type="date" name="editBirthdate" id="editBirthdate"
-                                    class="form-control"></div>
-                            <div class="col-6">
-                                <select name="editMembershipType" id="editMembershipType" class="form-select">
+                    </div>
+                    <br>
+                    <div class="tab-content" id="nav-viewContent">
+                        <div class="tab-pane fade show active" id="credential-view" role="tabpanel"
+                            aria-labelledby="nav-cred-view">
+                            <form action="{{route('update.POST',['editCredential',auth()->user()->id])}}" method="POST">
+                                @csrf
+                                <div class="row">
+                                    <button class="btn btn-secondary" id="toggleEdit" type="button" action="edit"
+                                        target="credential" toggled="0">Edit</button>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-2"><label class="form-label" for="viewEmail">Email:&nbsp;</label>
+                                    </div>
+                                    <div class="col-10"><input type="text" class="form-control" id="viewEmail"
+                                            readonly="readonly"></div>
 
-                                    <option value="1">Member</option>
-                                    <option value="2">Non-Member</option>
-
-                                </select>
-                            </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-2"><label class="form-label"
+                                            for="viewUsername">Username:&nbsp;</label></div>
+                                    <div class="col-10"><input type="text" id="viewUsername" class="form-control"
+                                            readonly="readonly"></div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <button type="submit" class="d-none btn btn-success"
+                                        id="credential-submit">Update</button>
+                                </div>
+                            </form>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6"><label class="form-label" for="editMembershipPlan">Membership
-                                    Plan: </label></div>
-                            <div class="col-6"><label class="form-label" for="editMembershipDesc">Membership
-                                    Description: </label></div>
+                        <div class="tab-pane" id="profile-view" role="tabpanel" aria-labelledby="nav-profile-view">
+                            <form action="{{route('update.POST',['editProfile',auth()->user()->id])}}">
+                                @csrf
+                                <div class="row">
+                                    <button class="btn btn-secondary" id="toggleEdit" type="button" action="edit"
+                                        target="profile" toggled="0">Edit</button>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-2"><label class="form-label" for="viewFName">First
+                                            Name:&nbsp;</label></div>
+                                    <div class="col-10"><input type="text" id="viewFName" class="form-control"
+                                            readonly="readonly"></div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-2"><label for="viewLName" class="form-label">Last
+                                            Name:&nbsp;</label></div>
+                                    <div class="col-10"><input type="text" id="viewLName" class="form-control"
+                                            readonly="readonly"></div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-2"><label for="viewContactDetails" class="form-label">Contact
+                                            Details:</label></div>
+                                    <div class="col-10"><input type="tel" id="viewContactDetails"
+                                            class="form-control" readonly="readonly"></div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-2"><label for="viewBirthdate"
+                                            class="form-label">Birthdate:&nbsp;</label></div>
+                                    <div class="col-10"><input type="date" class="form-control"readonly="readonly">
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-2"><label for="viewAddressNum" class="form-label">Address
+                                            Num:&nbsp;</label></div>
+                                    <div class="col-10"><input type="text" id="viewAddressNum" class="form-control"
+                                            readonly="readonly"></div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-2"><label for="viewAddressStreet" class="form-label">Address
+                                            Street:&nbsp;</label></div>
+                                    <div class="col-10"><input type="text" class="form-control"
+                                            id="viewAddressStreet"></div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-2"><label for="viewAddressCity" class="form-label">Address
+                                            City:&nbsp;</label></div>
+                                    <div class="col-10"><input type="text" id="viewAddressCity" class="form-control"
+                                            readonly="readonly"></div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-2"><label for="viewAddressRegion" class="form-label">Address
+                                            Region:&nbsp;</label></div>
+                                    <div class="col-10"><input type="text" id="viewAddressRegion"
+                                            class="form-control" readonly="readonly"></div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-2"><label for="viewProfileBio" class="form-label">Profile
+                                            Bio:&nbsp;</label></div>
+                                    <div class="col-10"><input type="text" id="viewProfileBio" class="form-control"
+                                            readonly="readonly"></div>
+                                </div><br>
+                                <div class="row">
+                                    <button type="submit" class="d-none btn btn-success"
+                                        id="profile-submit">Update</button>
+                                </div>
+                            </form>
                         </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <select name="editMembershipPlan" id="editMembershipPlan" class="form-select">
-                                    <option value="1">Basic</option>
-                                    <option value="2">Standard</option>
-                                    <option value="3">Premium</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <textarea name="editMembershipDesc" id="editMembershipDesc" class="form-control"></textarea>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6"><label class="form-label" for="editWeight">Weight:</label></div>
-                            <div class="col-6"><label class="form-label" for="editHeight">Height:</label></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6"><input type="number" name="editWeight" id="editWeight" step="0.01"
-                                    class="form-control"></div>
-                            <div class="col-6"><input type="number" name="editHeight" id="editHeight" step="0.01"
-                                    class="form-control"></div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6"><label class="form-label" for="editBMI">Body Mass Index:
-                                </label></div>
-                            <div class="col-6"><label class="form-label" for="editBMIType">Body Mass Index
-                                    Classification: </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6"><input type="text" name="editBMI" id="editBMI"
-                                    class="form-control" readonly="readonly"></div>
-                            <div class="col-6"><input type="text" name="editBMIType" id="editBMIType"
-                                    class="form-control" readonly="readonly"></div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6">
-                                <label class="form-label" for="editAddressNum">Address Number: </label>
-
-                            </div>
-                            <div class="col-6"><label class="form-label" for="editAddressStreet">Address Street:
-                                </label></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6"><input type="text" name="editAddressNum" id="editAddressNum"
-                                    class="form-control"></div>
-                            <div class="col-6"><input type="text" name="editAddressStreet" id="editAddressStreet"
-                                    class="form-control"></div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6"><label for="editAddressCity" class="form-label">Address
-                                    City</label></div>
-                            <div class="col-6"><label for="editAddressRegion" class="form-label">Address
-                                    Region</label></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6"><input type="text" name="editAddressCity" id="editAddressCity"
-                                    class="form-control"></div>
-                            <div class="col-6"><input type="text" name="editAddressRegion" id="editAddressRegion"
-                                    class="form-control"></div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6"><label for="editEmail" class="form-label">Email: </label></div>
-                            <div class="col-6"><label for="editTrainer" class="form-label">Trainer</label></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6"><input type="email" name="editEmail" id="editEmail"
-                                    class="form-control"></div>
-                            <div class="col-6"><input type="text" name="editTrainer" id="editTrainer"
-                                    class="form-control"></div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6"><label for="editStartDate" class="form-label">Start Date:
-                                </label></div>
-                            <div class="col-6"><label for="editExpiryDate" class="form-label">Expiry Date:
-                                </label></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6"><input type="date" name="editStartDate" id="editStartDate"
-                                    class="form-control"></div>
-                            <div class="col-6"><input type="date" name="editExpiryDate" id="editExpiryDate"
-                                    class="form-control"></div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6"><label for="editNextPayment" class="form-label">Next Payment:
-                                </label></div>
-                            <div class="col-6"><label for="editPaymentStatus" class="form-label">Payment Status:
-                                </label></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6"><input type="date" name="editNextPayment" id="editNextPayment"
-                                    class="form-control"></div>
-                            <div class="col-6">
-                                <select name="editPaymentStatus" id="editPaymentStatus" class="form-control">
-                                    <option value="1">Paid</option>
-                                    <option value="2">Unpaid</option>
-                                </select>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6"><label for="editHasIllness" class="form-label">Has Illness:
-                                </label></div>
-                            <div class="col-6"><label for="editHasInjuries" class="form-label">Has
-                                    Injuries</label></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <select name="editHasIllness" id="editHasIllness" class="form-control">
-                                    <option value="0">Yes</option>
-                                    <option value="1">No</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <select name="editHasInjuries" id="editHasInjuries" class="form-control">
-                                    <option value="0">Yes</option>
-                                    <option value="1">No</option>
-                                </select>
+                        <div class="tab-pane" id="membership-view" role="tabpanel"
+                            aria-labelledby="nav-membership-view">
+                            <form action="{{route('update.POST',['editMembership',auth()->user()->id])}}" method="post">
+                                @csrf
+                            <div class="row">
+                                <button class="btn btn-secondary" id="toggleEdit" type="button" action="edit"
+                                    target="membership" toggled="0">Edit</button>
                             </div>
                             <br>
-                            <div class="row"><label for="editMedicalHistory" class="form-label">Medical
-                                    History</label></div>
                             <div class="row">
-                                <textarea name="editMedicalHistory" id="editMedicalHistory" class="form-control"></textarea>
+                                <div class="col-2"><label for="viewMembershipType" class="form-label">Membership
+                                        Type:&nbsp;</label></div>
+                                <div class="col-10"><input type="text" name="viewMembershipType" id="viewMembershipType" class="form-control" readonly="readonly"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewMembershipPlan" class="form-label">Membership
+                                        Plan:&nbsp;</label></div>
+                                <div class="col-10"><input type="text" name="viewMembershipPlan" id="viewMembershipPlan" class="form-control" readonly="readonly"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewMembershipDesc" class="form-label">Membership
+                                        Desc:&nbsp;</label></div>
+                                <div class="col-10"><input type="text" name="viewMembershipDesc" id="viewMembershipDesc" class="form-control" readonly="readonly"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewStartDate" class="form-label">Start
+                                        Date:&nbsp;</label></div>
+                                <div class="col-10"><input type="date" name="viewStartDate" id="viewStartDate" class="form-control" readonly="readonly"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewExpiryDate" class="form-label">Expiry
+                                        Date:&nbsp;</label></div>
+                                <div class="col-10"><input type="date" name="viewExpiryDate" id="viewExpiryDate" class="form-control" readonly="readonly"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewNextPayment" class="form-label">Next
+                                        Payment:&nbsp;</label></div>
+                                <div class="col-10"><input type="date" name="viewNextPayment" id="viewNextPayment" class="form-control" readonly="readonly"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewPaymentStatus" class="form-label">Payment
+                                        Status&nbsp;</label></div>
+                                <div class="col-10"><input type="text" name="viewPaymentStatus" id="viewPaymentStatus" class="form-control" readonly="readonly"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewTrainer" class="form-label">Trainer:&nbsp;</label>
+                                </div>
+                                <div class="col-10">
+                                    <input type="text" name="viewTrainer" id="viewTrainer" class="form-control" readonly="readonly">
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <button type="submit" class="d-none btn btn-success"
+                                    id="membership-submit">Update</button>
                             </div>
+                            </form>
                         </div>
-                        <br>
+                        <div class="tab-pane" id="assessment-view" role="tabpanel"
+                            aria-labelledby="nav-assessment-view">
+                            <form action="{{route('update.POST',['editAssessment',auth()->user()->id])}}" method="POST">
+                                @csrf
+                            <div class="row">
+                                <button class="btn btn-secondary" id="toggleEdit" type="button" action="edit"
+                                    target="assessment" toggled="0">Edit</button>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewHeight" class="form-label">Height:&nbsp;</label>
+                                </div>
+                                <div class="col-10">
+                                    <input type="number" step="0.01" name="viewHeight" id="viewHeight" class="form-control" readonly="readonly">
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewWeight" class="form-label">Weight:&nbsp;</label>
+                                </div>
+                                <div class="col-10">
+                                    <input type="number" name="viewWeight" id="viewWeight" class="form-control" readonly="readonly" step="0.01">
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewBMI" class="form-label">BMI:&nbsp;</label></div>
+                                <div class="col-10"><input type="number" name="viewBMI" id="viewBMI" class="form-control" readonly="readonly" step="0.01"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewBMIType" class="form-label">BMI
+                                        Classification:&nbsp;</label></div>
+                                <div class="col-10"><input type="text" name="viewBMIType" id="viewBMIType" class="form-control" readonly="readonly"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewHasIllness" class="form-label">Has
+                                        Illness:&nbsp;</label></div>
+                                <div class="col-10">
+                                    <select name="viewHasIllness" id="viewHasIllness" class="form-select" readonly="readonly">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewHasInjuries" class="form-label">Has
+                                        Injuries:&nbsp;</label></div>
+                                <div class="col-10">
+                                    <select name="viewHasInjuries" id="viewHasInjuries" class="form-select" readonly="readonly">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewMedicalHistory">Medical History:&nbsp;</label></div>
+                                <div class="col-10"><input type="text" name="viewMedicalHistory" id="viewMedicalHistory" class="form-control"></div>
+                            </div><br>
+                            <div class="row">
+                                <button type="submit" class="d-none btn btn-success"
+                                    id="assessment-submit">Update</button>
 
-
+                            </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="close">Close</button>
-                    <button type="submit" id="submitUpdateForm" class="btn btn-primary">Save changes</button>
-                    </form>
+                    <div class="row">
+                        <button type="button" class="btn btn-primary" id="close" data-bs-dismiss="modal" aria-label="Close">
+                            Close</button>
+
+                    </div>
                 </div>
             </div>
         </div>

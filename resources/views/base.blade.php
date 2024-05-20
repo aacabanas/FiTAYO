@@ -4,7 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    @vite(['resources/sass/app.scss', 'resources/js/app.js','resources/css/app.css'])
+    @if (auth()->user()==null||auth()->user()->user_type == "user")
+        @vite(['resources/js/user/app.js'])
+    @else
+        @vite(['resources/js/admin/app.js'])
+    @endif
+    @vite(['resources/sass/app.scss', 'resources/css/app.css'])
     <title>@yield('title')</title>
 </head>
 

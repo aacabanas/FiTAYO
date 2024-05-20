@@ -41,7 +41,10 @@
   <body>
     <header class="container-fluid bg-primary text-white" style="padding: 20px; margin-bottom: 20px">
       <h1>Leaderboards</h1>
-      <p id="date"></p>
+      <p id="date">
+        {{DateTime::createFromFormat('!m',date('m'))->format('F').' '.date('d Y')}}
+
+      </p>
     </header>
 
     <div class="container">
@@ -53,13 +56,14 @@
                 </div>
                 <div class="card-body">
                     <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="leaderboardDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="leaderboardDropdown"  data-bs-toggle="dropdown" aria-expanded="false">
                             Select a lift
                         </button>
                         <div class="dropdown-menu" aria-labelledby="leaderboardDropdown">
-                            <a class="dropdown-item" href="#" data-lift="benchpress">Benchpress</a>
-                            <a class="dropdown-item" href="#" data-lift="deadlift">Deadlift</a>
-                            <a class="dropdown-item" href="#" data-lift="barbell-squats">Barbell Squats</a>
+                            <a class="dropdown-item" href="#" type='fitayo-exercise' data-lift="">Select a lift</a>
+                            <a class="dropdown-item" href="#" type='fitayo-exercise' data-lift="benchpress">Benchpress</a>
+                            <a class="dropdown-item" href="#" type='fitayo-exercise' data-lift="deadlift">Deadlift</a>
+                            <a class="dropdown-item" href="#" type='fitayo-exercise' data-lift="barbell-squats">Barbell Squats</a>
                         </div>
                     </div>
                     <table class="table mt-3">
@@ -108,17 +112,6 @@
       </ul>
     </footer>
 
-    <script>
-      // Update the date on the landing page
-      var date = new Date();
-      var dateElement = document.getElementById("date");
-      dateElement.innerHTML = date.toDateString();
-    </script>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="{{ asset('js/user.js') }}"></script>
   </body>
 </html>
 @endsection
