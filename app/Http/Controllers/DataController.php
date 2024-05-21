@@ -90,7 +90,7 @@ class DataController extends Controller
                 $bmi = new \BMI($data['height'],$data['weight']);
 
                 $data["bmi"] = $bmi::$bmi;
-                $data['bmi_classification'] = $bmi->get_type();
+                $data['bmi_classification'] = $bmi::type();
                 $data['hasIllness'] = $data['hasIllness']=="Yes";
                 $data['hasInjuries'] = $data['hasInjuries']=="Yes";
                 user_assessment::where("userAsses_ID", "=", $id)->update($data);
@@ -99,6 +99,54 @@ class DataController extends Controller
         return back();
 
     }
+    public function create_assessment(Request $request) {
+        $request->validate([
+            "userID" => "required",
+            "userWeight" => "required",
+            "userHeight" => "required",
+            "userMedHist" => "required",
+            "userHasIllness" => "required",
+            "userHasInjuries" => "required",
+        ]);
+        dd($request->all());
+        $bmi = new \BMI($request->userHeight,$request->userWeight);
+        $assessment = [
+            "userAsses_ID" =>$request->userID,
+            "profile_ID" => $request->userID,
+            "height" => $request->userHeight,
+            "weight" => $request->userWeight,
+            "bmi" => $bmi->bmi,
+            "bmi_classification" => $bmi::type(),
+            "medical_history" => $request->userMedHist,
+            "hasIllness" => $request->userHasIllness=="Yes",
+            "hasInjuries" => $request->userHasInjuries=="Yes",
+            "created_at" => Carbon::now()
+        ];
+        user_assessment::create();
+        return back();
+    }
+
+    public function update_assessent(Request $request) {
+        $request->validate([
+            "userID" => "required",
+            "userWeight" => "required",
+            "userHeight" => "required",
+            "userMedHist" => "required",
+            "userHasIllness" => "required",
+            "userHasInjuries" => "required",
+        ]);
+        $bmi = new \BMI($request->userHeight,$request->userWeight);
+        user_assessment::where("userAssess_ID", "=", $request->userID)->update([
+            "height" => $request->userHeight,
+            "weight" => $request->userWeight,
+            "bmi" => $bmi->bmi,
+            "bmi_classification" => $bmi::type(),
+            "medical_history" => $request->userMedHist,
+            "hasIllness" => $request->userHasIllness,
+            "hasInjuries" => $request->userHasInjuries,
+        ]);
+    }
+
     public function delete($id){
         User::find($id)->delete();
         user_membership::where('userMem_ID',$id)->delete();

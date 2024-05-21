@@ -9,7 +9,10 @@ class user_assessment extends Model
 {
     use HasFactory;
     protected $table = "user_assessment";
+    public $increments = false;
+
     protected $fillable = [
+    'userAsses_ID',
     'height',
     'weight',
     'bmi',

@@ -124,12 +124,12 @@ class AuthController extends Controller
 
     public function dashboard() {
         if (Auth::check()) {
-            if (User::where('id', Auth::id())->first()->user_type == "user") {
-                return view('dashboard.user');
+            if (Auth::user()->user_type == "user") {
+                return view('dashboard.user',["withAssessment" => user_assessment::where('userAsses_ID',Auth::id())->first()==null]);
             }
 
             return view('dashboard.index', [
-                "members" => $this->members(), // Call the function defined in this class
+                "members" => members(), 
                 "member_count" => user_membership::where("membership_type", "Member")->count(),
                 "monthly" => user_membership::whereMonth('created_at', "=", date('m'))->where("membership_type", "Member")->count()
             ]);
@@ -137,55 +137,7 @@ class AuthController extends Controller
         return redirect("login")->withSuccess('Opps! You do not have access');
     }
 
-    // Add the members() function definition here
-    public function members() {
-        // Implement your logic here
-        return User::all(); // Example: returning all users
-    }
-
-    public function create_assessment(Request $request) {
-        $request->validate([
-            "userID" => "required",
-            "userWeight" => "required",
-            "userHeight" => "required",
-            "userMedHist" => "required",
-            "userHasIllness" => "required",
-            "userHasInjuries" => "required",
-        ]);
-        user_assessment::create([
-            "profile_ID" => $request->userID,
-            "height" => $request->userHeight,
-            "weight" => $request->userWeight,
-            "bmi" => $this->getBMI($request->userWeight, $request->userHeight),
-            "bmi_classification" => $this->getBMIType($this->getBMI($request->userWeight, $request->userHeight)),
-            "medical_history" => $request->userMedHist,
-            "hasIllness" => $request->userHasIllness,
-            "hasInjuries" => $request->userHasInjuries,
-            "created_at" => Carbon::now()
-        ]);
-        return back();
-    }
-
-    public function update_assessent(Request $request) {
-        $request->validate([
-            "userID" => "required",
-            "userWeight" => "required",
-            "userHeight" => "required",
-            "userMedHist" => "required",
-            "userHasIllness" => "required",
-            "userHasInjuries" => "required",
-        ]);
-        user_assessment::where("userAssess_ID", "=", $request->userID)->update([
-            "height" => $request->userHeight,
-            "weight" => $request->userWeight,
-            "bmi" => $this->getBMI($request->userWeight, $request->userHeight),
-            "bmi_classification" => $this->getBMIType($this->getBMI($request->userWeight, $request->userHeight)),
-            "medical_history" => $request->userMedHist,
-            "hasIllness" => $request->userHasIllness,
-            "hasInjuries" => $request->userHasInjuries,
-        ]);
-    }
-
+    
     public function logout() {
         Session::flush();
         Auth::logout();

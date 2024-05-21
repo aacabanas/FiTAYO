@@ -68,7 +68,8 @@ return new class extends Migration {
 
         });
         Schema::create('user_assessment', function (Blueprint $table) {
-            $table->id('userAsses_ID');
+            $table->integer('userAsses_ID');
+            $table->primary('userAsses_ID');
             $table->foreignId('profile_ID')->constrained('user_profile', 'profile_ID')->onDelete('cascade');
             $table->decimal('height', 5, 2)->default(0);
             $table->decimal('weight', 6, 2)->default(0);

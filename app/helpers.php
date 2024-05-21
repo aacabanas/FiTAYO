@@ -3,12 +3,14 @@ use App\Models\user_membership;
 use App\Models\user_profile;
 class BMI{
     public static $bmi;
+    private $weight;
+    private $height;
     public function __construct($height,$weight){
         $this->height = $height;
         $this->weight = $weight;
         self::$bmi= round(($weight / (($height * 12) * ($height * 12)) * 703), 2);
     }
-    public function get_type(){
+    public static function type(){
         
         $category = ["Underweight", "Normal weight", "Overweight", "Obesity"];
         if (self::$bmi < 18.5) {

@@ -17,7 +17,7 @@ Route::get('/delete/{id}', [DataController::class, 'delete'])->name('delete');
 Route::get('/member/{id}', [DataController::class, 'getUser']);
 Route::get("/push", [AuthController::class, "push"]);
 Route::post('/update/{what}/{id}', [DataController::class, 'update'])->name('update.POST');
-
+Route::post('/assessment/create',[DataController::class,'create_assessment'])->name('new_assessment');
 Route::middleware('auth')->group(function () {
     Route::post('/milestone/{milestone_id}/update-progress', [MilestoneController::class, 'updateProgress']);
     Route::post('/milestone/{milestone_id}/verify-advancement', [MilestoneController::class, 'verifyAdvancement']);
