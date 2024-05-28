@@ -102,16 +102,16 @@ class DataController extends Controller
             "editNextPayment" => $memb->next_payment,
             "editPaymentStatus" => $memb->payment_status == 1 ? "Yes" : "No",
             "editTrainer" => $memb->Trainer,
-            "editHeight" => $assess->height,
-            "editWeight" => $assess->weight,
-            "editBMI" => $assess->bmi,
-            "editBMIType" => $assess->bmi_classification,
-            "editFit" => $assess->physically_fit == 1 ? "Yes" : "No",
-            "editOper" => $assess->operation == 1 ? "Yes" : "No",
-            "editHB" => $assess->high_blood == 1 ? "Yes" : "No",
-            "editHP" => $assess->heart_problem == 1 ? "Yes" : "No",
-            "editEmergName" => $assess->emergency_contact_name,
-            "editEmergNum" => $assess->emergency_contact_num,
+            "editHeight" => ($assess==null)?0:$assess->height,
+            "editWeight" => ($assess==null)?0:$assess->weight,
+            "editBMI" => ($assess==null)?0:$assess->bmi,
+            "editBMIType" => ($assess==null)?null:$assess->bmi_classification,
+            "editFit" => ($assess==null)?"No":($assess->physically_fit == 1 ? "Yes" : "No"),
+            "editOper" => ($assess==null)?"No":($assess->operation == 1 ? "Yes" : "No"),
+            "editHB" => ($assess==null)?"No":($assess->high_blood == 1 ? "Yes" : "No"),
+            "editHP" => ($assess==null)?"No":($assess->heart_problem == 1 ? "Yes" : "No"),
+            "editEmergName" => ($assess==null)?"":$assess->emergency_contact_name,
+            "editEmergNum" => ($assess==null)?"":$assess->emergency_contact_num,
         ]);
     }
     public function getUser($id)
@@ -158,7 +158,6 @@ class DataController extends Controller
     }
     public function update(Request $request, $what)
     {
-        dd($request->all());
         if ($what == "credentials") {
             $request->validate([
                 "editCredID" => "required",

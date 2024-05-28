@@ -29,10 +29,9 @@ class AuthController extends Controller
     public function push()
     {
         User::create([
-            "username" => "fitayo_2",
-            "email" => "mail2@mail.com",
+            "username" => "fitayo",
+            "email" => "mail@mail.com",
             "password" => Hash::make("passw"),
-            "user_type" => "admin"
         ]);
 
         user_membership::create([
