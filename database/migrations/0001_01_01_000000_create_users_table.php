@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('user_type');
+            $table->string('user_type')->default('user');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -25,12 +25,12 @@ return new class extends Migration {
             $table->id('userMem_ID');
             $table->string('membership_type', length: 255);
             $table->string('membership_plan', length: 255);
-            $table->string('membership_desc', length: 255);
+            $table->string('membership_desc', length: 255)->nullable();
             $table->date('start_date');
             $table->date('expiry_date');
             $table->date('next_payment');
             $table->boolean('payment_status');
-            $table->string('Trainer', length: 255)->nullable();
+            $table->string('Trainer', length: 255)->nullable()->default(null);
             $table->timestamps();
         });
         Schema::create('milestone_details', function (Blueprint $table) {
@@ -47,11 +47,13 @@ return new class extends Migration {
             $table->id('profile_ID');
             $table->string('firstName', length: 255);
             $table->string('lastName', length: 255);
-            $table->string('profileBio', length: 500);
+            $table->string('profileBio', length: 500)->nullable();
+            $table->string("contact_prefix");
             $table->string('contactDetails', length: 11);
             $table->date('birthdate');
-            $table->string('address_num', length: 255);
-            $table->string('address_street', length: 255);
+            $table->integer('age');
+            $table->string('address_street_num', length: 255);
+            $table->string('address_barangay', length: 255);
             $table->string('address_city', length: 255);
             $table->string('address_region', length: 255);
             $table->timestamps();
@@ -60,7 +62,7 @@ return new class extends Migration {
         });
         Schema::create('user_milestones', function (Blueprint $table) {
             $table->id('userMilestone_ID');
-            $table->timestamps();
+            $table->timestamps();//do not remove
             $table->float('currentProgress');
             $table->boolean('status');
             $table->boolean('checked_in');
@@ -75,9 +77,13 @@ return new class extends Migration {
             $table->decimal('weight', 6, 2)->default(0);
             $table->decimal('bmi', 5, 2)->default(0);
             $table->string('bmi_classification', length: 255);
-            $table->string('medical_history', length: 999);
-            $table->boolean('hasIllness');
-            $table->boolean('hasInjuries');
+            $table->string('medical_history', length: 999)->nullable();
+            $table->boolean('physically_fit');
+            $table->boolean('operation');
+            $table->boolean('high_blood');
+            $table->boolean('heart_problem');
+            $table->string("emergency_contact_name");
+            $table->string('emergency_contact_num','11');
             $table->timestamps();
         });
         Schema::create('password_reset_tokens', function (Blueprint $table) {

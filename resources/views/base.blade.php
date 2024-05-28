@@ -14,8 +14,6 @@
 </head>
 
 <body>
-    
-
 
     @if (View::getSection('title') == 'Login' )
         <div class="container-fluid d-flex my-auto mx-auto align-items-center justify-content-center" style="height:75vh">

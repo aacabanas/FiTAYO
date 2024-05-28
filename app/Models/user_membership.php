@@ -12,14 +12,11 @@ class user_membership extends Model
     protected $table = "user_membership";
     protected $fillable = [
         'membership_type',
-        'membership_desc',
         'membership_plan',
         'start_date',
         'expiry_date',
         'next_payment',
-        'payment_status',
-        'Trainer',
-        'created_at'
+        'payment_status'
     ];
 
     public function user_profile(): BelongsTo

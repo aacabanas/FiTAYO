@@ -12,144 +12,312 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Session;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\File;
 
 class DataController extends Controller
 {
 
     //
-    public function register(Request $request){
-        $request->validate(get_config('register'));
-        $credentials = extract_data(\converter::get_converted('credential'),get_config('credential'),$request->only(get_config('credential')));
-        $profile = extract_data(\converter::get_converted('profile'),get_config('profile'),$request->only(get_config('profile')) );
-        $membership = extract_data(\converter::get_converted('membership'),get_config('membership'),$request->only(get_config('membership')));
-        $membership['membership_desc'] = "abcsadj";
-        $membership['payment_status'] = $membership['payment_status']=="Yes";
-        $membership['expiry_date'] = Carbon::now()->addMonth();
-        $membership['next_payment'] = Carbon::now()->addMonth();
-        $profile['user_ID'] = latest_mem()+1;
-        $profile['userMem_ID'] = latest_mem()+ 1;
-        User::create($credentials);
-        user_membership::create($membership);
-        user_profile::create($profile);
+    public function register(Request $request)
+    {
+
+        $request->validate([
+            "regMem" => "required",#in user_membership also
+            #Model user_profile
+            "regFName" => "required",
+            "regLName" => "required",
+            "regContactPrefix" => "required",
+            "regContactDetails" => "required",
+            "regBirthdate" => "required",
+            "regRegion" => "required",
+            "regCity" => "required",
+            "regBarangay" => "required",
+            "regStreetNum" => "required",
+            #Model user_membership
+            "regMembershipPlan" => "required",
+            "regStartDate" => "required",
+            "regPaymentStatus" => "required",
+            #Model: User
+            "regUsername" => "required",
+            "regPassword" => "required",
+            "regEmail" => "required"
+        ]);
+        User::create([
+            "username" => $request->regUsername,
+            "email" => $request->regEmail,
+            "password" => Hash::make($request->password)
+        ]);
+
+        user_membership::create([
+            'membership_type' => $request->regMem,
+            "membership_plan" => $request->regMembershipPlan,
+            "start_date" => $request->regStartDate,
+            "expiry_date" => Carbon::parse($request->regStartDate)->addMonth(),
+            "next_payment" => Carbon::parse($request->regStartDate)->addMonth(),
+            "payment_status" => $request->regPaymentStatus == "Yes"
+        ]);
+        user_profile::create([
+            'firstName' => $request->regFName,
+            'lastName' => $request->regLName,
+            'contact_prefix' => $request->regContactPrefix,
+            'contactDetails' => $request->regContactDetails,
+            'birthdate' => $request->regBirthdate,
+            'age' => (int) Carbon::parse($request->regBirthdate)->diffInYears(Carbon::now()),
+            'address_street_num' => $request->regStreetNum,
+            'address_barangay' => $request->regBarangay,
+            'address_city' => $request->regCity,
+            'address_region' => $request->regRegion,
+            'user_ID' => latest_mem(),
+            'userMem_ID' => latest_mem()
+        ]);
+
         return back();
     }
-    public function getUser($id){
-        if($id>latest_mem()){
+    public function getUpdatable($id)
+    {
+        if ($id > latest_mem()) {
             return abort(404);
         }
         $cred = User::where('id', $id)->first();
         $prof = user_profile::where("profile_ID", $id)->first();
         $memb = user_membership::where("userMem_ID", $id)->first();
-        $assess = user_assessment::where("userAsses_ID",$id)->first();
+        $assess = user_assessment::where("userAsses_ID", $id)->first();
         return response()->json([
-            "viewDetail" => "Details of ".$prof->firstName." ".$prof->lastName, 
-            "viewEmail" => $cred->email,
-            "viewUsername" => $cred->username,
+            "editFName" => $prof->firstName,
+            "editLName" => $prof->lastName,
+            "editContactDetails" => $prof->contactDetails,
+            "editBirthdate" => $prof->birthdate,
+            "editAge" => $prof->age,
+            "editStreetNum" => $prof->address_street_num,
+            "editBarangay" => $prof->address_barangay,
+            "editCity" => $prof->address_city,
+            "editRegion" => $prof->address_region,
+            "editUsername" => $cred->username,
+            "editEmail" => $cred->email,
+            "editMembershipType" => $memb->membership_type,
+            "editMembershipPlan" => $memb->membership_plan,
+            "editMembershipDesc" => $memb->membership_desc,
+            "editStartDate" => $memb->start_date,
+            "editExpiryDate" => $memb->expiry_date,
+            "editNextPayment" => $memb->next_payment,
+            "editPaymentStatus" => $memb->payment_status == 1 ? "Yes" : "No",
+            "editTrainer" => $memb->Trainer,
+            "editHeight" => $assess->height,
+            "editWeight" => $assess->weight,
+            "editBMI" => $assess->bmi,
+            "editBMIType" => $assess->bmi_classification,
+            "editFit" => $assess->physically_fit == 1 ? "Yes" : "No",
+            "editOper" => $assess->operation == 1 ? "Yes" : "No",
+            "editHB" => $assess->high_blood == 1 ? "Yes" : "No",
+            "editHP" => $assess->heart_problem == 1 ? "Yes" : "No",
+            "editEmergName" => $assess->emergency_contact_name,
+            "editEmergNum" => $assess->emergency_contact_num,
+        ]);
+    }
+    public function getUser($id)
+    {
+        if ($id > latest_mem()) {
+            return abort(404);
+        }
+        $cred = User::where('id', $id)->first();
+        $prof = user_profile::where("profile_ID", $id)->first();
+        $memb = user_membership::where("userMem_ID", $id)->first();
+        $assess = user_assessment::where("userAsses_ID", $id)->first();
+        return response()->json([
+            "viewDetail" => "Details of " . $prof->firstName . " " . $prof->lastName,
             "viewFName" => $prof->firstName,
             "viewLName" => $prof->lastName,
             "viewContactDetails" => $prof->contactDetails,
             "viewBirthdate" => $prof->birthdate,
-            "viewAddressNum" => $prof->address_num,
-            "viewAddressStreet"=> $prof->address_street,
-            "viewAddressCity"=> $prof->address_city,
-            "viewAddressRegion" => $prof->address_region,
-            "viewProfileBio" =>$prof->profileBio,
+            "viewAge" => $prof->age,
+            "viewStreetNum" => $prof->address_street_num,
+            "viewBarangay" => $prof->address_barangay,
+            "viewCity" => $prof->address_city,
+            "viewRegion" => $prof->address_region,
+            "viewUsername" => $cred->username,
+            "viewEmail" => $cred->email,
             "viewMembershipType" => $memb->membership_type,
             "viewMembershipPlan" => $memb->membership_plan,
             "viewMembershipDesc" => $memb->membership_desc,
             "viewStartDate" => $memb->start_date,
             "viewExpiryDate" => $memb->expiry_date,
             "viewNextPayment" => $memb->next_payment,
-            "viewPaymentStatus" => $memb->payment_status == 1? "Yes" : "No",
-            'viewTrainer' => $memb->Trainer,
-            "viewHeight" => isNull($assess)?0:$assess->height,
-            "viewWeight" => isNull($assess)?0:$assess->weight,
-            "viewBMI" => isNull($assess)?0:$assess->bmi,
-            "viewBMIType" => isNull($assess)?"Unknown":$assess->bmi_classification,
-            "viewHasIllness" =>     (isNull($assess)?"Yes":$assess->hasIllness==1)    ?"Yes":"No",
-            "viewHasInjuries" =>    (isNull($assess)?"Yes":$assess->hasInjuries==1)   ?"Yes":"No",
-            "viewMedicalHistory" => isNull($assess)?"Unknown":$assess->medical_history
+            "viewPaymentStatus" => $memb->payment_status == 1 ? "Yes" : "No",
+            "viewTrainer" => $memb->Trainer,
+            "viewHeight" => $assess->height,
+            "viewWeight" => $assess->weight,
+            "viewBMI" => $assess->bmi,
+            "viewBMIType" => $assess->bmi_classification,
+            "viewFit" => $assess->physically_fit == 1 ? "Yes" : "No",
+            "viewOper" => $assess->operation == 1 ? "Yes" : "No",
+            "viewHB" => $assess->high_blood == 1 ? "Yes" : "No",
+            "viewHP" => $assess->heart_problem == 1 ? "Yes" : "No",
+            "viewEmergName" => $assess->emergency_contact_name,
+            "viewEmergNum" => $assess->emergency_contact_num,
         ]);
-        
-        
     }
-    public function update(Request $request,$what ,$id){
-        $request->validate(get_config($what));
-        $data = extract_data(\converter::get_converted($what),array_keys(get_config($what)),$request->only(array_keys(get_config($what))));
-        switch($what){
-            case "editCredential":
-                User::where("id", "=",$id)->update($data);
-                break;
-            case "editProfile":
-                user_profile::where("profile_ID", "=", $id)->update($data);
-                break;
-            case "editMembership":
-                user_membership::where("userMem_ID", "=", $id)->update($data);
-                break;
-            case "editAssessment":
-                $bmi = new \BMI($data['height'],$data['weight']);
-
-                $data["bmi"] = $bmi::$bmi;
-                $data['bmi_classification'] = $bmi::type();
-                $data['hasIllness'] = $data['hasIllness']=="Yes";
-                $data['hasInjuries'] = $data['hasInjuries']=="Yes";
-                user_assessment::where("userAsses_ID", "=", $id)->update($data);
-                break;
-        }
-        return back();
-
-    }
-    public function create_assessment(Request $request) {
-        $request->validate([
-            "userID" => "required",
-            "userWeight" => "required",
-            "userHeight" => "required",
-            "userMedHist" => "required",
-            "userHasIllness" => "required",
-            "userHasInjuries" => "required",
-        ]);
+    public function update(Request $request, $what)
+    {
         dd($request->all());
-        $bmi = new \BMI($request->userHeight,$request->userWeight);
-        $assessment = [
-            "userAsses_ID" =>$request->userID,
-            "profile_ID" => $request->userID,
-            "height" => $request->userHeight,
-            "weight" => $request->userWeight,
-            "bmi" => $bmi->bmi,
-            "bmi_classification" => $bmi::type(),
-            "medical_history" => $request->userMedHist,
-            "hasIllness" => $request->userHasIllness=="Yes",
-            "hasInjuries" => $request->userHasInjuries=="Yes",
-            "created_at" => Carbon::now()
-        ];
-        user_assessment::create();
-        return back();
-    }
+        if ($what == "credentials") {
+            $request->validate([
+                "editCredID" => "required",
+                "editUsername" => "required",
+                "editEmail" => "required"
+            ]);
+            User::where('id', $request->editCredID)->update([
+                "username" => $request->editUsername,
+                "email" => $request->editEmail
+            ]);
+        }
+        if ($what == "profile") {
+            $request->validate([
+                "editFName" => "required",
+                "editLName" => "required",
+                "editContactDetails" => "required",
+                "editBirthdate" => "required",
+                "editAge" => "required",
+                "editStreetNum" => "required",
+                "editBarangay" => "required",
+                "editCity" => "required",
+                "editRegion" => "required",
+            ]);
+            user_profile::where('profile_ID', $request->editProfID)->update(
+                [
+                    'firstName' => $request->editFName,
+                    'lastName' => $request->editLName,
+                    'contactDetails' => $request->editContactDetails,
+                    'birthdate' => $request->editBirthdate,
+                    'age' => $request->editAge,
+                    'address_street_num' => $request->editStreetNum,
+                    'address_barangay' => $request->editBarangay,
+                    'address_city' => $request->editCity,
+                    'address_region' => $request->editRegion,
+                ]
+            );
+        }
+        if ($what == "membership") {
+            $request->validate([
+                "editMembershipType" => "required",
+                "editMembershipPlan" => "required",
+                "editMembershipDesc" => "required",
+                "editStartDate" => "required",
+                "editExpiryDate" => "required",
+                "editNextPayment" => "required",
+                "editPaymentStatus" => "required",
+            ]);
+            user_membership::where("userMem_ID", $request->editMembID)->update([
+                'membership_type' => $request->editMembershipType,
+                'membership_plan' => $request->editMembershipPlan,
+                'membership_desc' => $request->editMembershipDesc,
+                'start_date' => $request->editStartDate,
+                'expiry_date' => $request->editExpiryDate,
+                'next_payment' => $request->editNextPayment,
+                'payment_status' => $request->editPaymentStatus
+            ]);
+        }
+        if ($what == "assessment") {
+            $request->validate([
+                "editHeight" => "required",
+                "editWeight" => "required",
+                "editBMI" => "required",
+                "editBMIType" => "required",
+                "editFit" => "required",
+                "editOper" => "required",
+                "editHB" => "required",
+                "editHP" => "required",
+                "editEmergName" => "required",
+                "editEmergNum" => "required"
+            ]);
+            user_assessment::where("userAsses_ID", $request->editAsseID)->update([
+                'height'                => $request->editHeight,
+                'weight'                => $request->editWeight,
+                'bmi'                   => $request->editBMI,
+                'bmi_classification'    => $request->editBMIType,
+                'physically_fit'        => $request->editFit,
+                'operation'             => $request->editOper,
+                'high_blood'            => $request->editHB,
+                'heart_problem'         => $request->editHP,
+                'emergency_contact_name'=> $request->editEmergName,
+                'emergency_contact_num' => $request->editEmergNum,
+            ]);
+        }
 
-    public function update_assessent(Request $request) {
+        return back();
+
+    }
+    public function create_assessment(Request $request)
+    {
+        $id = Auth::user()->id;
         $request->validate([
-            "userID" => "required",
-            "userWeight" => "required",
-            "userHeight" => "required",
-            "userMedHist" => "required",
-            "userHasIllness" => "required",
-            "userHasInjuries" => "required",
+            "regHeight" => "required",
+            "regWeight" => "required",
+            "regBMI" => "required",
+            "regBMIType" => "required",
+            "regFit" => "required",
+            "regOper" => "required",
+            "regBP" => "required",
+            "regHeart" => "required",
+            "regEmergName" => "required",
+            "regEmergContact" => "required"
         ]);
-        $bmi = new \BMI($request->userHeight,$request->userWeight);
-        user_assessment::where("userAssess_ID", "=", $request->userID)->update([
-            "height" => $request->userHeight,
-            "weight" => $request->userWeight,
-            "bmi" => $bmi->bmi,
-            "bmi_classification" => $bmi::type(),
-            "medical_history" => $request->userMedHist,
-            "hasIllness" => $request->userHasIllness,
-            "hasInjuries" => $request->userHasInjuries,
+        user_assessment::create([
+            'userAsses_ID' => $id,
+            'height' => $request->regHeight,
+            'weight' => $request->regWeight,
+            'bmi' => $request->regBMI,
+            'bmi_classification' => $request->regBMIType,
+            'physically_fit' => $request->regFit == "Yes",
+            'operation' => $request->regOper == "Yes",
+            'high_blood' => $request->regBP == "Yes",
+            'heart_problem' => $request->regHeart == "Yes",
+            'emergency_contact_name' => $request->regEmergName,
+            'emergency_contact_num' => $request->regEmergContact,
+            'profile_ID' => $id,
+            'medical_history' => ""
+
         ]);
+        return back();
     }
 
-    public function delete($id){
+
+
+    public function delete($id)
+    {
         User::find($id)->delete();
-        user_membership::where('userMem_ID',$id)->delete();
+        user_membership::where('userMem_ID', $id)->delete();
         return back();
+    }
+    public function get_region()
+    {
+        if (!Auth::check() || Auth::user()->user_type == "user") {
+            abort(404);
+        }
+        return response()->json(\JSON_DATA::get_regions());
+    }
+    public function get_cities($region_code)
+    {
+        if (!Auth::check() || Auth::user()->user_type == "user") {
+            abort(404);
+        }
+        return response()->json(\JSON_DATA::get_cities($region_code));
+    }
+    public function get_barangays($region_code, $city_code)
+    {
+        if (!Auth::check() || Auth::user()->user_type == "user") {
+            abort(404);
+        }
+        return response()->json(\JSON_DATA::get_barangays($region_code, $city_code));
+    }
+    public function phonenums()
+    {
+        if (!Auth::check() || Auth::user()->user_type == "user") {
+            abort(404);
+        }
+        return response()->json(File::json(public_path() . "\\json\\phonenums.json"));
+    }
+    public function flag($code)
+    {
+        return response()->file(public_path() . "\\flags\\" . $code . ".png");
     }
 }

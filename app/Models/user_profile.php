@@ -17,14 +17,14 @@ class user_profile extends Authenticatable
     protected $fillable = [
         'firstName',
         'lastName',
-        'profileBio',
+        'contact_prefix',
         'contactDetails',
         'birthdate',
-        'address_num',
-        'address_street',
+        'age',
+        'address_street_num',
+        'address_barangay',
         'address_city',
         'address_region',
-        'created_at',
         'user_ID',
         'userMem_ID'
         ];

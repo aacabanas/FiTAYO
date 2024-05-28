@@ -12,40 +12,27 @@ const click = (e)=>{document.getElementById(e).click()}
 $("#hasAssessment").text()==1?click('showModal'):null
 
 
-$("#alertBtn").on('click',function(e){
-    e.preventDefault()
-    $("#alertBtnPlace").addClass('d-none')
-    $("#alertPlace").removeClass('d-none')
-    
-    const fillables = [$("#userWeight"),$("#userHeight"),$("#userMedHist"),$("#userHasIllness"),$("#userHasInjuries")]
-    $.each(fillables,function(i,v){
-        if(i==3 || i==4){
-            v.attr('disabled','disabled')
-            return
-        }
-        v.attr('readonly','readonly')
-    })
 
-})
-$("#cancel").on('click',function(e){
-    e.preventDefault()
-    $("#alertPlace").addClass('d-none')
-    $("#alertBtnPlace").removeClass('d-none')
-    const fillables = [$("#userWeight"),$("#userHeight"),$("#userMedHist"),$("#userHasIllness"),$("#userHasInjuries")]
-    $.each(fillables,function(i,v){
-        if(i==3 || i==4){
-            v.removeAttr('disabled')
-            return
-        }
-        v.removeAttr('readonly')
-    })
-
-})
 // Handle dropdown menu clicks
 $('a[type="fitayo-exercise"]').on('click', function (e) {
     populateTable($(this).attr('data-lift'))
 })
 
+$("#regWeight,#regHeight").on('change',function(e){
+    var height = $("#regHeight").val()
+    var weight = $("#regWeight").val()
+    if(height == "" && weight == "")return
+    var user_bmi = bmi(height,weight)
+    $("#regBMI").val(user_bmi)
+    $("#regBMIType").val(bmi_type(user_bmi))
+})
+const bmi = function(height,weight){return Math.round((weight/Math.pow(height,2))*703)}
+const bmi_type = function(bmi){
+    if(bmi<18.5)return "Underweight"
+    if(bmi<=24.9) return "Normal"
+    if(bmi<=29.9) return "Overweight"
+    return "Obese"
+}
 // Populate the table with hardcoded data
 function populateTable(lift) {
     var tableRows = '';

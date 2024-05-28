@@ -32,8 +32,6 @@ export const view = {
     assessment : [
         $('#viewHeight'),
         $('#viewWeight'),
-        $('#viewBMI'),
-        $('#viewBMIType'),
         $('#viewHasIllness'),
         $('#viewHasInjuries'),
         $('#viewMedicalHistory')

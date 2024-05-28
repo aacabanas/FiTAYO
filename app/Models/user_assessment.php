@@ -17,10 +17,12 @@ class user_assessment extends Model
     'weight',
     'bmi',
     'bmi_classification',
-    'medical_history',
-    'hasIllness',
-    'hasInjuries',
-    'created_at',
+    'physically_fit',
+    'operation',
+    'high_blood',
+    'heart_problem',
+    'emergency_contact_name',
+    'emergency_contact_num',
     'profile_ID'
     ];
 }
