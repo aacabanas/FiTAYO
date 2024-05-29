@@ -6,7 +6,6 @@
 
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Leaderboard</title>
         <style>
             .container-fluid {
@@ -111,22 +110,108 @@
             </div>
         </div>
 
-        <footer class="container-fluid bg-orange text-white footer">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">Leaderboards</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Milestones</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">BMI Tracker</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
-                </li>
-            </ul>
-        </footer>
+        <div class="container-fluid bg-orange footer">
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-link active" id="navleaderboards" data-bs-toggle="tab" href="#nav-leaderboards" role="tab" aria-controls="nav-leaderboards" aria-selected="true">Leaderboards </a>
+            <a class="nav-link" id="navmilestones" data-bs-toggle="tab" href="#nav-milestones" role="tab" aria-controls="nav-milestones" aria-selected="false">Milestones</a>
+            <a href="#nav-bmi" class="nav-link" id="navbmi" role="tab" aria-controls="nav-bmi" aria-selected="false"  data-bs-toggle="tab">BMI Metrics</a>
+            <a href="#nav-profile" class="nav-link" id="navprofile" role="tab" aria-controls="nav-profile" aria-selected="false" data-bs-toggle="tab">Profile</a>
+        </div><br>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-leaderboards" role="tabpanel" aria-labelledby="navleaderboards">
+                <div class="row">
+                    Leaderboards
+                </div>
+            </div>
+            <div class="tab-pane" id="navmilestones" role="tabpanel" aria-labelledby="navmilestones">
+                Milestones
+            </div>
+            <div class="tab-pane" id="nav-bmi" role="tabpanel" aria-labelledby="navbmi">
+                <div class="row
+                @if ($assessment->bmi_classification=="Underweight")
+                        class=bg-secondary"
+                    @elseif($assessment->bmi_classification=="Normal")
+                        bg-primary"
+                    @elseif ($assessment->bmi_classification=="Overweight")
+                        bg-warning"
+                    @else
+                        bg-danger"
+                    @endif
+                >
+                    <div class="col">Height: {{$assessment->height}}inches</div>
+                    <div class="col">Weight: {{$assessment->weight}}lbs</div>
+                    
+                    
+                    
+                    
+                        <div class="col">BMI: {{$assessment->bmi}}</div>
+                        <div class="col">BMI Type: {{$assessment->bmi_classification}}</div>
+
+                    
+                </div>
+            </div>
+            <div class="tab-pane" id="nav-profile" role="tabpanel" aria-labelledby="navprofile">
+            <div class="row">
+                                <div class="col-2"><label class="form-label" for="viewFName">First
+                                        Name:&nbsp;</label></div>
+                                <div class="col-10"><input type="text" id="viewFName" class="form-control"
+                                        readonly="readonly" value="{{$profile->firstName}}"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewLName" class="form-label">Last
+                                        Name:&nbsp;</label></div>
+                                <div class="col-10"><input type="text" id="viewLName" class="form-control"
+                                        readonly="readonly" value="{{$profile->lastName}}"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewContactDetails" class="form-label">Contact
+                                        Details:</label></div>
+                                <div class="col-10"><input type="tel" id="viewContactDetails" class="form-control"
+                                        readonly="readonly" value="{{$profile->contactDetails}}"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewBirthdate"
+                                        class="form-label">Birthdate:&nbsp;</label></div>
+                                <div class="col-10"><input type="date" class="form-control"readonly="readonly" value="{{$profile->birthdate}}">
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewAge" class="form-label">Age</label></div>
+                                <div class="col-10"><input type="number" name="viewAge" id="viewAge" class="form-control" readonly="readonly" value="{{$profile->age}}"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewAddressNum" class="form-label">Address
+                                        Num:&nbsp;</label></div>
+                                <div class="col-10"><input type="text" id="viewAddressNum" class="form-control"
+                                        readonly="readonly" value="{{$profile->address_street_num}}"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewAddressStreet" class="form-label">Address
+                                        Barangay:&nbsp;</label></div>
+                                <div class="col-10"><input type="text" class="form-control" id="viewAddressStreet" value="{{$profile->address_barangay}}">
+                                </div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewAddressCity" class="form-label">Address
+                                        City:&nbsp;</label></div>
+                                <div class="col-10"><input type="text" id="viewAddressCity" class="form-control"
+                                        readonly="readonly" value="{{$profile->address_city}}"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewAddressRegion" class="form-label">Address
+                                        Region:&nbsp;</label></div>
+                                <div class="col-10"><input type="text" id="viewAddressRegion" class="form-control"
+                                        readonly="readonly" value="{{$profile->address_region}}"></div>
+                            </div><br>
+                            <div class="row">
+                                <div class="col-2"><label for="viewProfileBio" class="form-label">Profile
+                                        Bio:&nbsp;</label></div>
+                                <div class="col-10"><input type="text" id="viewProfileBio" class="form-control"
+                                        readonly="readonly" value="{{$profile->profileBio}}"></div>
+                            </div><br>
+            </div>
+        </div>
+        </div>
         @if ($withAssessment)
             <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                 id="showModal">
