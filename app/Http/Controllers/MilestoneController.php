@@ -83,4 +83,25 @@ class MilestoneController extends Controller
 
         return response()->json(['message' => 'Milestone advancement rejected successfully']);
     }
+    
+        public function store(Request $request)
+        {
+            // Validate the request data
+            $request->validate([
+                'currentProgress' => 'required|numeric',
+                'status' => 'required|string',
+                'checked_in' => 'required|date',
+            ]);
+    
+            // Create a new milestone without storing the result
+            user_milestones::create([
+                'currentProgress' => $request->currentProgress,
+                'status' => $request->status,
+                'checked_in' => $request->checked_in,
+            ]);
+    
+            // Redirect back with a success message
+            return back()->with('message', 'Milestone created successfully');
+        }
 }
+    
