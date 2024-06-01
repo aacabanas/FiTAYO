@@ -123,4 +123,16 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Service Providers
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify which service providers you want to load for your
+    | application. These will be registered on the service container and
+    | will be available to your application. Make sure to add the necessary
+    | aliases below if using Laravel's facades.
+    |
+    */
+
 ];

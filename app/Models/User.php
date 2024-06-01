@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(user_membership::class);
     }
+	
+	    public function userProfile()
+    {
+        return $this->hasOne(UserProfile::class, 'user_ID');
+    }
 }
