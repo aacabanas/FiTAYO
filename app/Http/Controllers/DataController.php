@@ -10,9 +10,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class DataController extends Controller
 {
@@ -22,6 +24,7 @@ class DataController extends Controller
     {
 
         $request->validate([
+            "regID" => "required",
             "regMem" => "required",#in user_membership also
             #Model user_profile
             "regFName" => "required",
@@ -67,10 +70,15 @@ class DataController extends Controller
             'address_barangay' => $request->regBarangay,
             'address_city' => $request->regCity,
             'address_region' => $request->regRegion,
-            'user_ID' => latest_mem(),
-            'userMem_ID' => latest_mem()
+            'user_ID' => $request->regID,
+            'userMem_ID' => $request->regID
         ]);
-
+        $id = $request->regID;
+        $username = base64_encode($request->regUsername);
+        $JSON = base64_encode(json_encode(["id"=>$id,"username"=>$username]));
+        $qr = QrCode::format('png')->size(200)->errorCorrection('H')->generate($JSON);
+        $file = "$id.png";
+        Storage::disk('qr')->put($file,$qr);
         return back();
     }
     public function getUpdatable($id)

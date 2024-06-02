@@ -10,7 +10,12 @@ return new class extends Migration {
      */
     public function up(): void
     {   
-        
+        Schema::create('login',function(Blueprint $table){
+            $table->id();
+            $table->integer('username');
+            $table->boolean('logged_in');
+            $table->timestamps();
+        });
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();

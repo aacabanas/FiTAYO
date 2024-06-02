@@ -22,6 +22,10 @@
                 aria-controls="assignto" aria-selected="false"><i class="fa-solid fa-gears"></i> Assign Trainer</a>
         </div>
         <div class="col border-dark">
+            <a href="#check" class="nav-link" id="nav-check" role="tab" aria-selected="false" aria-controls="check"
+                data-bs-toggle="tab">Check in/Check out</a>
+        </div>
+        <div class="col border-dark">
             <a class="text-center nav-link justify-content-center" data-bs-toggle="dropdown" aria-expanded="false"><i
                     class="fa-solid fa-user" data-bs-toggle="dropdown" aria-expanded="false"></i> Hello
                 {{ auth()->user()->username }}</a>
@@ -225,7 +229,9 @@
                     aria-labelledby="nav-regmemlist"><br>
                     <form action="{{ route('register.POST') }}" method="post">
                         @csrf
+                        <input type="hidden" name="regID" value="{{ $id }}">
                         <input type="text" name="regMem" id="regMem" class="d-none" value="Member">
+
                         <div class="row text-center border border-black">
                             <h4>Profile</h4>
                         </div>
@@ -320,7 +326,7 @@
                             </div>
                             <div class="col-6">
                                 <label for="regStartDate" class="form-label">Start Date:&nbsp;</label>
-                                <input type="date" name="regStartDate" id="regStartDate" class="form-control">
+                                <input type="date" name="regStartDate" id="regStartDate" class="form-control" value="{{date('Y-m-d')}}">
                             </div>
                         </div><br>
                         <div class="row justify-content-center align-items-center">
@@ -371,6 +377,18 @@
             </div>
         </div>
         <div class="tab-pane" id="assignto" role="tabpanel" aria-labelledby="nav-assign">Assign Trainer</div>
+        <div class="tab-pane" id="check" role="tabpanel"
+            aria-labelledby="nav-check">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <div id="qr-reader"></div>
+                    <div id="qr-result"></div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+
+        </div>
 
     </div>
     <div class="modal fade" tabindex="-1" id="viewMemberModal" aria-hidden="true">
@@ -671,7 +689,7 @@
                             </div>
                         </div>
                         <br>
-                        
+
                         <br>
                     </div>
                 </div>
@@ -726,14 +744,16 @@
                         <input type="hidden" name="editProfID" id="editProfID">
                         <div class="row">
                             <div class="col-2"><label for="editFName" class="form-label">First Name:</label></div>
-                            <div class="col-10"><input type="text" name="editFName" id="editFName" class="form-control" required="required"></div>
+                            <div class="col-10"><input type="text" name="editFName" id="editFName"
+                                    class="form-control" required="required"></div>
                         </div><br>
                         <div class="row">
                             <div class="col-2">
                                 <label for="editLName" class="form-label">Last Name:</label>
                             </div>
                             <div class="col-10">
-                                <input type="text" name="editLName" id="editLName" class="form-control" required="required">
+                                <input type="text" name="editLName" id="editLName" class="form-control"
+                                    required="required">
                             </div>
                         </div><br>
                         <div class="row">
@@ -741,7 +761,8 @@
                                 <label for="editContactDetails" class="form-label">Contact Details:</label>
                             </div>
                             <div class="col-10">
-                                <input type="tel" name="editContactDetails" id="editContactDetails" class="form-control" required="required">
+                                <input type="tel" name="editContactDetails" id="editContactDetails"
+                                    class="form-control" required="required">
 
                             </div>
                         </div><br>
@@ -750,7 +771,8 @@
                                 <label for="editBirthdate" class="form-label">Birthdate:</label>
                             </div>
                             <div class="col-10">
-                                <input type="date" name="editBirthdate" id="editBirthdate" class="form-control" required="required">
+                                <input type="date" name="editBirthdate" id="editBirthdate" class="form-control"
+                                    required="required">
 
                             </div>
                         </div><br>
@@ -759,7 +781,8 @@
                                 <label for="editAge" class="form-label">Age:</label>
                             </div>
                             <div class="col-10">
-                                <input type="num" name="editAge" id="editAge" class="form-control" required="required">
+                                <input type="num" name="editAge" id="editAge" class="form-control"
+                                    required="required">
                             </div>
                         </div><br>
                         <div class="row">
@@ -767,7 +790,8 @@
                                 <label for="editStreetNum" class="form-label">Street number/Street:</label>
                             </div>
                             <div class="col-10">
-                                <input type="text" name="editStreetNum" id="editStreetNum" class="form-control" required="required">
+                                <input type="text" name="editStreetNum" id="editStreetNum" class="form-control"
+                                    required="required">
                             </div>
                         </div><br>
                         <div class="row">
@@ -775,7 +799,8 @@
                                 <label for="editBarangay" class="form-label">Barangay:</label>
                             </div>
                             <div class="col-10">
-                                <input type="text" name="editBarangay" id="editBarangay" class="form-control" required="required">
+                                <input type="text" name="editBarangay" id="editBarangay" class="form-control"
+                                    required="required">
                             </div>
                         </div><br>
                         <div class="row">
@@ -783,7 +808,8 @@
                                 <label for="editCity" class="form-label">City:</label>
                             </div>
                             <div class="col-10">
-                                <input type="text" name="editCity" id="editCity" class="form-control" required="required">
+                                <input type="text" name="editCity" id="editCity" class="form-control"
+                                    required="required">
                             </div>
                         </div><br>
                         <div class="row">
@@ -791,7 +817,8 @@
                                 <label for="editRegion" class="form-label">Region:</label>
                             </div>
                             <div class="col-10">
-                                <input type="text" name="editRegion" id="editRegion" class="form-control" required="required">
+                                <input type="text" name="editRegion" id="editRegion" class="form-control"
+                                    required="required">
                             </div>
                         </div><br>
                         <div class="row"><button type="submit" class="btn btn-primary">Submit</button></div>
@@ -805,20 +832,20 @@
                         <div class="row">
                             <div class="col-2"><label for="editMembershipType" class="form-label">Membership
                                     Type:&nbsp;</label></div>
-                            <div class="col-10"><input type="text" name="editMembershipType"
-                                    id="editMembershipType" class="form-control" required="required"></div>
+                            <div class="col-10"><input type="text" name="editMembershipType" id="editMembershipType"
+                                    class="form-control" required="required"></div>
                         </div><br>
                         <div class="row">
                             <div class="col-2"><label for="editMembershipPlan" class="form-label">Membership
                                     Plan:&nbsp;</label></div>
-                            <div class="col-10"><input type="text" name="editMembershipPlan"
-                                    id="editMembershipPlan" class="form-control" required="required"></div>
+                            <div class="col-10"><input type="text" name="editMembershipPlan" id="editMembershipPlan"
+                                    class="form-control" required="required"></div>
                         </div><br>
                         <div class="row">
                             <div class="col-2"><label for="editMembershipDesc" class="form-label">Membership
                                     Desc:&nbsp;</label></div>
-                            <div class="col-10"><input type="text" name="editMembershipDesc"
-                                    id="editMembershipDesc" class="form-control" required="required"></div>
+                            <div class="col-10"><input type="text" name="editMembershipDesc" id="editMembershipDesc"
+                                    class="form-control" required="required"></div>
                         </div><br>
                         <div class="row">
                             <div class="col-2"><label for="editStartDate" class="form-label">Start
@@ -841,18 +868,18 @@
                         <div class="row">
                             <div class="col-2"><label for="editPaymentStatus" class="form-label">Payment
                                     Status&nbsp;</label></div>
-                            <div class="col-10"><input type="text" name="editPaymentStatus"
-                                    id="editPaymentStatus" class="form-control" required="required"></div>
+                            <div class="col-10"><input type="text" name="editPaymentStatus" id="editPaymentStatus"
+                                    class="form-control" required="required"></div>
                         </div><br>
                         <div class="row">
                             <div class="col-2"><label for="editTrainer" class="form-label">Trainer:&nbsp;</label>
                             </div>
                             <div class="col-10">
-                                <input type="text" name="editTrainer" required="required" id="editTrainer" class="form-control"
-                                   >
+                                <input type="text" name="editTrainer" required="required" id="editTrainer"
+                                    class="form-control">
                             </div>
                         </div>
-                        
+
                         <div class="row"><button type="submit" class="btn btn-primary">Submit</button></div>
                     </form><br>
                     <div class="row text-center border border-black">
@@ -866,7 +893,7 @@
                             </div>
                             <div class="col-10">
                                 <input type="number" step="0.01" name="editHeight" id="editHeight"
-                                    class="form-control" >
+                                    class="form-control">
                             </div>
                         </div><br>
                         <div class="row">
@@ -874,19 +901,19 @@
                             </div>
                             <div class="col-10">
                                 <input type="number" name="editWeight" id="editWeight" class="form-control"
-                                     step="0.01">
+                                    step="0.01">
                             </div>
                         </div><br>
                         <div class="row">
                             <div class="col-2"><label for="editBMI" class="form-label">BMI:&nbsp;</label></div>
                             <div class="col-10"><input type="number" name="editBMI" id="editBMI"
-                                    class="form-control"  step="0.01"></div>
+                                    class="form-control" step="0.01"></div>
                         </div><br>
                         <div class="row">
                             <div class="col-2"><label for="editBMIType" class="form-label">BMI
                                     Classification:&nbsp;</label></div>
                             <div class="col-10"><input type="text" name="editBMIType" id="editBMIType"
-                                    class="form-control" ></div>
+                                    class="form-control"></div>
                         </div><br>
                         <div class="row">
                             <div class="col-2"><label for="editFit" class="form-label">Physically Fit?</label>
@@ -895,12 +922,12 @@
                                 <div class="form-radio form-radio-inline">
                                     <label class="form-radio-label" for="editFit">Yes</label>
                                     <input class="form-radio-input" type="radio" name="editFit" id="editFit"
-                                        value="Yes"  >
+                                        value="Yes">
                                 </div>
                                 <div class="form-radio form-radio-inline">
                                     <label class="form-radio-label" for="editFit">No</label>
                                     <input class="form-radio-input" type="radio" name="editFit" id="editFit"
-                                        value="No"  >
+                                        value="No">
                                 </div>
                             </div>
                         </div>
@@ -912,12 +939,12 @@
                                 <div class="form-radio form-radio-inline">
                                     <label class="form-radio-label" for="editOper">Yes</label>
                                     <input class="form-radio-input" type="radio" name="editOper" id="editOper"
-                                        value="Yes"  >
+                                        value="Yes">
                                 </div>
                                 <div class="form-radio form-radio-inline">
                                     <label class="form-radio-label" for="editOper">No</label>
                                     <input class="form-radio-input" type="radio" name="editOper" id="editOper"
-                                        value="No"  >
+                                        value="No">
                                 </div>
                             </div>
                         </div>
@@ -929,12 +956,12 @@
                                 <div class="form-radio form-radio-inline">
                                     <label class="form-radio-label" for="editHB">Yes</label>
                                     <input class="form-radio-input" type="radio" name="editHB" id="editHB"
-                                        value="Yes"  >
+                                        value="Yes">
                                 </div>
                                 <div class="form-radio form-radio-inline">
                                     <label class="form-radio-label" for="editHB">No</label>
                                     <input class="form-radio-input" type="radio" name="editHB" id="editHB"
-                                        value="No"  >
+                                        value="No">
                                 </div>
                             </div>
                         </div>
@@ -947,41 +974,42 @@
                                 <div class="form-radio form-radio-inline">
                                     <label class="form-radio-label" for="editHP">Yes</label>
                                     <input class="form-radio-input" type="radio" name="editHP" id="editHP"
-                                        value="Yes"  >
+                                        value="Yes">
                                 </div>
                                 <div class="form-radio form-radio-inline">
                                     <label class="form-radio-label" for="editHP">No</label>
                                     <input class="form-radio-input" type="radio" name="editHP" id="editHP"
-                                        value="No"  >
+                                        value="No">
                                 </div>
                             </div>
                         </div>
                         <br>
-                    <div class="row">
-                        <div class="col-2"><label for="editEmergName" class="form-label">Emergency Contact
-                                Name</label></div>
-                        <div class="col-10"><input type="text" class="form-control" name="editEmergName"
-                                 id="editEmergName"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-2"><label for="editEmergNum" class="form-label">Emergency Contact
-                                Number</label></div>
-                        <div class="col-10"><input type="text" class="form-control" name="editEmergNum"
-                                 id="editEmergNum"></div>
-                    </div>
-                    
-                            
+                        <div class="row">
+                            <div class="col-2"><label for="editEmergName" class="form-label">Emergency Contact
+                                    Name</label></div>
+                            <div class="col-10"><input type="text" class="form-control" name="editEmergName"
+                                    id="editEmergName"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2"><label for="editEmergNum" class="form-label">Emergency Contact
+                                    Number</label></div>
+                            <div class="col-10"><input type="text" class="form-control" name="editEmergNum"
+                                    id="editEmergNum"></div>
+                        </div>
+
+
                         <div class="row"><button type="submit" class="btn btn-primary">Submit</button></div>
                     </form>
-                        </div>
-                        
-                    <br></div>
-                        
-                    </div>
                 </div>
-                
 
+                <br>
             </div>
+
         </div>
+    </div>
+
+
+    </div>
+    </div>
     </div>
 @endsection

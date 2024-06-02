@@ -29,7 +29,11 @@ return [
     */
 
     'disks' => [
-
+        'qr' => [
+            'driver' => 'local',
+            'root' => public_path('qrcodes'),
+            'throw' => false
+        ],
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),

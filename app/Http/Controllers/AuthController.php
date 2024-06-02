@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\DB;
 use Session;
 use Carbon\Carbon;
 use Brick\PhoneNumber\PhoneNumber;
-
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class AuthController extends Controller
 {
     private function convert_contact($contact): string
@@ -56,7 +57,11 @@ class AuthController extends Controller
             'user_ID' => latest_mem(),
             'userMem_ID' => latest_mem()
         ]);
-
+        $username = base64_encode("fitayo");
+        $JSON = base64_encode(json_encode(["id"=>1,"username"=>$username]));
+        $qr = QrCode::format('png')->size(200)->errorCorrection('H')->generate($JSON);
+        $file = "1.png";
+        Storage::disk('qr')->put($file,$qr);
     }
 
     private function getPlan(int $plan): string
@@ -132,7 +137,7 @@ class AuthController extends Controller
     }
 
     public function dashboard()
-    {
+    {   
         if (Auth::check()) {
             if (Auth::user()->user_type == "user") {
                 return view('dashboard.user', ["withAssessment" => user_assessment::where('userAsses_ID', Auth::id())->first() == null,"profile" => user_profile::where('profile_ID',Auth::id())->first(),"assessment"=>user_assessment::where("userAsses_ID",Auth::id())->first()]);
@@ -140,7 +145,8 @@ class AuthController extends Controller
             return view('dashboard.index', [
                 "members" => members(),
                 "member_count" => user_membership::where("membership_type", "Member")->count(),
-                "monthly" => user_membership::whereMonth('created_at', "=", date('m'))->where("membership_type", "Member")->count()
+                "monthly" => user_membership::whereMonth('created_at', "=", date('m'))->where("membership_type", "Member")->count(),
+                "id" => User::count()+1
             ]);
         }
         return redirect("login")->withSuccess('Opps! You do not have access');

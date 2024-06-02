@@ -10,4 +10,7 @@ class QRController extends Controller
     {
         return view('qr_code_page');
     }
+    public function get($id){
+        return response()->file(public_path("qrcodes\\$id.png"));
+    }
 }
