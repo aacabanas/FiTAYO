@@ -230,7 +230,6 @@
                     <img src="{{ auth()->user()->profile_image ? asset('images/' . auth()->user()->profile_image) : asset('images/blankprofile.png') }}" alt="Profile Picture" class="rounded-circle profile-picture">
                     <h4 class="profile-name">{{ auth()->user()->userProfile->firstName }} {{ auth()->user()->userProfile->lastName }}</h4>
                     <p class="profile-email">{{ auth()->user()->email }}</p>
-                    <p class="profile-plan">Monthly plan</p>
                 </div>
                 <div class="profile-body">
                     <div class="row">
@@ -247,7 +246,7 @@
                             </a>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
-                            <a href="#" class="profile-button w-100">
+                            <a href="{{ route('profile.membership') }}" class="profile-button w-100">
                                 <i class="fa fa-id-card"></i>
                                 <span class="profile-button-text">Membership Details</span>
                             </a>

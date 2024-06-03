@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserProfile;
+use App\Models\UserMembership;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,20 +47,17 @@ class ProfileController extends Controller
             $image = $request->file('profile_image');
             $imageSize = $image->getSize();
 
-            // Resize the image if it exceeds the maximum resolution
             if ($imageSize > 2048 * 1024) {
                 $image = Image::make($image)->resize(800, null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
-                })->encode('jpg', 75); // Adjust quality as needed
+                })->encode('jpg', 75);
             }
 
-            // Delete the old profile image if it exists
             if ($userProfile->profile_image && $userProfile->profile_image !== 'blankprofile.png') {
                 @unlink(public_path('images/' . $userProfile->profile_image));
             }
 
-            // Save the new profile image
             $imageName = uniqid() . '.jpg';
             $imagePath = public_path('images/' . $imageName);
             Image::make($image)->save($imagePath);
@@ -79,12 +77,26 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $userProfile = UserProfile::where('user_ID', $user->id)->first();
-    
+
         if (!$userProfile) {
             return back()->withErrors(['message' => 'User profile not found.']);
         }
-    
+
         return view('dashboard.user', compact('userProfile', 'user'));
     }
-    
+
+    public function membership()
+    {
+
+        $userMembership = auth()->user()->userMembership;
+
+        return view('profile.membership', ['userMembership' => $userMembership]);
+    }
+	
+	public function changeSubscriptionPlan()
+{
+    // Handle the logic for changing subscription plan
+    return view('profile.change_subscription_plan');
+}
+
 }

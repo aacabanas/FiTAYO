@@ -49,16 +49,16 @@
     }
 
     .scan-me i {
-        margin-right: 10px; /* Add margin to the right of the icon */
+        margin-right: 10px;
     }
 
     .scan-me-text {
-        margin-left: 10px; /* Add margin to the left of the text */
+        margin-left: 10px; 
     }
 
     .qr-instruction {
         margin-top: 10px;
-        font-size: 1.2em; /* Increased font size */
+        font-size: 1.2em; 
         color: #212529;
     }
 
