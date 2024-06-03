@@ -12,13 +12,16 @@ window.change_phone = function(code){
     $("#regContactPrefix").val(code)
 }
 
-function success(data){
+
+new Html5QrcodeScanner('qr-reader',{fps:20,qrbox:{width:250,height:250}}).render((data)=>{
+
     var decoded = JSON.parse(base64.decode(data))
-    var new_ = {id:decoded.id,username:base64.decode(decoded.username)}
-    console.log(new_)
-}
-const qr = new Html5QrcodeScanner('qr-reader',{fps:20})
-qr.render(success)
+    $.each(decoded,function(k,v){
+        $(`#cin${k}`).val(v)
+        $(`#co${k}`).val(v)
+    })
+    
+})
 $.getJSON("/regions",function(data){
     
     $.each(data,function(i,v){

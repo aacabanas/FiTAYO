@@ -10,10 +10,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class DataController extends Controller
@@ -50,7 +50,6 @@ class DataController extends Controller
             "email" => $request->regEmail,
             "password" => Hash::make($request->password)
         ]);
-
         user_membership::create([
             'membership_type' => $request->regMem,
             "membership_plan" => $request->regMembershipPlan,
@@ -73,12 +72,7 @@ class DataController extends Controller
             'user_ID' => $request->regID,
             'userMem_ID' => $request->regID
         ]);
-        $id = $request->regID;
-        $username = base64_encode($request->regUsername);
-        $JSON = base64_encode(json_encode(["id"=>$id,"username"=>$username]));
-        $qr = QrCode::format('png')->size(200)->errorCorrection('H')->generate($JSON);
-        $file = "$id.png";
-        Storage::disk('qr')->put($file,$qr);
+        generate_json($request->regID, $request->regUsrname);
         return back();
     }
     public function getUpdatable($id)
@@ -110,16 +104,16 @@ class DataController extends Controller
             "editNextPayment" => $memb->next_payment,
             "editPaymentStatus" => $memb->payment_status == 1 ? "Yes" : "No",
             "editTrainer" => $memb->Trainer,
-            "editHeight" => ($assess==null)?0:$assess->height,
-            "editWeight" => ($assess==null)?0:$assess->weight,
-            "editBMI" => ($assess==null)?0:$assess->bmi,
-            "editBMIType" => ($assess==null)?null:$assess->bmi_classification,
-            "editFit" => ($assess==null)?"No":($assess->physically_fit == 1 ? "Yes" : "No"),
-            "editOper" => ($assess==null)?"No":($assess->operation == 1 ? "Yes" : "No"),
-            "editHB" => ($assess==null)?"No":($assess->high_blood == 1 ? "Yes" : "No"),
-            "editHP" => ($assess==null)?"No":($assess->heart_problem == 1 ? "Yes" : "No"),
-            "editEmergName" => ($assess==null)?"":$assess->emergency_contact_name,
-            "editEmergNum" => ($assess==null)?"":$assess->emergency_contact_num,
+            "editHeight" => ($assess == null) ? 0 : $assess->height,
+            "editWeight" => ($assess == null) ? 0 : $assess->weight,
+            "editBMI" => ($assess == null) ? 0 : $assess->bmi,
+            "editBMIType" => ($assess == null) ? null : $assess->bmi_classification,
+            "editFit" => ($assess == null) ? "No" : ($assess->physically_fit == 1 ? "Yes" : "No"),
+            "editOper" => ($assess == null) ? "No" : ($assess->operation == 1 ? "Yes" : "No"),
+            "editHB" => ($assess == null) ? "No" : ($assess->high_blood == 1 ? "Yes" : "No"),
+            "editHP" => ($assess == null) ? "No" : ($assess->heart_problem == 1 ? "Yes" : "No"),
+            "editEmergName" => ($assess == null) ? "" : $assess->emergency_contact_name,
+            "editEmergNum" => ($assess == null) ? "" : $assess->emergency_contact_num,
         ]);
     }
     public function getUser($id)
@@ -237,15 +231,15 @@ class DataController extends Controller
                 "editEmergNum" => "required"
             ]);
             user_assessment::where("userAsses_ID", $request->editAsseID)->update([
-                'height'                => $request->editHeight,
-                'weight'                => $request->editWeight,
-                'bmi'                   => $request->editBMI,
-                'bmi_classification'    => $request->editBMIType,
-                'physically_fit'        => $request->editFit,
-                'operation'             => $request->editOper,
-                'high_blood'            => $request->editHB,
-                'heart_problem'         => $request->editHP,
-                'emergency_contact_name'=> $request->editEmergName,
+                'height' => $request->editHeight,
+                'weight' => $request->editWeight,
+                'bmi' => $request->editBMI,
+                'bmi_classification' => $request->editBMIType,
+                'physically_fit' => $request->editFit,
+                'operation' => $request->editOper,
+                'high_blood' => $request->editHB,
+                'heart_problem' => $request->editHP,
+                'emergency_contact_name' => $request->editEmergName,
                 'emergency_contact_num' => $request->editEmergNum,
             ]);
         }
@@ -291,8 +285,12 @@ class DataController extends Controller
 
     public function delete($id)
     {
-        User::find($id)->delete();
-        user_membership::where('userMem_ID', $id)->delete();
+        if (File::exists(public_path('qrcodes') . "\\$id.png")) {
+            File::delete(public_path('qrcodes') . "\\$id.png");
+            User::find($id)->delete();
+            user_membership::where('userMem_ID', $id)->delete();
+        }
+
         return back();
     }
     public function get_region()

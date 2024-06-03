@@ -51,7 +51,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Daily Check-in</h5>
-                            <p class="card-text">(rt count)</p>
+                            <p class="card-text">{{$checkincount}}</p>
                         </div>
                     </div>
                 </div>
@@ -379,13 +379,46 @@
         <div class="tab-pane" id="assignto" role="tabpanel" aria-labelledby="nav-assign">Assign Trainer</div>
         <div class="tab-pane" id="check" role="tabpanel"
             aria-labelledby="nav-check">
-            <div class="row">
-                <div class="col-2"></div>
-                <div class="col-8">
+            <div class="container">
+                
                     <div id="qr-reader"></div>
-                    <div id="qr-result"></div>
+                    <br>
+                    
+            </div>
+            <div class="container">
+                <div id="qr-result">
+                    <div class="row">
+                        <div class="col-6">
+                            <form action="{{route('check_in')}}" method="post">
+                                @csrf
+                                <div class="row">
+                                    <button type="submit" class="btn btn-success">Check-in</button>
+                                </div>
+                                <br>                        
+                                <input class="d-none" type="number" name="cinid" id="cinid" required="required"><br>
+                                <input class="d-none" type="text" name="cinusername" id="cinusername" required="required">
+                            </form>
+                        </div>
+                        <div class="col-6">
+                            <form action="{{route('check_out')}}" method="post">
+                                @csrf
+                                <div class="row">
+                                    <button type="submit" class="btn btn-danger">Check-out</button>
+                                </div>
+                                <br>                        
+                                <input class="d-none" type="number" name="coid" id="coid" required="required"><br>
+                                <input class="d-none" type="text" name="cousername" id="cousername" required="required">
+                            </form>
+                            
+                            
+                        </div>
+                    </div>
+
+                    
                 </div>
-                <div class="col-2"></div>
+            </div>
+            <div class="row">
+                
             </div>
 
         </div>

@@ -31,7 +31,7 @@ return [
     'disks' => [
         'qr' => [
             'driver' => 'local',
-            'root' => public_path('qrcodes'),
+            'root' => public_path('qrcodes\\'),
             'throw' => false
         ],
         'local' => [

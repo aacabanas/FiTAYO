@@ -31,7 +31,7 @@ class AuthController extends Controller
     {
         User::create([
             "username" => "fitayo",
-            "email" => "mail@mail.com",
+            "email" => "mail1@mail.com",
             "password" => Hash::make("passw"),
         ]);
 
@@ -58,10 +58,7 @@ class AuthController extends Controller
             'userMem_ID' => latest_mem()
         ]);
         $username = base64_encode("fitayo");
-        $JSON = base64_encode(json_encode(["id"=>1,"username"=>$username]));
-        $qr = QrCode::format('png')->size(200)->errorCorrection('H')->generate($JSON);
-        $file = "1.png";
-        Storage::disk('qr')->put($file,$qr);
+        generate_json(1,"fitayo");
     }
 
     private function getPlan(int $plan): string
@@ -146,7 +143,8 @@ class AuthController extends Controller
                 "members" => members(),
                 "member_count" => user_membership::where("membership_type", "Member")->count(),
                 "monthly" => user_membership::whereMonth('created_at', "=", date('m'))->where("membership_type", "Member")->count(),
-                "id" => User::count()+1
+                "id" => User::count()+1,
+                "checkincount" => check_in_count()
             ]);
         }
         return redirect("login")->withSuccess('Opps! You do not have access');
