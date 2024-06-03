@@ -4,8 +4,8 @@
 <div class="container text-center mt-5">
     <div class="row mt-5 justify-content-center">
         <div class="col-md-6">
-            <div class="qr-code-container">
-                <img src="{{ route('qr',auth()->user()->id) }}" alt="QR Code" class="img-fluid qr-code-image" id="qrcode"> 
+            <div class="qr-code-container shadow-lg">
+                <img src="{{ route('qr',auth()->user()->id) }}" alt="QR Code" class="img-fluid qr-code-image" id="qrcode">
                 <div class="scan-me">
                     <i class="fa fa-mobile"></i>
                     <span class="scan-me-text">SCAN ME</span>
@@ -22,9 +22,10 @@
         background-color: #f8f9fa;
         padding: 20px;
         border: 1px solid #dee2e6;
-        border-radius: 0.25rem;
+        border-radius: 10px;
         display: inline-block;
         text-align: center;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
 
     .qr-code-image {
@@ -43,7 +44,7 @@
         padding: 10px;
         background-color: #000;
         color: #fff;
-        border-radius: 0.25rem;
+        border-radius: 10px;
         font-size: 1.2em;
         font-weight: bold;
     }
@@ -53,12 +54,12 @@
     }
 
     .scan-me-text {
-        margin-left: 10px; 
+        margin-left: 10px;
     }
 
     .qr-instruction {
         margin-top: 10px;
-        font-size: 1.2em; 
+        font-size: 1.2em;
         color: #212529;
     }
 

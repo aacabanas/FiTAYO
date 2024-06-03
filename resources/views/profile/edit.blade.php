@@ -4,7 +4,7 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card shadow-sm" style="background-color: #f8f9fa; border-radius: 10px;">
+                <div class="card shadow-lg" style="background-color: #f8f9fa; border-radius: 10px;">
                     <div class="card-body">
                         <div class="text-center mb-4">
                             <form id="profileForm" method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
@@ -50,6 +50,7 @@
         .card {
             background-color: #f8f9fa;
             border: none;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
 
         .card-body {
