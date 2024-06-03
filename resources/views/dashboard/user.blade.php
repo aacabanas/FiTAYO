@@ -624,40 +624,41 @@
                     <p class="profile-email">{{ auth()->user()->email }}</p>
                     <p class="profile-plan">Monthly plan</p>
                 </div>
-                <div class="profile-body">
-                    <div class="row">
+				<div class="profile-body">
+					<div class="row">
+						<div class="col-12 col-md-6 mb-3">
+							<a href="{{ route('qr_code_page') }}" class="profile-button w-100">
+								<i class="fa fa-qrcode"></i>
+								<span class="profile-button-text">QR Code</span>
+							</a>
+						</div>
+						<div class="col-12 col-md-6 mb-3">
+							<a href="{{ route('profile.edit') }}" class="profile-button w-100">
+								<i class="fa fa-edit"></i>
+								<span class="profile-button-text">Edit Profile</span>
+							</a>
+						</div>
+						<div class="col-12 col-md-6 mb-3">
+							<a href="{{ route('profile.membership') }}" class="profile-button w-100">
+								<i class="fa fa-id-card"></i>
+								<span class="profile-button-text">Membership Details</span>
+							</a>
+						</div>
+						<div class="col-12 col-md-6 mb-3">
+							<a href="#" class="profile-button w-100">
+								<i class="fa fa-key"></i>
+								<span class="profile-button-text">Password and Security</span>
+							</a>
+						</div>
                         <div class="col-12 col-md-6 mb-3">
-                            <a href="{{ route('qr_code_page') }}" class="profile-button w-100">
-                                <i class="fa fa-qrcode"></i>
-                                <span class="profile-button-text">QR Code</span>
-                            </a>
-                        </div>
-                        <div class="col-12 col-md-6 mb-3">
-                            <a href="{{ route('profile.edit') }}" class="profile-button w-100">
-                                <i class="fa fa-edit"></i>
-                                <span class="profile-button-text">Edit Profile</span>
-                            </a>
-                        </div>
-                        <div class="col-12 col-md-6 mb-3">
-                            <a href="#" class="profile-button w-100">
-                                <i class="fa fa-id-card"></i>
-                                <span class="profile-button-text">Membership Details</span>
-                            </a>
-                        </div>
-                        <div class="col-12 col-md-6 mb-3">
-                            <a href="#" class="profile-button w-100">
-                                <i class="fa fa-key"></i>
-                                <span class="profile-button-text">Password and Security</span>
-                            </a>
-                        </div>
-                        <div class="col-12 col-md-6 mb-3">
-                            <a href="#" class="profile-button w-100">
+                            <a href="{{ route('profile.policies') }}" class="profile-button w-100">
                                 <i class="fa fa-file-alt"></i>
                                 <span class="profile-button-text">Policies and Regulations</span>
                             </a>
                         </div>
-                    </div>
-                </div>
+					</div>
+				</div>
+
             </div>
             </div>
         </div>

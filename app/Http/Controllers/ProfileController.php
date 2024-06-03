@@ -99,4 +99,9 @@ class ProfileController extends Controller
     return view('profile.change_subscription_plan');
 }
 
+public function policies()
+{
+    return view('profile.policies');
+}
+
 }

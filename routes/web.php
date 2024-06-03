@@ -31,13 +31,14 @@ Route::get('/qr-code', [QRController::class, 'show'])->name('qr_code_page');
 Route::get('/qr/{id}',[QRController::class,'get'])->name('qr');
 Route::post('/check-in',[QRController::class,'check_in'])->name('check_in');
 Route::post('/check-out',[QRController::class,'check_out'])->name('check_out');
+
 // Profile routes
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile.show');
 Route::get('/profile/membership', 'App\Http\Controllers\ProfileController@membership')->name('profile.membership');
 Route::get('/profile/membership/change', [ProfileController::class, 'changeSubscriptionPlan'])->name('change_subscription_plan');
-
+Route::get('/profile/policies', [ProfileController::class, 'policies'])->name('profile.policies');
 
 Route::middleware('auth')->group(function () {
     Route::post('/milestone/{milestone_id}/update-progress', [MilestoneController::class, 'updateProgress']);
