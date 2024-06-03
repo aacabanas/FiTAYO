@@ -5,7 +5,7 @@
     <div class="row mt-5 justify-content-center">
         <div class="col-md-6">
             <div class="qr-code-container">
-                <img src="{{ asset('images/QRCode.png') }}" alt="QR Code" class="img-fluid qr-code-image">
+                <img src="{{ route('qr',auth()->user()->id) }}" alt="QR Code" class="img-fluid qr-code-image" id="qrcode"> 
                 <div class="scan-me">
                     <i class="fa fa-mobile"></i>
                     <span class="scan-me-text">SCAN ME</span>

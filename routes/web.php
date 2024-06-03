@@ -28,7 +28,9 @@ Route::get('/barangays/{region_code}/{city_code}',[DataController::class,'get_ba
 Route::get('/phonenums',[DataController::class,'phonenums']);
 Route::get('/flag/{code]',[DataController::class,'flag']);
 Route::get('/qr-code', [QRController::class, 'show'])->name('qr_code_page');
-
+Route::get('/qr/{id}',[QRController::class,'get'])->name('qr');
+Route::post('/check-in',[QRController::class,'check_in'])->name('check_in');
+Route::post('/check-out',[QRController::class,'check_out'])->name('check_out');
 // Profile routes
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');

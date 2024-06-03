@@ -14,7 +14,9 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^6.5.2",
+        "base-64": "^1.0.0",
         "bootstrap": "^5.3.3",
+        "html5-qrcode": "^2.3.8",
         "jquery": "^3.7.1"
     }
 }

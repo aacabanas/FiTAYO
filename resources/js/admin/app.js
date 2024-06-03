@@ -4,12 +4,24 @@ import jQuery from 'jquery';
 import 'bootstrap'
 import '@fortawesome/fontawesome-free/js/all';
 import { view,exceptions } from './properties';
-
+import base64 from 'base-64'
+import { Html5QrcodeScanner } from 'html5-qrcode';
 window.$ = jQuery
 window.change_phone = function(code){
     $("#contact_prefix_dropdown").text(`+${code}`)
     $("#regContactPrefix").val(code)
 }
+
+
+new Html5QrcodeScanner('qr-reader',{fps:20,qrbox:{width:250,height:250}}).render((data)=>{
+
+    var decoded = JSON.parse(base64.decode(data))
+    $.each(decoded,function(k,v){
+        $(`#cin${k}`).val(v)
+        $(`#co${k}`).val(v)
+    })
+    
+})
 $.getJSON("/regions",function(data){
     
     $.each(data,function(i,v){

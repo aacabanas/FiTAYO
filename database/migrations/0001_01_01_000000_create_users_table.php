@@ -10,7 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {   
-        
+        Schema::create('checkins',function(Blueprint $table){
+            $table->id();
+            $table->timestamps();
+            $table->integer('user_id');
+            $table->string('username');
+            $table->date('date');
+            $table->time('time_in');
+            $table->time('time_out')->nullable();
+        });
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
