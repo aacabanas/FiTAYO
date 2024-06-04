@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BmiRecord;
 use App\Models\user_milestones;
 use App\Models\MilestoneAdvancementRequest;
 use Illuminate\Http\Request;
@@ -102,6 +103,24 @@ class MilestoneController extends Controller
     
             // Redirect back with a success message
             return back()->with('message', 'Milestone created successfully');
+        }
+
+        public function storeBmiRecord(Request $request)
+        {   //BMI Records
+            $request->validate([
+                'bmi' => 'required|numeric',
+                'recorded_at' => 'required|date',
+            ]);
+
+            $user = Auth::user();
+
+            BmiRecord::create([
+                'user_id' => $user->id,
+                'bmi' => $request->bmi,
+                'recorded_at' => $request->recorded_at,
+            ]);
+
+         return response()->json(['message' => 'BMI record created successfully']);
         }
 }
     
