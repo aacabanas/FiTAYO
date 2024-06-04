@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\user_membership;
 use App\Models\UserProfile;
 use App\Models\UserMembership;
 use Illuminate\Http\Request;
@@ -87,21 +88,18 @@ class ProfileController extends Controller
 
     public function membership()
     {
-
-        $userMembership = auth()->user()->userMembership;
-
-        return view('profile.membership', ['userMembership' => $userMembership]);
+        return view('profile.membership', ['userMembership' => user_membership::where("userMem_ID", Auth::id())->first()]);
     }
-	
-	public function changeSubscriptionPlan()
-{
-    // Handle the logic for changing subscription plan
-    return view('profile.change_subscription_plan');
-}
 
-public function policies()
-{
-    return view('profile.policies');
-}
+    public function changeSubscriptionPlan()
+    {
+        // Handle the logic for changing subscription plan
+        return view('profile.change_subscription_plan');
+    }
+
+    public function policies()
+    {
+        return view('profile.policies');
+    }
 
 }

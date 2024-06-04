@@ -19,12 +19,19 @@ return new class extends Migration {
             $table->time('time_in');
             $table->time('time_out')->nullable();
         });
+        Schema::create('trainers',function(Blueprint $table ){
+            $table->id();
+            $table->timestamps();
+            $table->string('firstname');
+            $table->string('lastname');
+        });
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
             $table->string('user_type')->default('user');
+            $table->string('resetToken',length:128);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

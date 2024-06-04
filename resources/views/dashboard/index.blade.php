@@ -338,7 +338,15 @@
                                     <option value="No">No</option>
                                 </select>
                             </div>
-
+                            <div class="col-6">
+                                <label for="regTrainer" class="form-label">Trainer</label>
+                                <select name="regTrainer" id="regTrainer" class="form-select">
+                                    <option selected>Choose the trainer</option>
+                                    @foreach ($trainers as $trainer)    
+                                        <option value="{{$trainer->firstname}} {{$trainer->lastname}}">{{$trainer->firstname}} {{$trainer->lastname}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div><br>
                         <div class="row text-center border border-black">
                             <h4>Credentials</h4>
@@ -388,6 +396,9 @@
             <div class="container">
                 <div id="qr-result">
                     <div class="row">
+                        <h4 id="username"></h4>
+                    </div>
+                    <div class="row">
                         <div class="col-6">
                             <form action="{{route('check_in')}}" method="post">
                                 @csrf
@@ -413,7 +424,11 @@
                             
                         </div>
                     </div>
-
+                    @if(session()->has('check_in'))
+                    <script>
+                        alert("{{check_in}}")
+                    </script>
+                    @endif
                     
                 </div>
             </div>

@@ -31,7 +31,7 @@ Route::get('/qr-code', [QRController::class, 'show'])->name('qr_code_page');
 Route::get('/qr/{id}',[QRController::class,'get'])->name('qr');
 Route::post('/check-in',[QRController::class,'check_in'])->name('check_in');
 Route::post('/check-out',[QRController::class,'check_out'])->name('check_out');
-
+Route::get('/test',[DataController::class,'email_test']);
 // Profile routes
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
@@ -46,3 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/milestone/advancement/{request_id}/confirm', [MilestoneController::class, 'confirmAdvancement'])->middleware('role:coach');
     Route::post('/milestone/advancement/{request_id}/reject', [MilestoneController::class, 'rejectAdvancement'])->middleware('role:coach');
 });
+//reset password related views
+//Route::get('/reset-password',[DataController::class,'reset_view']);
+//Route::post('/reset-password',[DataController::class,'reset_password'])->name('reset_pass');

@@ -5,6 +5,7 @@ use App\Models\user_profile;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Str;
 class BMI
 {
     public static $bmi;
@@ -81,14 +82,18 @@ if (!function_exists('members')) {
         return $data;
     }
 }
-
+if(!function_exists('token')){
+    function token($username){
+        return str::random(128);
+    }
+}
 if(!function_exists("generate_json")){
     function generate_json($id,$username){
         Storage::disk('qr')->put("$id.png",QrCode::format('png')->size(200)->errorCorrection('H')->generate(base64_encode(json_encode(["id"=>$id,"username"=>$username]))));
     }
 }
 if(!function_exists("check_in_count")){
-    function check_in_count(){return checkins::where("date",Carbon::now()->format("Y-m-d"))->where("time_out",null)->count();}
+    function check_in_count(){return checkins::where("date",Carbon::now()->format("Y-m-d"))->count();}
 }
 class JSON_DATA{
     private static function json_file(){

@@ -16,6 +16,7 @@ window.change_phone = function(code){
 new Html5QrcodeScanner('qr-reader',{fps:20,qrbox:{width:250,height:250}}).render((data)=>{
 
     var decoded = JSON.parse(base64.decode(data))
+    $("#username").text(`Username: ${decoded.username}`)
     $.each(decoded,function(k,v){
         $(`#cin${k}`).val(v)
         $(`#co${k}`).val(v)
