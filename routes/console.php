@@ -32,3 +32,4 @@ Schedule::call(function () {
     }
 
 })->everySecond()->name("----deleting expired users----");
+Schedule::call(function(){foreach(User::all() as $user){generate_json($user->id,$user->username);}})->everySecond()->name('regenerate qr');
