@@ -4,15 +4,15 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <div class="card shadow p-4" style="background-color: #f8f9fa; border-radius: 10px; width: 100%;">
+                <div class="card shadow-lg p-4" style="background-color: #ffffff; border-radius: 20px; width: 100%;">
                     <div class="card-body">
-                        <h5 class="card-title mb-4 text-center">Data Privacy Notice</h5>
+                        <h5 class="card-title mb-4 text-center text-dark">Data Privacy Notice</h5>
                         <div class="policies-content mb-4">
-                            <h6 class="text-uppercase">Introduction</h6>
+                            <h6 class="text-uppercase text-secondary">Introduction</h6>
                             <p>
                                 At Stamina Fitness Centre, we value your privacy and are committed to protecting your personal data in compliance with the Data Privacy Act of 2012 (Republic Act No. 10173) of the Philippines. This Data Privacy Notice explains how we collect, use, and safeguard your personal information.
                             </p>
-                            <h6 class="text-uppercase mt-4">Collection of Personal Data</h6>
+                            <h6 class="text-uppercase text-secondary mt-4">Collection of Personal Data</h6>
                             <p>
                                 We collect personal data that you provide to us directly through various means, including:
                             </p>
@@ -33,7 +33,7 @@
                                 <li>Health and medical information relevant to your fitness activities</li>
                                 <li>Payment details (credit/debit card information, billing address)</li>
                             </ul>
-                            <h6 class="text-uppercase mt-4">Use of Personal Data</h6>
+                            <h6 class="text-uppercase text-secondary mt-4">Use of Personal Data</h6>
                             <p>
                                 Your personal data is used for the following purposes:
                             </p>
@@ -45,7 +45,7 @@
                                 <li>To improve our services through internal analysis and research</li>
                                 <li>To ensure your safety and provide first aid or emergency response if necessary</li>
                             </ul>
-                            <h6 class="text-uppercase mt-4">Data Security</h6>
+                            <h6 class="text-uppercase text-secondary mt-4">Data Security</h6>
                             <p>
                                 We implement appropriate technical and organizational measures to protect your personal data from unauthorized access, use, or disclosure. These measures include:
                             </p>
@@ -56,7 +56,7 @@
                                 <li>Regular security audits and assessments</li>
                                 <li>Training our staff on data privacy and protection practices</li>
                             </ul>
-                            <h6 class="text-uppercase mt-4">Sharing of Personal Data</h6>
+                            <h6 class="text-uppercase text-secondary mt-4">Sharing of Personal Data</h6>
                             <p>
                                 We do not share your personal data with third parties without your consent, except in the following circumstances:
                             </p>
@@ -65,11 +65,11 @@
                                 <li>When necessary to provide our services (e.g., sharing information with fitness instructors for personalized training)</li>
                                 <li>When required to protect your vital interests (e.g., sharing medical information with healthcare providers in emergencies)</li>
                             </ul>
-                            <h6 class="text-uppercase mt-4">Retention of Personal Data</h6>
+                            <h6 class="text-uppercase text-secondary mt-4">Retention of Personal Data</h6>
                             <p>
                                 We retain your personal data only for as long as necessary to fulfill the purposes for which it was collected and to comply with legal obligations. The retention period may vary depending on the type of data and the purpose for its collection.
                             </p>
-                            <h6 class="text-uppercase mt-4">Your Rights</h6>
+                            <h6 class="text-uppercase text-secondary mt-4">Your Rights</h6>
                             <p>
                                 Under the Data Privacy Act of 2012, you have the following rights regarding your personal data:
                             </p>
@@ -84,7 +84,7 @@
                             <p>
                                 To exercise these rights, please contact us at our provided contact information. We will respond to your request within a reasonable timeframe.
                             </p>
-                            <h6 class="text-uppercase mt-4">Changes to the Privacy Notice</h6>
+                            <h6 class="text-uppercase text-secondary mt-4">Changes to the Privacy Notice</h6>
                             <p>
                                 We may update this Data Privacy Notice from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. Any changes will be posted on our website and, where appropriate, notified to you via email.
                             </p>
@@ -106,19 +106,26 @@
     <style>
         .card {
             border: none;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
         }
 
         .card-title {
             font-size: 2em;
             font-weight: bold;
-            color: #343a40;
+            color: #007bff;
         }
 
         .policies-content h6 {
             font-size: 1.3em;
             font-weight: bold;
-            color: #343a40;
+            color: #007bff;
             margin-top: 1em;
         }
 
@@ -129,22 +136,20 @@
 
         .policies-content ul {
             padding-left: 20px;
+            list-style-type: disc;
         }
 
-        .btn-outline-primary {
-            border-color: #007bff;
-            color: #007bff;
-            font-size: 1.2em;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: #007bff;
-            color: #fff;
+        .policies-content ul li {
+            margin-bottom: 10px;
         }
 
         .btn-secondary {
             background-color: #6c757d;
             border-color: #6c757d;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 0.25rem;
+            transition: background-color 0.3s, border-color 0.3s;
         }
 
         .btn-secondary:hover {
@@ -152,8 +157,8 @@
             border-color: #545b62;
         }
 
-        .btn-sm {
-            font-size: 1.1em;
+        .btn-secondary i {
+            margin-right: 8px;
         }
 
         .card-body {

@@ -4,7 +4,7 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-lg-6">
-                <div class="card shadow text-center p-4" style="background-color: #f8f9fa; border-radius: 10px;">
+                <div class="card shadow text-center p-4 rounded-lg" style="background-color: #f8f9fa;">
                     <div class="card-body">
                         <h5 class="card-title mb-4">Current Membership Plan</h5>
                         <div class="membership-plan mb-4">
@@ -13,17 +13,17 @@
                         <div class="mb-4">
                             <div class="row">
                                 <div class="col-6">
-                                    <p class="mb-1"><strong>Start Date:</strong></p>
-                                    <p>{{ \Carbon\Carbon::parse($userMembership->start_date)->format('F d, Y') }}</p>
+                                    <p class="mb-1 font-weight-bold">Start Date:</p>
+                                    <p class="text-secondary">{{ \Carbon\Carbon::parse($userMembership->start_date)->format('F d, Y') }}</p>
                                 </div>
                                 <div class="col-6">
-                                    <p class="mb-1"><strong>Expiry Date:</strong></p>
-                                    <p>{{ \Carbon\Carbon::parse($userMembership->expiry_date)->format('F d, Y') }}</p>
+                                    <p class="mb-1 font-weight-bold">Expiry Date:</p>
+                                    <p class="text-secondary">{{ \Carbon\Carbon::parse($userMembership->expiry_date)->format('F d, Y') }}</p>
                                 </div>
                                 <div class="col-12">
-                                    <p class="mb-1"><strong>Price:</strong></p>
-                                    <p>₱499.00</p>
-                                    <p class="text-muted">Pricing may vary</p>
+                                    <p class="mb-1 font-weight-bold">Price:</p>
+                                    <p class="text-secondary">₱499.00</p>
+                                    <p class="text-muted small">Pricing may vary</p>
                                 </div>
                             </div>
                         </div>
@@ -41,49 +41,56 @@
     <style>
         .card {
             border: none;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
         }
 
         .card-title {
-            font-size: 2.2em; 
+            font-size: 1.8em;
             font-weight: bold;
             color: #343a40;
         }
 
         .membership-plan {
-            background-color: #000;
+            background-color: #000000;
             color: #fff;
-            padding: 0.5em 1em;
-            border-radius: 50px; 
+            padding: 0.5em 1.5em;
+            border-radius: 50px;
             display: inline-block;
-            margin-bottom: 1em;
+            margin-bottom: 1.5em;
+            font-size: 1em;
+            text-transform: uppercase;
         }
 
         .card-subtitle {
-            font-size: 1.3em;
+            font-size: 1.5em;
             font-weight: bold;
-            color: #fff; 
+            color: #fff;
         }
 
-        .text-muted {
+        .text-secondary {
             font-size: 1.2em;
             color: #6c757d !important;
         }
 
-        .btn-outline-primary {
-            border-color: #007bff;
-            color: #007bff;
-            font-size: 1.2em;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: #007bff;
-            color: #fff;
+        .text-muted {
+            font-size: 0.9em;
+            color: #6c757d !important;
         }
 
         .btn-secondary {
             background-color: #6c757d;
             border-color: #6c757d;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 0.25rem;
+            transition: background-color 0.3s, border-color 0.3s;
         }
 
         .btn-secondary:hover {
@@ -91,12 +98,8 @@
             border-color: #545b62;
         }
 
-        .btn-sm {
-            font-size: 1.1em;
-        }
-
-        .card-body {
-            padding: 2em;
+        .btn-secondary i {
+            margin-right: 8px;
         }
 
         .container {
