@@ -36,7 +36,7 @@
             }
 
             .profile-header {
-                background-color: #f8f9fa;
+                background-color: #e7ae41;
                 padding: 20px;
                 border-bottom: 1px solid #dee2e6;
                 border-radius: 0.25rem 0.25rem 0 0;
@@ -618,7 +618,7 @@
                     @endif
                 </div>
                 <div class="tab-pane profile-section" id="nav-profile" role="tabpanel" aria-labelledby="navprofile">
-                <div class="profile-header text-center">
+                    <div class="profile-header text-center">
                     <img src="{{ auth()->user()->profile_image ? asset('images/' . auth()->user()->profile_image) : asset('images/blankprofile.png') }}" alt="Profile Picture" class="rounded-circle profile-picture">
                     <h4 class="profile-name">{{ auth()->user()->userProfile->firstName }} {{ auth()->user()->userProfile->lastName }}</h4>
                     <p class="profile-email">{{ auth()->user()->email }}</p>
@@ -775,6 +775,34 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <h6>Waiver</h6>
+                                        <p>In acceptance of my application for bodybuilding or group exercise by Stamina Fitness Centre, I:</p>
+                                        <ol>
+                                            <li>
+                                                Acknowledge and agree that I understand the nature of physical fitness activities I will participate in and that I am qualified, in good health, and in proper physical condition to participate.
+                                            </li>
+                                            <li>
+                                                Fully understand that: Martial arts (Taekwondo, Shotokan, Karate, Muay Thai, etc.), group exercise, and bodybuilding involve risks and dangers that may arise from my own actions or the actions of others participating in these activities. I understand that there may be other risks including economic loss or cost damages as a result of my participation.
+                                            </li>
+                                            <li>
+                                                Agree and warrant that I will examine and inspect each activity I participate in for physical fitness and body conditioning, and if I observe any condition which I consider unacceptable or dangerous, I will notify the authority in charge of the activity until the condition has been corrected to my satisfaction.
+                                            </li>
+                                            <li>
+                                                Hereby release and discharge Stamina Fitness Centre, the association, the academy, individual officers, and instructors from all liability, losses, claims, and demands should anything happen to me within the premises of Stamina Fitness Centre. If anyone on my behalf makes a claim against the management, I will hold each of them harmless as a result of such a claim.
+                                            </li>
+                                            <li>
+                                                Understand that the membership fee is non-transferable and non-refundable.
+                                            </li>
+                                        </ol>
+                                        <h6>Parental Consent</h6>
+                                        <p>
+                                            As the minor's parent or legal guardian, I fully understand the agreement above and believe that he/she is qualified to participate in the Physical Fitness activities of Stamina Fitness Centre.
+                                        </p>
+                                    </div>
+                                </div>
+
                                 @csrf
                                 <div class="row">
                                     <div class="col-12">
@@ -787,6 +815,7 @@
                 </div>
             </div>
         @endif
+
         @if ($withAssessment)
             <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal"
                 data-bs-target="#staticBackdrop" id="showModal">
