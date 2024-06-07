@@ -4,7 +4,7 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <div class="card shadow-lg p-4" style="background-color: #ffffff; border-radius: 20px; width: 100%;">
+                <div class="card shadow-lg p-4" style="background-color: #ffffff; border-radius: 10px; width: 100%;">
                     <div class="card-body">
                         <h5 class="card-title mb-4 text-center text-dark">Data Privacy Notice</h5>
                         <div class="policies-content mb-4">
@@ -109,11 +109,6 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
             border-radius: 20px;
             transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
         }
 
         .card-title {

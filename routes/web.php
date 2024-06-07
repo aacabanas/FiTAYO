@@ -6,6 +6,8 @@ use App\Http\Controllers\DataController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 Route::get("/", [AuthController::class, "index"])->name('index');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -41,6 +43,12 @@ Route::get('/profile/membership/change', [ProfileController::class, 'changeSubsc
 Route::get('/profile/policies', [ProfileController::class, 'policies'])->name('profile.policies');
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+
 Route::middleware('auth')->group(function () {
     Route::post('/milestone/{milestone_id}/update-progress', [MilestoneController::class, 'updateProgress']);
     Route::post('/milestone/{milestone_id}/verify-advancement', [MilestoneController::class, 'verifyAdvancement']);
@@ -50,3 +58,6 @@ Route::middleware('auth')->group(function () {
 //reset password related views
 //Route::get('/reset-password',[DataController::class,'reset_view']);
 //Route::post('/reset-password',[DataController::class,'reset_password'])->name('reset_pass');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

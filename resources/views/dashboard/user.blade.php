@@ -652,7 +652,7 @@
                             </a>
                         </div>
                         <div class="col-12 col-md-6 mb-3">
-                            <a href="#" class="profile-button w-100">
+                        <a href="{{ route('password.request') }}" class="profile-button w-100">
                                 <i class="fa fa-key"></i>
                                 <span class="profile-button-text">Password and Security</span>
                             </a>
