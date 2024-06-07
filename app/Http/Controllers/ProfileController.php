@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\user_membership;
 use App\Models\UserProfile;
 use App\Models\UserMembership;
 use Illuminate\Http\Request;

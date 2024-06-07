@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\resetPassword;
 use App\Models\user_assessment;
 use App\Models\user_profile;
 use App\Models\user_membership;
@@ -9,13 +10,11 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use Session;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
-
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Mail;
 class DataController extends Controller
 {
 
@@ -40,6 +39,7 @@ class DataController extends Controller
             "regMembershipPlan" => "required",
             "regStartDate" => "required",
             "regPaymentStatus" => "required",
+            "regTrainer" => "required",
             #Model: User
             "regUsername" => "required",
             "regPassword" => "required",
@@ -48,7 +48,8 @@ class DataController extends Controller
         User::create([
             "username" => $request->regUsername,
             "email" => $request->regEmail,
-            "password" => Hash::make($request->password)
+            "password" => Hash::make($request->password),
+            "resetToken" => str::random(128)
         ]);
         user_membership::create([
             'membership_type' => $request->regMem,
@@ -56,7 +57,8 @@ class DataController extends Controller
             "start_date" => $request->regStartDate,
             "expiry_date" => Carbon::parse($request->regStartDate)->addMonth(),
             "next_payment" => Carbon::parse($request->regStartDate)->addMonth(),
-            "payment_status" => $request->regPaymentStatus == "Yes"
+            "payment_status" => $request->regPaymentStatus == "Yes",
+            "Trainer" => $request->regTrainer
         ]);
         user_profile::create([
             'firstName' => $request->regFName,
@@ -75,6 +77,37 @@ class DataController extends Controller
         generate_json($request->regID, $request->regUsrname);
         return back();
     }
+    /* public function email_test(){
+        $user = User::find(2);
+        Mail::to($user->email)->send(new resetPassword($user->resetToken));
+
+        return $user->resetToken;
+    }
+    public function send_reset_link(Request $request){
+        $request->validate(["email"=>"required"]);
+        $user = User::where('email',$request->email)->first();
+        if($user==null){
+            return back();
+        }
+        Mail::to($request->email)->send(new resetPassword($user->resetToken));
+        return back();
+    }
+    public function reset_view(Request $request){
+        return view('auth.reset');
+    }
+    public function reset_password(Request $request){
+        dd($request->all());
+        $token = $request->get('reset');
+        $user = User::where('resetToken',$token)->first();
+        if($user == null){
+            abort(404);
+        }
+        Password::reset(["username"=>$user->username,"email"=>$user->email],function(User $use,$passw){
+            $password = Hash::make($passw);
+            $use->forceFill(["password"=>$password]);
+            $use->save();
+        });
+    } */
     public function getUpdatable($id)
     {
         if ($id > latest_mem()) {
@@ -146,16 +179,16 @@ class DataController extends Controller
             "viewNextPayment" => $memb->next_payment,
             "viewPaymentStatus" => $memb->payment_status == 1 ? "Yes" : "No",
             "viewTrainer" => $memb->Trainer,
-            "viewHeight" => $assess->height,
-            "viewWeight" => $assess->weight,
-            "viewBMI" => $assess->bmi,
-            "viewBMIType" => $assess->bmi_classification,
-            "viewFit" => $assess->physically_fit == 1 ? "Yes" : "No",
-            "viewOper" => $assess->operation == 1 ? "Yes" : "No",
-            "viewHB" => $assess->high_blood == 1 ? "Yes" : "No",
-            "viewHP" => $assess->heart_problem == 1 ? "Yes" : "No",
-            "viewEmergName" => $assess->emergency_contact_name,
-            "viewEmergNum" => $assess->emergency_contact_num,
+            "viewHeight" => ($assess == null) ? 0 : $assess->height,
+            "viewWeight" => ($assess == null) ? 0 : $assess->weight,
+            "viewBMI" => ($assess == null) ? 0 : $assess->bmi,
+            "viewBMIType" => ($assess == null) ? null : $assess->bmi_classification,
+            "viewFit" => ($assess == null) ? "No" : ($assess->physically_fit == 1 ? "Yes" : "No"),
+            "viewOper" => ($assess == null) ? "No" : ($assess->operation == 1 ? "Yes" : "No"),
+            "viewHB" => ($assess == null) ? "No" : ($assess->high_blood == 1 ? "Yes" : "No"),
+            "viewHP" => ($assess == null) ? "No" : ($assess->heart_problem == 1 ? "Yes" : "No"),
+            "viewEmergName" => ($assess == null) ? "" : $assess->emergency_contact_name,
+            "viewEmergNum" => ($assess == null) ? "" : $assess->emergency_contact_num,
         ]);
     }
     public function update(Request $request, $what)

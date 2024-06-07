@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\user_assessment;
 use App\Models\user_profile;
 use App\Models\user_membership;
+use App\Models\trainers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,11 +29,12 @@ class AuthController extends Controller
     }
 
     public function push()
-    {
+    {   
         User::create([
             "username" => "fitayo",
             "email" => "mail1@mail.com",
             "password" => Hash::make("passw"),
+            "resetToken" => token("fitayo")
         ]);
 
         user_membership::create([
@@ -57,6 +59,10 @@ class AuthController extends Controller
             'user_ID' => latest_mem(),
             'userMem_ID' => latest_mem()
         ]);
+        $trainers = [['firstname'=>'john','lastname'=>'doe'],['firstname'=>'test','lastname'=>'test'],['firstname'=>'qqq','lastname'=>'www']];
+        foreach($trainers as $t){
+            trainers::create($t);
+        }
         $username = base64_encode("fitayo");
         generate_json(1,"fitayo");
     }
@@ -144,7 +150,8 @@ class AuthController extends Controller
                 "member_count" => user_membership::where("membership_type", "Member")->count(),
                 "monthly" => user_membership::whereMonth('created_at', "=", date('m'))->where("membership_type", "Member")->count(),
                 "id" => User::count()+1,
-                "checkincount" => check_in_count()
+                "checkincount" => check_in_count(),
+                "trainers" => trainers::all()
             ]);
         }
         return redirect("login")->withSuccess('Opps! You do not have access');
