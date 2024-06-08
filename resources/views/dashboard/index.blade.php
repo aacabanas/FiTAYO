@@ -227,7 +227,7 @@
             <div class="tab-content" id="nav-regmembContent">
                 <div class="tab-pane  fade show active" id="regmemlist" role="tabpanel"
                     aria-labelledby="nav-regmemlist"><br>
-                    <form action="{{ route('register.POST') }}" method="post">
+                    <form action="{{ route('register') }}" method="POST">
                         @csrf
                         <input type="hidden" name="regID" value="{{ $id }}">
                         <input type="text" name="regMem" id="regMem" class="d-none" value="Member">

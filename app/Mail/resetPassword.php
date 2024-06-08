@@ -9,17 +9,18 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ResetPassword extends Mailable
+class resetPassword extends Mailable
 {
     use Queueable, SerializesModels;
     private $_token;
-
     /**
      * Create a new message instance.
      */
     public function __construct($token)
     {
+        //
         $this->_token = $token;
+
     }
 
     /**
@@ -38,8 +39,7 @@ class ResetPassword extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.reset',
-            with: ['token' => $this->_token]
+            view: 'mail.reset',with:['token'=>$this->_token]
         );
     }
 

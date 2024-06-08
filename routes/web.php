@@ -48,7 +48,6 @@ Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEm
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
-
 Route::middleware('auth')->group(function () {
     Route::post('/milestone/{milestone_id}/update-progress', [MilestoneController::class, 'updateProgress']);
     Route::post('/milestone/{milestone_id}/verify-advancement', [MilestoneController::class, 'verifyAdvancement']);
@@ -58,6 +57,6 @@ Route::middleware('auth')->group(function () {
 //reset password related views
 //Route::get('/reset-password',[DataController::class,'reset_view']);
 //Route::post('/reset-password',[DataController::class,'reset_password'])->name('reset_pass');
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
