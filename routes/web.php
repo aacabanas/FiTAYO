@@ -56,6 +56,20 @@ Route::middleware('auth')->group(function () {
 });
 //reset password related views
 //Route::get('/reset-password',[DataController::class,'reset_view']);
+
+
+
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('password/reset', [ResetPasswordController::class, 'showResetForm'])->name('password.request');
+    Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+});
+
+
+
 //Route::post('/reset-password',[DataController::class,'reset_password'])->name('reset_pass');
 //Auth::routes();
 

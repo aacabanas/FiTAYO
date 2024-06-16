@@ -785,7 +785,7 @@
                             <button id="qrCodeBtn" class="btn btn-outline-secondary" onclick="showPage('qrCodePage')">QR Code</button>
                             <button id="editProfileBtn" class="btn btn-outline-secondary" onclick="showPage('editProfilePage')">Edit Profile</button>
                             <button id="membershipDetailsBtn" class="btn btn-outline-secondary" onclick="showPage('membershipDetailsPage')">Membership Details</button>
-                            <button id="passwordSecurityBtn" class="btn btn-outline-secondary" onclick="showPage('passwordSecurityPage')">Password and Security</button>
+                            <a href="{{ route('password.request') }}" id="passwordSecurityBtn" class="btn btn-outline-secondary">Password and Security</a>
                             <button id="policiesRegulationsBtn" class="btn btn-outline-secondary" onclick="showPage('policiesRegulationsPage')">Policies and Regulations</button>
                         </div>
                     </div>

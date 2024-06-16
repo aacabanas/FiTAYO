@@ -8,6 +8,7 @@ use App\Models\UserMembership;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class ProfileController extends Controller
 {
     public function edit()
@@ -87,4 +88,15 @@ class ProfileController extends Controller
     {
         return view('profile.policies');
     }
+   
+
+
+
+
+
+    public function index()
+    {
+        return view('profile.index'); // Make sure you have a profile.index view
+    }
+
 }
