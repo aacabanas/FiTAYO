@@ -18,13 +18,13 @@
             }
 
             .nav-link.active {
-            font-weight: bold; /* Make active link bold */
+            font-weight: bold; 
             }
 
             .nav-link:hover,
             .nav-link:focus {
-                color: rgba(255, 255, 255, 0.75); /* Lighten the text color on hover/focus */
-                text-decoration: none; /* Remove underline on hover/focus */
+                color: rgba(255, 255, 255, 0.75); 
+                text-decoration: none; 
             }
 
             /* Base styles */
@@ -45,7 +45,7 @@
 
             .bg-primary {
                 background-color: #007bff;
-                /* Bootstrap primary color */
+                
             }
 
             .text-white {
@@ -197,6 +197,73 @@
             .active-content {
                 display: block;
             }
+
+            .profile-section {
+                margin-top: 20px;
+            }
+
+            .profile-header {
+                background-color: #f8f9fa;
+                padding: 20px;
+                border-bottom: 1px solid #dee2e6;
+                border-radius: 0.25rem 0.25rem 0 0;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .profile-picture {
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+                border: 3px solid #007bff;
+            }
+
+            .profile-name,
+            .profile-plan {
+                font-size: 1.5em;
+                font-weight: bold;
+                color: #343a40;
+                margin-top: 15px;
+            }
+
+            .profile-email {
+                font-size: 1em;
+                color: #6c757d;
+                margin-top: 5px;
+            }
+
+            .profile-body {
+                padding: 20px;
+                background-color: #ffffff;
+                border: 1px solid #dee2e6;
+                border-radius: 0 0 0.25rem 0.25rem;
+            }
+
+            .profile-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 10px;
+                border: 1px solid #dee2e6;
+                border-radius: 0.25rem;
+                background-color: #f8f9fa;
+                text-decoration: none;
+                color: #212529;
+                transition: background-color 0.2s ease-in-out;
+                width: 100%;
+            }
+
+            .profile-button:hover {
+                background-color: #e9ecef;
+                color: #212529;
+            }
+
+            .profile-button i {
+                margin-right: 10px;
+            }
+
+            .profile-button-text {
+                margin-left: 10px;
+            }
         </style>
 
 
@@ -229,7 +296,6 @@
                         <p class="d-none" id="hasAssessment">{{ $withAssessment }}</p>
                         <p id="date">
                             {{ DateTime::createFromFormat('!m', date('m'))->format('F'). ' '. date('d Y') }}
-
                         </p>
                     </header>
                     
@@ -243,153 +309,156 @@
                     </nav>
 
                     <!-- Tables for each category -->
-                    <div id="nav-bench" class="tab-pane fade show active">
-                        <div class="category-box mb-4">
-                            <h6>1 REP MAX</h6>
-                            <table class="table mb-3 table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ranking</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Weight (kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table1RepMaxBench">
-                                    <!-- Table rows will be populated dynamically -->
-                                </tbody>
-                            </table>
+                    
+                    <div class="tab-content">
+                        <div id="nav-bench" class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav-bench-tab">
+                            <div class="category-box mb-4">
+                                <h6>1 REP MAX</h6>
+                                <table class="table mb-3 table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ranking</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Weight (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table1RepMaxBench">
+                                        <!-- Table rows will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="category-box mb-4">
+                                <h6>6 REPS</h6>
+                                <table class="table mb-3 table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ranking</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Weight (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table6RepsBench">
+                                        <!-- Table rows will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="category-box mb-4">
+                                <h6>12 REPS</h6>
+                                <table class="table mb-3 table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ranking</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Weight (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table12RepsBench">
+                                        <!-- Table rows will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
-                        <div class="category-box mb-4">
-                            <h6>6 REPS</h6>
-                            <table class="table mb-3 table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ranking</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Weight (kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table6RepsBench">
-                                    <!-- Table rows will be populated dynamically -->
-                                </tbody>
-                            </table>
+                        <div id="nav-deadlift" class="tab-pane fade" role="tabpanel" aria-labelledby="nav-deadlift-tab">
+                            <div class="category-box mb-4">
+                                <h6>1 REP MAX</h6>
+                                <table class="table mb-3 table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ranking</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Weight (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table1RepMaxDeadlift">
+                                        <!-- Table rows will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="category-box mb-4">
+                                <h6>6 REPS</h6>
+                                <table class="table mb-3 table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ranking</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Weight (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table6RepsDeadlift">
+                                        <!-- Table rows will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="category-box mb-4">
+                                <h6>12 REPS</h6>
+                                <table class="table mb-3 table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ranking</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Weight (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table12RepsDeadlift">
+                                        <!-- Table rows will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
-                        <div class="category-box mb-4">
-                            <h6>12 REPS</h6>
-                            <table class="table mb-3 table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ranking</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Weight (kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table12RepsBench">
-                                    <!-- Table rows will be populated dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                        <div id="nav-squats" class="tab-pane fade" role="tabpanel" aria-labelledby="nav-squats-tab">
+                            <div class="category-box mb-4">
+                                <h6>1 REP MAX</h6>
+                                <table class="table mb-3 table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ranking</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Weight (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table1RepMaxSquats">
+                                        <!-- Table rows will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
 
-                    <div id="nav-deadlift" class="tab-pane fade">
-                        <div class="category-box mb-4">
-                            <h6>1 REP MAX</h6>
-                            <table class="table mb-3 table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ranking</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Weight (kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table1RepMaxBench">
-                                    <!-- Table rows will be populated dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
+                            <div class="category-box mb-4">
+                                <h6>6 REPS</h6>
+                                <table class="table mb-3 table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ranking</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Weight (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table6RepsSquats">
+                                        <!-- Table rows will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
 
-                        <div class="category-box mb-4">
-                            <h6>6 REPS</h6>
-                            <table class="table mb-3 table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ranking</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Weight (kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table6RepsBench">
-                                    <!-- Table rows will be populated dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="category-box mb-4">
-                            <h6>12 REPS</h6>
-                            <table class="table mb-3 table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ranking</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Weight (kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table12RepsBench">
-                                    <!-- Table rows will be populated dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div id="nav-squats" class="tab-pane fade">
-                        <div class="category-box mb-4">
-                            <h6>1 REP MAX</h6>
-                            <table class="table mb-3 table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ranking</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Weight (kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table1RepMaxBench">
-                                    <!-- Table rows will be populated dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="category-box mb-4">
-                            <h6>6 REPS</h6>
-                            <table class="table mb-3 table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ranking</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Weight (kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table6RepsBench">
-                                    <!-- Table rows will be populated dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="category-box mb-4">
-                            <h6>12 REPS</h6>
-                            <table class="table mb-3 table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Ranking</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Weight (kg)</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="table12RepsBench">
-                                    <!-- Table rows will be populated dynamically -->
-                                </tbody>
-                            </table>
+                            <div class="category-box mb-4">
+                                <h6>12 REPS</h6>
+                                <table class="table mb-3 table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Ranking</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Weight (kg)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table12RepsSquats">
+                                        <!-- Table rows will be populated dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                             
@@ -705,14 +774,19 @@
                         </p>
                     </header>
 
-                    <!-- Profile content goes here -->
-                    <div class="container mt-5">    
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-primary" onclick="showPage('qrCodePage')">QR Code</button>
-                            <button class="btn btn-primary" onclick="showPage('editProfilePage')">Edit Profile</button>
-                            <button class="btn btn-primary" onclick="showPage('membershipDetailsPage')">Membership Details</button>
-                            <button class="btn btn-primary" onclick="showPage('passwordSecurityPage')">Password and Security</button>
-                            <button class="btn btn-primary" onclick="showPage('policiesRegulationsPage')">Policies and Regulations</button>
+                    <div class="container mt-5 profile-container">
+                        <div class="profile-header text-center">
+                            <img src="{{ auth()->user()->profile_image ? asset('images/' . auth()->user()->profile_image) : asset('images/blankprofile.png') }}" alt="Profile Picture" class="rounded-circle profile-picture">
+                            <h4 class="profile-name">{{ optional(auth()->user()->userProfile)->firstName }} {{ optional(auth()->user()->userProfile)->lastName }}</h4>
+                            <p class="profile-email">{{ auth()->user()->email }}</p>
+                            <p class="profile-plan">Monthly plan</p>
+                        </div>    
+                        <div class="d-grid gap-2 mt-4">
+                            <button id="qrCodeBtn" class="btn btn-outline-secondary" onclick="showPage('qrCodePage')">QR Code</button>
+                            <button id="editProfileBtn" class="btn btn-outline-secondary" onclick="showPage('editProfilePage')">Edit Profile</button>
+                            <button id="membershipDetailsBtn" class="btn btn-outline-secondary" onclick="showPage('membershipDetailsPage')">Membership Details</button>
+                            <button id="passwordSecurityBtn" class="btn btn-outline-secondary" onclick="showPage('passwordSecurityPage')">Password and Security</button>
+                            <button id="policiesRegulationsBtn" class="btn btn-outline-secondary" onclick="showPage('policiesRegulationsPage')">Policies and Regulations</button>
                         </div>
                     </div>
 
@@ -751,6 +825,7 @@
                         <button class="btn btn-secondary" onclick="showPage('profileTab')">Back</button>
                     </div>
                 </div>
+
             </div>
         </div>
 
