@@ -34,7 +34,7 @@
                         </div>
                         <div class="form-group mt-3">
                             <button type="submit" class="btn btn-primary">Update Password</button>
-                            <a href="{{ route('profile') }}" class="btn btn-secondary">Cancel</a>
+                            <a href="{{ route('dashboard') }}" class="btn btn-secondary">Cancel</a>
                         </div>
                     </form>
                 </div>

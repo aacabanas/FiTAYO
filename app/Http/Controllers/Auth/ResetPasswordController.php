@@ -6,26 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class ResetPasswordController extends Controller
 {
-    /**
-     * Show the form for resetting the password.
-     *
-     * @return \Illuminate\View\View
-     */
     public function showResetForm()
     {
         return view('auth.passwords.reset');
     }
 
-    /**
-     * Handle the password reset request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function reset(Request $request)
     {
         $request->validate([
@@ -46,7 +34,6 @@ class ResetPasswordController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect()->route('profile')->with('status', 'Password has been updated successfully!');
+        return redirect()->route('logout')->with('status', 'Password has been updated successfully!');
     }
 }
-
