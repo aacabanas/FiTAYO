@@ -2,6 +2,8 @@
 use App\Models\checkins;
 use App\Models\user_membership;
 use App\Models\user_profile;
+use App\Models\NonMemberModel;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -59,25 +61,67 @@ if (!function_exists('members')) {
     function members()
     {
         $data = [];
+        $profile = user_profile::get();
+        $member = user_membership::get();
         for ($_ = 0; $_ < user_membership::count(); $_++) {
-            $prof = user_profile::where("profile_ID", $_ + 1)->first();
-            $memb = user_membership::where("userMem_ID", $_ + 1)->first();
-            if($memb == null){continue;}
-            if ($memb->membership_type == "Member") {
+
+            $prof = $profile[$_];
+            $memb = $member[$_];
+            
+            
                 array_push(
                     $data,
                     [
-                        "ID" => $prof->profile_ID,
-                        "firstName" => $prof->firstName,
-                        "lastName" => $prof->lastName,
-                        "membership_plan" => $memb->membership_plan,
-                        "start_date" => $memb->start_date,
-                        "expiry_date" => $memb->expiry_date,
-                        "payment_status" => $memb->payment_status == 1 ? "Yes" : "No"
+                        "ID" => $prof["profile_ID"],
+                        "firstName" => $prof["firstName"],
+                        "lastName" => $prof["lastName"],
+                        "membership_plan" => $memb["membership_plan"],
+                        "start_date" => $memb["start_date"],
+                        "expiry_date" => $memb["expiry_date"],
+                        "payment_status" => $memb["payment_status"] == 1 ? "Yes" : "No"
 
                     ]
                 );
+        }
+        
+        return $data;
+    }
+}
+if(!function_exists('deadlines')){
+    function deadlines(){
+        $data = [];
+        $user = User::get();
+        $membership = user_membership::get();
+        $profile = user_profile::get();
+
+        for($_=0;$_<count($membership);$_++){
+            $use = $user[$_];
+            $memb = $membership[$_];
+            $prof = $profile[$_];
+            if((int)Carbon::now()->diffInDays($memb["expiry_date"]) <= 5){
+                array_push($data,[
+                    "lname" => $prof["lastName"],
+                    "fname" => $prof["firstName"],
+                    "deadline" => $memb["expiry_date"],
+                    "email" => $use["email"] 
+                ]);
             }
+            
+        }
+        return $data;
+    }
+}
+if(!function_exists("non_members")){
+    function non_members(){
+        $data = [];
+        $non_mem = NonMemberModel::where("date",Carbon::now()->format("Y-m-d"))->get();
+        for($_=0;$_<count($non_mem);$_++){
+            $non = $non_mem[$_];
+            array_push($data,[
+                "ID" => $_+1,
+                "fname" => $non->firstname,
+                "lname" => $non->lastname,
+            ]);
         }
         return $data;
     }

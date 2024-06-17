@@ -2,28 +2,25 @@ import '../bootstrap';
 import jQuery from 'jquery';
 import 'bootstrap';
 import '@fortawesome/fontawesome-free/js/all';
+import { profileButtons } from './properties';
 
 console.log("app.js is loaded!");
 
 window.$ = jQuery;
 
 // Profile tab navigation
+$("li>a.nav-link").on('click',function(e){
+    $("#title").text($(this).text())
+})
 document.addEventListener('DOMContentLoaded', function () {
     console.log("DOM fully loaded and parsed");
 
-    const profileButtons = [
-        { id: 'qrCodeBtn', page: 'qrCodePage' },
-        { id: 'editProfileBtn', page: 'editProfilePage' },
-        { id: 'membershipDetailsBtn', page: 'membershipDetailsPage' },
-        { id: 'passwordSecurityBtn', page: 'passwordSecurityPage' },
-        { id: 'policiesRegulationsBtn', page: 'policiesRegulationsPage' }
-    ];
+    
 
     profileButtons.forEach(button => {
         const buttonElement = document.getElementById(button.id);
         if (buttonElement) {
             buttonElement.addEventListener('click', function () {
-                console.log(`Button ${button.id} clicked, showing page ${button.page}`);
                 showPage(button.page);
             });
         } else {
@@ -50,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Add event listeners to "Back" buttons
     document.querySelectorAll('.page-content .btn-secondary').forEach(button => {
         button.addEventListener('click', function () {
-            console.log('Back button clicked, showing profile tab');
             showProfileTab();
         });
     });
