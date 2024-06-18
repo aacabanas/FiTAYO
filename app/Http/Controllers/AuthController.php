@@ -115,7 +115,7 @@ class AuthController extends Controller
             }
 
             if (Auth::user()->user_type == "coach") {
-                return view('dashboard.coach', ["withAssessment" => user_assessment::where('userAsses_ID', Auth::id())->first() == null,"profile" => user_profile::where('profile_ID',Auth::id())->first(),"assessment"=>user_assessment::where("userAsses_ID",Auth::id())->first()]);
+                return view('dashboard.coach');
             }
 
             return view('dashboard.index', [

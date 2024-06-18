@@ -193,14 +193,17 @@
                                     <th>ID</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
+                                    <th>Check-in</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($non_members as $non)
                                     <tr>
+                                        <td class="d-none">{{$non["ID"]}} {{$non["fname"]}} {{$non["lname"]}}</td>
                                         <td>{{$non["ID"]}}</td>
                                         <td>{{$non["fname"]}}</td>
                                         <td>{{$non["lname"]}}</td>
+                                        <td>{{$non["time"]}} </td>
                                     </tr>
                                 @endforeach
                             </tbody>
