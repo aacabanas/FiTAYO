@@ -13,11 +13,7 @@ class user_milestones extends Model
     use HasFactory;
     protected $table = "user_milestones";
     protected $fillable = [
-        'currentProgress',
-        'status',
-        'checked_in',
-        'created_at',
-        'user_id',
+        'username','lift','reps','weight'
     ];
 
     public function milestone_details(): HasOne
