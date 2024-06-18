@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class user_profile extends Authenticatable
+class UserProfile extends Model
 {
     use HasFactory;
 
@@ -28,27 +27,21 @@ class user_profile extends Authenticatable
         'address_region',
         'user_ID',
         'userMem_ID',
-        'profile_image', 
+        'profile_image',
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    public function user_credentials(): HasOne
+    public function user(): BelongsTo
     {
-        return $this->hasOne(User::class, 'user_ID', 'profile_ID');
+        return $this->belongsTo(User::class, 'user_ID');
     }
 
-    public function user_membership(): HasOne
+    public function userMembership(): HasOne
     {
-        return $this->hasOne(user_membership::class, 'userMem_ID', 'profile_ID');
+        return $this->hasOne(UserMembership::class, 'userMem_ID', 'userMem_ID');
     }
 
-    public function user_milestones(): BelongsTo
+    public function userMilestones(): BelongsTo
     {
-        return $this->belongsTo(user_milestones::class);
+        return $this->belongsTo(UserMilestones::class, 'profile_ID', 'profile_ID');
     }
 }
- 

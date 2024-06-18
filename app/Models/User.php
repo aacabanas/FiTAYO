@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -28,13 +27,13 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function user_profile(): HasOne
+    public function user_profile()
     {
-        return $this->hasOne(user_profile::class, 'profile_ID');
+        return $this->hasOne(UserProfile::class, 'user_ID');
     }
 
-    public function user_membership(): HasOne
+    public function user_membership()
     {
-        return $this->hasOne(user_membership::class, 'userMem_id');
+        return $this->hasOne(UserMembership::class, 'user_id');
     }
 }
