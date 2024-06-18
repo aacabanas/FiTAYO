@@ -152,10 +152,17 @@ $("input,select,textarea").each(function(i,val){
 
 $("#search_member").on('keyup',function(){
     var val = $(this).val().toLowerCase();
-
+    
     $("#mem-list>tbody>tr").filter(function () {
         $(this).toggle($(this).find("td:eq(0)").text().toLowerCase().indexOf(val) > -1)
 
     })
 })
+$("#search_non_member").on('keyup',function(){
+    var val = $(this).val().toLowerCase();
 
+    $("#non_mem_list>tbody>tr").filter(function () {
+        $(this).toggle($(this).find("td:eq(0)").text().toLowerCase().indexOf(val) > -1)
+
+    })
+})

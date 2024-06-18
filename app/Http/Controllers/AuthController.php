@@ -113,6 +113,11 @@ class AuthController extends Controller
                 "userProfile" => user_membership::where("userMem_ID",Auth::id())->first()
             ]);
             }
+
+            if (Auth::user()->user_type == "coach") {
+                return view('dashboard.coach');
+            }
+
             return view('dashboard.index', [
                 "members" => members(),
                 "member_count" => user_membership::count(),
@@ -124,6 +129,7 @@ class AuthController extends Controller
                 "non_members" => non_members(),
                 "deadlines" => deadlines()
             ]);
+            
         }
         return redirect("login")->withSuccess('Opps! You do not have access');
     }

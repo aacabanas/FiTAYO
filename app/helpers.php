@@ -121,6 +121,7 @@ if(!function_exists("non_members")){
                 "ID" => $_+1,
                 "fname" => $non->firstname,
                 "lname" => $non->lastname,
+                "time" => $non->time_in
             ]);
         }
         return $data;

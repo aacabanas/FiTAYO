@@ -4,36 +4,47 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class ResetPasswordController extends Controller
 {
-    public function showResetForm()
+    public function showResetForm(Request $request, $token = null)
     {
-        return view('auth.passwords.reset');
+        return view('auth.passwords.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
     }
 
     public function reset(Request $request)
     {
         $request->validate([
-            'current_password' => 'required',
-            'password' => 'required|confirmed|min:8',
+            'email' => 'required|email',
+            'password' => 'required|string|min:8|confirmed',
+            'token' => 'required'
         ]);
 
-        $user = Auth::user();
+        $passwordReset = DB::table('password_resets')->where([
+            ['token', $request->token],
+            ['email', $request->email]
+        ])->first();
 
-        if ($user === null) {
-            return back()->withErrors(['user' => 'Authenticated user not found']);
+        if (!$passwordReset) {
+            return back()->withErrors(['email' => 'Invalid token!']);
         }
 
-        if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password' => 'Current password is incorrect']);
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return back()->withErrors(['email' => 'No user found with this email!']);
         }
 
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect()->route('logout')->with('status', 'Password has been updated successfully!');
+        DB::table('password_resets')->where(['email' => $request->email])->delete();
+
+        return redirect('/login')->with('status', 'Password has been successfully reset!');
     }
 }

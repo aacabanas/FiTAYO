@@ -10,6 +10,16 @@ return new class extends Migration {
      */
     public function up(): void
     {   
+        Schema::create('MilestoneProgress',function(Blueprint $table){
+            $table->id();
+            $table->string('lift');
+            $table->string('username');
+            $table->string('status')->default("pending");
+            $table->timestamps();
+            $table->date('date');
+            $table->string('action');
+            $table->time('request_time');            
+        });
         Schema::create('nonmembers',function(Blueprint $table){
             $table->id();
             $table->timestamps();

@@ -86,6 +86,11 @@
             color: rgba(255, 255, 255, 0.75); 
             text-decoration: none; 
         }
+            .nav-link:hover,
+            .nav-link:focus {
+                color: black; 
+                text-decoration: none; 
+            }
 
         .container-fluid {
             padding: 10px;
@@ -325,16 +330,16 @@
         }
     </style>
  
-        <header class="container-fluid bg-primary text-white" style="padding: 20px; margin-bottom: 20px; margin-top: 20px">
-            <h1>Leaderboards</h1>
-            <p class="d-none" id="hasAssessment">{{ $withAssessment }}</p>
-            <p id="date">
-                {{ DateTime::createFromFormat('!m', date('m'))->format('F'). ' '. date('d Y') }}
-            </p>
-        </header> 
-        <div class="container-fluid bg-orange footer">
-            <nav class="navbar navbar-expand navbar-dark bg-primary text-white fixed-bottom">
-                <ul class="navbar-nav nav justified w-100">
+ <header class="container-fluid bg-primary text-white" style="padding: 20px; margin-bottom: 20px; margin-top: 20px">
+    <h1 id="title">Leaderboards</h1>
+    <p class="d-none" id="hasAssessment">{{ $withAssessment }}</p>
+    <p id="date">
+        {{ DateTime::createFromFormat('!m', date('m'))->format('F'). ' '. date('d Y') }}
+    </p>
+</header> 
+<div class="container-fluid bg-orange footer">
+    <nav class="navbar navbar-expand navbar-dark bg-primary text-white fixed-bottom">
+        <ul class="navbar-nav nav justified w-100" id="nav-bot">
                     <li class="nav-item">
                     <a href="#" id="nav-leaderboards-tab" data-bs-toggle="tab" data-bs-target="#nav-leaderboards" class="nav-link active" role="tab" aria-controls="nav-leaderboards" aria-selected="true">Leaderboards</a>
                     </li>
@@ -522,13 +527,7 @@
                 </div>
 
                 <div class="tab-pane fade" id="nav-milestones" role="tabpanel" aria-labelledby="nav-milestones-tab">
-                    <header class="container-fluid bg-primary text-white" style="padding: 20px; margin-bottom: 20px; margin-top: 20px">
-                        <h1>Milestones</h1>
-                        <p class="d-none" id="hasAssessment">{{ $withAssessment }}</p>
-                        <p id="date">
-                            {{ DateTime::createFromFormat('!m', date('m'))->format('F') . ' ' . date('d Y') }}
-                        </p>
-                    </header>
+                    
 
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist" style="margin-bottom: 20px">
@@ -559,8 +558,8 @@
                                         </div>
 
                                         <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2"  onclick="slackOff('benchPress1RM')">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" onclick="advanceProgress('benchPress1RM')">Advance Progress</button>
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="BenchPress" reps="1">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BenchPress" reps="1">Advance Progress</button>
                                         </div>
                                         
                                     </div>
@@ -582,8 +581,8 @@
                                         </div>
 
                                         <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" onclick="slackOff('deadlift1RM')">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" onclick="advanceProgress('deadlift1RM')">Advance Progress</button>
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="Deadlift" reps="1">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="Deadlift" reps="1">Advance Progress</button>
                                         </div>
 
                                     </div>
@@ -591,8 +590,8 @@
                                 <div class="box">
                                     <h3>BARBELL SQUATS</h3>
                                     <div class="progress-container">
-                                        <div class="progress" style="height: 30px;">
-                                            <div id="barbellSquats1RM" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="row" style="height: 30px; width:40%;background-color:green">
+                                           
                                         </div>
 
                                         <div class="progress-text-indicators">
@@ -605,8 +604,8 @@
                                         </div>
 
                                         <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" onclick="slackOff('barbellSquats1RM')">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" onclick="advanceProgress('barbellSquats1RM')">Advance Progress</button>
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="BarbelSquats" reps="1">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BarbelSquats" reps="1">Advance Progress</button>
                                         </div>
                                         
                                     </div>
@@ -633,8 +632,8 @@
                                         </div>
 
                                         <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" onclick="slackOff('benchPress6RM')">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" onclick="advanceProgress('benchPress6RM')">Advance Progress</button>
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="BenchPress" reps="6">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BenchPress" reps="6">Advance Progress</button>>
                                         </div>
 
                                     </div>
@@ -656,8 +655,8 @@
                                         </div>
 
                                         <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" onclick="slackOff('deadlift6RM')">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" onclick="advanceProgress('deadlift6RM')">Advance Progress</button>
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="Deadlift" reps="6">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="Deadlift" reps="6">Advance Progress</button>
                                         </div>
 
                                     </div>
@@ -679,8 +678,8 @@
                                         </div>
 
                                         <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" onclick="slackOff('barbellSquats6RM')">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" onclick="advanceProgress('barbellSquats6RM')">Advance Progress</button>
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="BarbelSquats" reps="6">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BarbelSquats" reps="6">Advance Progress</button>
                                         </div>
                                     </div>
                                 </div>
@@ -706,8 +705,8 @@
                                         </div>
 
                                         <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" onclick="slackOff('benchPress12RM')">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" onclick="advanceProgress('benchPress12RM')">Advance Progress</button>
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="BenchPress" reps="12">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BenchPress" reps="12">Advance Progress</button>
                                         </div>
 
                                     </div>
@@ -729,8 +728,9 @@
                                         </div>
 
                                         <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" onclick="slackOff('deadlift12RM')">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" onclick="advanceProgress('deadlift12RM')">Advance Progress</button>
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="Deadlift" reps="12">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="Deadlift" reps="12
+                                            ">Advance Progress</button>
                                         </div>
                                     
                                     </div>
@@ -752,8 +752,8 @@
                                         </div>
 
                                         <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" onclick="slackOff('barbellSquats12RM')">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" onclick="advanceProgress('barbellSquats12RM')">Advance Progress</button>
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="BarbelSquats" reps="12">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BarbelSquats" reps="12">Advance Progress</button>
                                         </div>
                                     </div>
                                 </div>
@@ -764,14 +764,7 @@
 
                 <div class="tab-pane fade" id="nav-bmi" role="tabpanel" aria-labelledby="nav-bmi-tab">
                     <!-- BMI content goes here -->
-                    <header class="container-fluid bg-primary text-white" style="padding: 20px; margin-bottom: 20px; margin-top: 20px">
-                        <h1>BMI Tracker</h1>
-                        <p class="d-none" id="hasAssessment">{{ $withAssessment }}</p>
-                        <p id="date">
-                            {{ DateTime::createFromFormat('!m', date('m'))->format('F'). ' '. date('d Y') }}
-
-                        </p>
-                    </header>
+                   
 
                     <div class="bmi-metrics-box">
                         <div class="form-group">
@@ -823,14 +816,7 @@
                 </div>
 
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                    <header class="container-fluid bg-primary text-white" style="padding: 20px; margin-bottom: 20px; margin-top: 20px">
-                        <h1>Profile</h1>
-                        <p class="d-none" id="hasAssessment">{{ $withAssessment }}</p>
-                        <p id="date">
-                            {{ DateTime::createFromFormat('!m', date('m'))->format('F') . ' ' . date('d Y') }}
-                        </p>
-                    </header>
-
+                  
                     <div class="container mt-5 profile-container">
                         <div class="profile-header text-center">
                             <img src="{{ auth()->user()->profile_image ? asset('images/' . auth()->user()->profile_image) : asset('images/blankprofile.png') }}" alt="Profile Picture" class="rounded-circle profile-picture">
@@ -839,11 +825,12 @@
                             <p class="profile-plan">Monthly plan</p>
                         </div>    
                         <div class="d-grid gap-2 mt-4">
-                            <button id="qrCodeBtn" class="btn btn-outline-secondary" onclick="showPage('qrCodePage')">QR Code</button>
-                            <button id="editProfileBtn" class="btn btn-outline-secondary" onclick="showPage('editProfilePage')">Edit Profile</button>
-                            <button id="membershipDetailsBtn" class="btn btn-outline-secondary" onclick="showPage('membershipDetailsPage')">Membership Details</button>
+                            <button id="qrCodeBtn" class="btn btn-outline-secondary">QR Code</button>
+                            <button id="editProfileBtn" class="btn btn-outline-secondary">Edit Profile</button>
+                            <button id="membershipDetailsBtn" class="btn btn-outline-secondary">Membership Details</button>
                             <a href="{{ route('password.request') }}" id="passwordSecurityBtn" class="btn btn-outline-secondary">Password and Security</a>
-                            <button id="policiesRegulationsBtn" class="btn btn-outline-secondary" onclick="showPage('policiesRegulationsPage')">Policies and Regulations</button>
+                            <button id="policiesRegulationsBtn" class="btn btn-outline-secondary">Policies and Regulations</button>
+                            <a class="btn btn-outline-secondary" href="{{route('logout')}}">Logout</a>
                         </div>
                     </div>
 
@@ -961,7 +948,7 @@
                     <div id="passwordSecurityPage" class="page-content" style="display: none;">
                         <h3>Password and Security</h3>
                         <p>Your password and security content goes here.</p>
-                        <button class="btn btn-secondary" onclick="showPage('profileTab')">Back</button>
+                        <button class="btn btn-secondary" >Back</button>
                     </div>
 
                     <!-- Policies and Regulations Page -->
