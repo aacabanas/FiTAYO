@@ -166,6 +166,49 @@
             margin-bottom: 5px;
         }
 
+        body.dark-mode .card {
+            background-color: #333 !important; 
+            color: #f1f1f1; 
+        }
+
+        body.light-mode .profile-email, 
+        body.light-mode .text-muted.small {
+            color: #6c757d !important;
+        }
+
+        body.dark-mode {
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+
+        /* Dark mode specific styles */
+        body.dark-mode .card {
+            background-color: #21262d !important;
+            color: #f1f1f1; 
+        }
+
+        body.dark-mode .card-text, .profile-email, .text-muted.small {
+        color: #f1f1f1; 
+        }
+
+        body.dark-mode .form-control {
+            color: #f1f1f1;
+        }
+
+        body.dark-mode .form-label {
+            color: #f1f1f1; 
+        }
+
+        body.dark-mode .btn-primary {
+            background-color: #007bff; 
+            border-color: #007bff;
+        }
+
+        body.dark-mode .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
         .form-control {
         border-radius: 0.25rem;
         padding: 10px;
@@ -328,8 +371,313 @@
         .profile-button-text {
             margin-left: 10px;
         }
+
+        .toggle-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-right: 20px; 
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 66px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "\263C";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            font-size: 18px;
+            color: #fdd835;
+        }
+
+        input:checked + .slider {
+            background-color: #1e3a8a;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(33px);
+            content: "\263E"; 
+            color: #1e3a8a;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+
+        .dark-mode .container,
+        .dark-mode .card,
+        .dark-mode .profile-header,
+        .dark-mode .profile-body,
+        .dark-mode .profile-button,
+        .dark-mode .page-content,
+        .dark-mode .navbar,
+        .dark-mode .footer {
+            background-color: #161b22;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .navbar .nav-link,
+        .dark-mode .footer .nav-link {
+            color: #c9d1d9;
+        }
+
+        .dark-mode .btn {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .btn:hover {
+            background-color: #30363d;
+            border-color: #484f58;
+        }
+
+        .dark-mode .form-control {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .form-control::placeholder {
+            color: #8b949e;
+        }
+
+        .dark-mode .text-primary {
+            color: #58a6ff !important;
+        }
+
+        .dark-mode .text-secondary, .card-title {
+            color: #8b949e !important;
+        }
+
+        .dark-mode .bg-primary {
+            background-color: #21262d !important;
+        }
+
+        .dark-mode .card-title,
+        .dark-mode .profile-name,
+        .dark-mode .profile-plan {
+            color: #c9d1d9;
+        }
+
+        .dark-mode .form-label {
+            color: #c9d1d9;
+        }
+
+        .dark-mode .qr-code-container {
+            background-color: #21262d;
+        }
+
+        .dark-mode .qr-code-image {
+            border: 5px solid #30363d;
+            color: #000000;
+        }
+
+        .dark-mode .scan-me {
+            background-color: #30363d;
+        }
+
+        .dark-mode .scan-me-text {
+            color: #c9d1d9;
+        }
+
+        .dark-mode .qr-instruction {
+            color: #c9d1d9;
+        }
+
+        .dark-mode .profile-button:hover {
+            background-color: #30363d;
+            color: #c9d1d9;
+        }
+
+        .dark-mode .card.policies-card {
+            background-color: #21262d;
+        }
+
+        .dark-mode .policies-content p,
+        .dark-mode .policies-content ul {
+            color: #c9d1d9;
+        }
+
+        .dark-mode .policies-content h6 {
+            color: #58a6ff;
+        }
+
+        .dark-mode .table {
+        background-color: #21262d;
+        color: #c9d1d9;
+        }
+
+        .dark-mode .table thead th {
+            background-color: #30363d;
+            color: #c9d1d9;
+        }
+
+        .dark-mode .table tbody tr {
+            background-color: #21262d;
+            color: #c9d1d9;
+        }
+
+        .dark-mode .table tbody tr:hover {
+            background-color: #30363d;
+        }
+
+        .dark-mode .nav-link.active {
+            background-color: #21262d;
+            color: #58a6ff;
+        }
+
+        .dark-mode .box {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .progress-container {
+            background-color: #30363d;
+        }
+
+        .dark-mode .progress-bar {
+            background-color: #58a6ff;
+        }
+
+        .dark-mode .progbtn .btn-danger {
+            background-color: #dc3545;
+            border-color: #b32434;
+        }
+
+        .dark-mode .progbtn .btn-danger:hover {
+            background-color: #b32434;
+            border-color: #912123;
+        }
+
+        .dark-mode .progbtn .btn-success {
+            background-color: #28a745;
+            border-color: #218838;
+        }
+
+        .dark-mode .progbtn .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .dark-mode .category-box {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .bmi-metrics-box {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .modal-content {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .modal-header,
+        .dark-mode .modal-footer {
+            border-color: #30363d;
+        }
+
+        .dark-mode #update-metrics-btn {
+            background-color: #0056b3;
+            color: #ffffff;
+            border-color: #0056b3;
+        }
+
+        .dark-mode #update-metrics-btn:hover {
+            background-color: #004494;
+            border-color: #004494;
+        }
+
+        .dark-mode #save-metrics-btn {
+            background-color: #28a745;
+            color: #ffffff;
+            border-color: #28a745;
+        }
+
+        .dark-mode #save-metrics-btn:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+        .dark-mode .edit-profile-card {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .form-group {
+            background-color: #161b22;
+            border-color: #30363d;
+        }
+
+        .dark-mode .form-control {
+            background-color: #161b22;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .btn-primary {
+            background-color: #0056b3;
+            color: #ffffff;
+            border-color: #0056b3;
+        }
+
+        .dark-mode .btn-primary:hover {
+            background-color: #004494;
+            border-color: #004494;
+        }
+        
     </style>
  
+     <!-- Dark Mode Toggle Switch -->
+     <div>
+     <div class="toggle-container">
+        <label class="switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="slider round"></span>
+        </label>
+    </div>
  <header class="container-fluid bg-primary text-white" style="padding: 20px; margin-bottom: 20px; margin-top: 20px">
     <h1 id="title">Leaderboards</h1>
     <p class="d-none" id="hasAssessment">{{ $withAssessment }}</p>
@@ -337,6 +685,7 @@
         {{ DateTime::createFromFormat('!m', date('m'))->format('F'). ' '. date('d Y') }}
     </p>
 </header> 
+
 <div class="container-fluid bg-orange footer">
     <nav class="navbar navbar-expand navbar-dark bg-primary text-white fixed-bottom">
         <ul class="navbar-nav nav justified w-100" id="nav-bot">
@@ -359,7 +708,6 @@
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-leaderboards" role="tabpanel" aria-labelledby="nav-leaderboards-tab">
                     <!-- Leaderboards content goes here -->
-                    
                     
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist" style="margin-bottom: 20px">
@@ -1060,5 +1408,28 @@
 
             </div>
         </div>
+
+
+        <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+
+            // Load saved dark mode preference
+            if (localStorage.getItem('dark-mode') === 'enabled') {
+                body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+            }
+
+            darkModeToggle.addEventListener('change', () => {
+                body.classList.toggle('dark-mode');
+                if (body.classList.contains('dark-mode')) {
+                    localStorage.setItem('dark-mode', 'enabled');
+                } else {
+                    localStorage.setItem('dark-mode', 'disabled');
+                }
+            });
+        });
+    </script>
 
 @endsection
