@@ -8,6 +8,7 @@ console.log("app.js is loaded!");
 
 window.$ = jQuery;
 
+
 // Profile tab navigation
 $("li>a.nav-link").on('click',function(e){
     $("#title").text($(this).text())

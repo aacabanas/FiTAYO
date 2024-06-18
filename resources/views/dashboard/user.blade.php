@@ -3,7 +3,7 @@
 @section('content')
 
         <style>
-             .navbar-nav {
+            .navbar-nav {
             display: flex;
             justify-content: center;
             }
