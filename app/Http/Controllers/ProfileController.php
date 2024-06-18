@@ -58,21 +58,22 @@ class ProfileController extends Controller
         return back()->with('success', 'Profile updated successfully.');
     }
 
-	public function showProfile()
-	{
-		$user = Auth::user();
-		$userProfile = $user->user_profile;
-		$userMembership = $user->user_membership;
+    public function showProfile()
+    {
+        $user = Auth::user();
+        $userProfile = $user->user_profile;
+        $userMembership = $user->user_membership;
 
-		if (!$userProfile || !$userMembership) {
-			return back()->withErrors(['message' => 'User profile or membership not found.']);
-		}
+        if (!$userProfile || !$userMembership) {
+            return back()->withErrors(['message' => 'User profile or membership not found.']);
+        }
 
-		// Debugging: Check if userMembership data is being fetched correctly
-		dd($userMembership);
+        // Debugging: Check if userMembership data is being fetched correctly
+        // Uncomment this line to debug
+        // dd($userMembership);
 
-		return view('dashboard.user', compact('userProfile', 'user', 'userMembership'));
-	}
+        return view('dashboard.user', compact('userProfile', 'user', 'userMembership'));
+    }
 
     public function membership()
     {
