@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\NonMemberController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DataController;
@@ -12,7 +13,6 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 Route::get("/", [AuthController::class, "index"])->name('index');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
-Route::get('/register', [AuthController::class, 'registration'])->name('register');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::post('/login', [AuthController::class, 'loginPost'])->name('login.POST');
@@ -28,7 +28,7 @@ Route::get('/regions',[DataController::class,'get_region']);
 Route::get('/cities/{region_code}',[DataController::class,'get_cities']);
 Route::get('/barangays/{region_code}/{city_code}',[DataController::class,'get_barangays']);
 Route::get('/phonenums',[DataController::class,'phonenums']);
-Route::get('/flag/{code]',[DataController::class,'flag']);
+Route::get('/flag/{code}',[DataController::class,'flag'])->name('flags');
 Route::get('/qr-code', [QRController::class, 'show'])->name('qr_code_page');
 Route::get('/qr/{id}',[QRController::class,'get'])->name('qr');
 Route::post('/check-in',[QRController::class,'check_in'])->name('check_in');
@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function () {
 });
 //reset password related views
 //Route::get('/reset-password',[DataController::class,'reset_view']);
-
+Route::post('nonmemberRegister',[NonMemberController::class,'check_in'])->name("nonmem_check_in");
 
 
 

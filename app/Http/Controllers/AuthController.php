@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\NonMemberModel;
 use App\Models\user_assessment;
+use App\Models\checkins;
 use App\Models\user_profile;
 use App\Models\user_membership;
 use App\Models\trainers;
@@ -14,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
 use Session;
 use Carbon\Carbon;
 use Brick\PhoneNumber\PhoneNumber;
@@ -21,24 +25,16 @@ use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 class AuthController extends Controller
 {
-    private function convert_contact($contact): string
-    {
-        $contact_split = str_split($contact);
-        $contact_split[0] = "+63";
-        return join($contact_split);
-    }
-
     public function push()
     {   
         User::create([
             "username" => "fitayo",
             "email" => "mail1@mail.com",
             "password" => Hash::make("passw"),
-            "resetToken" => token("fitayo")
+            "resetToken" => str::random(128)
         ]);
 
         user_membership::create([
-            'membership_type' => "Member",
             "membership_plan" => "Standard",
             "start_date" => Carbon::now(),
             "expiry_date" => Carbon::now()->addMonth(),
@@ -56,46 +52,13 @@ class AuthController extends Controller
             'address_barangay' => "sda",
             'address_city' => "dsd",
             'address_region' => "asd",
-            'user_ID' => latest_mem(),
-            'userMem_ID' => latest_mem()
+            'user_ID' => 1,
+            'userMem_ID' => 1
         ]);
-        $trainers = [['firstname'=>'john','lastname'=>'doe'],['firstname'=>'test','lastname'=>'test'],['firstname'=>'qqq','lastname'=>'www']];
+        $trainers = [['name'=>"John Doe",'email'=>'jdoe@mail.com','phone'=>'09123456781','specialty'=>'abs'],['name' => "Alice Smith",'email'=>"alice@mail.com",'phone'=>'09123456782','specialty'=>'legs'],['name' => "Bob-d Builder",'email'=>"bob@mail.com",'phone'=>"09123456783",'specialty'=>"cardio"]];
         foreach($trainers as $t){
             trainers::create($t);
         }
-        $username = base64_encode("fitayo");
-        generate_json(1,"fitayo");
-    }
-
-    private function getPlan(int $plan): string
-    {
-        return ["Basic", "Standard", "Premium"][$plan - 1];
-    }
-
-    private function getMembershipType(int $type)
-    {
-        return ["Member", "Non-Member"][$type - 1];
-    }
-
-    private function getBMI($weight, $height)
-    {
-        return round(($weight / (($height * 12) * ($height * 12)) * 703), 2);
-    }
-
-    private function getBMIType($bmi): string
-    {
-        $bmitypee = "";
-        $category = ["Underweight", "Normal weight", "Overweight", "Obesity"];
-        if ($bmi < 18.5) {
-            $bmitypee = $category[0];
-        } else if ($bmi <= 24.9) {
-            $bmitypee = $category[1];
-        } else if ($bmi <= 29.9) {
-            $bmitypee = $category[2];
-        } else {
-            $bmitypee = $category[3];
-        }
-        return $bmitypee;
     }
 
     public function index()
@@ -143,7 +106,12 @@ class AuthController extends Controller
     {   
         if (Auth::check()) {
             if (Auth::user()->user_type == "user") {
-                return view('dashboard.user', ["withAssessment" => user_assessment::where('userAsses_ID', Auth::id())->first() == null,"profile" => user_profile::where('profile_ID',Auth::id())->first(),"assessment"=>user_assessment::where("userAsses_ID",Auth::id())->first()]);
+                return view('dashboard.user', [
+                "withAssessment" => user_assessment::where('userAsses_ID', Auth::id())->first() == null,
+                "profile" => user_profile::where('profile_ID',Auth::id())->first(),
+                "assessment"=>user_assessment::where("userAsses_ID",Auth::id())->first(),
+                "userProfile" => user_membership::where("userMem_ID",Auth::id())->first()
+            ]);
             }
 
             if (Auth::user()->user_type == "coach") {
@@ -152,11 +120,14 @@ class AuthController extends Controller
 
             return view('dashboard.index', [
                 "members" => members(),
-                "member_count" => user_membership::where("membership_type", "Member")->count(),
-                "monthly" => user_membership::whereMonth('created_at', "=", date('m'))->where("membership_type", "Member")->count(),
-                "id" => User::count()+1,
-                "checkincount" => check_in_count(),
-                "trainers" => trainers::all()
+                "member_count" => user_membership::count(),
+                "monthly" => user_membership::whereMonth('created_at', "=", date('m'))->count(),
+                "guests" => NonMemberModel::whereDate("date",Carbon::now()->format("Y-m-d"))->count()              
+                ,"id" => User::count()+1,
+                "checkincount" => checkins::where("date",Carbon::now()->format("Y-m-d"))->count(),
+                "trainers" => trainers::all(),
+                "non_members" => non_members(),
+                "deadlines" => deadlines()
             ]);
             
         }
@@ -166,9 +137,14 @@ class AuthController extends Controller
 
     public function logout()
     {
-        Session::flush();
-        Auth::logout();
+        if(Auth::check()){
+            Session::flush();
+            Auth::logout();
+            
+            return redirect()->intended();
+        }
+        abort(404);
+        
 
-        return redirect()->intended();
     }
 }

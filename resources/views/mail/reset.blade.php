@@ -8,7 +8,7 @@
   </head>
   <body>
 
-    <a href="{{route('')}}">{{$token}}</a>
+    <a href="">{{$token}}</a>
     
 
   </body>

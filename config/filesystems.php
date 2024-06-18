@@ -59,6 +59,16 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
+        'flags' => [
+            'driver' => 'local',
+            'root' => public_path('flags\\'),
+            'throw' => false
+        ],
+        "jsons" => [
+            'driver' => 'local',
+            'root' => public_path('json\\'),
+            'throw' => false
+        ]
 
     ],
 

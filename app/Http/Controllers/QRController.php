@@ -33,7 +33,7 @@ class QRController extends Controller
             "time_in" => Carbon::now()->format("h:i:m"),
             "time_out"=>null
         ]);
-        return route('dashboard');
+        return redirect('dashboard');
 
     }
     public function check_out(Request $request){

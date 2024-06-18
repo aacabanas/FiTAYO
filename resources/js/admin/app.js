@@ -12,7 +12,6 @@ window.change_phone = function(code){
     $("#regContactPrefix").val(code)
 }
 
-
 new Html5QrcodeScanner('qr-reader',{fps:20,qrbox:{width:250,height:250}}).render((data)=>{
 
     var decoded = JSON.parse(base64.decode(data))
@@ -69,13 +68,21 @@ $("#regCity").on('change',function(){
 $.getJSON("/phonenums",function(data){
     var code = ""
     $.each(data,function(i,v){
-        code+=`<li>
-            <button class='dropdown-item' onclick="window.change_phone(${v['phone']})" value="${v['phone']}" iso-2-dig="${v['code']}" role="button" type="button">
-                <img src="${v['flag']}">&nbsp;&nbsp;${v['phone']} ${v['name']}
-            </button>
-        </li>`
+        if(v['code'] == "PH "){
+            code+=`
+            <option value="${v['phone']}" iso-2-dig="${v['code']}" selected>
+                ${v['phone']}
+            </option>
+        `
+        return
+        }
+        code+=`
+            <option value="${v['phone']}" iso-2-dig="${v['code']}">
+                ${v['phone']} ${v['name']}
+            </option>
+        `
     })
-    $("#contact_prefix").html(code)
+    $("#regContactPrefix").html(code)
 })
 
 

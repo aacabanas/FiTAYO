@@ -18,10 +18,6 @@
                 aria-controls="newmember" aria-selected="false"><i class="fa-solid fa-user-plus"></i> Register Member</a>
         </div>
         <div class="col border-dark">
-            <a href="#assignto" class="nav-link" id="nav-assign" data-bs-toggle="tab" role="tab"
-                aria-controls="assignto" aria-selected="false"><i class="fa-solid fa-gears"></i> Assign Trainer</a>
-        </div>
-        <div class="col border-dark">
             <a href="#check" class="nav-link" id="nav-check" role="tab" aria-selected="false" aria-controls="check"
                 data-bs-toggle="tab">Check in/Check out</a>
         </div>
@@ -59,7 +55,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Guests Today</h5>
-                            <p class="card-text">(rt count)</p>
+                            <p class="card-text">{{$guests}}</p>
                         </div>
                     </div>
                 </div>
@@ -89,19 +85,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Doe</td>
-                                    <td>John</td>
-                                    <td>June xx,xxxx</td>
-                                    <td>john.doe@example.com</td>
-                                </tr>
+                                @foreach ($deadlines as $deadline)
+                                    <tr>
+                                        <td>{{$deadline->lname}}</td>
+                                        <td>{{$deadline->fname}}</td>
+                                        <td>{{$deadline->deadline}}</td>
+                                        <td>{{$deadline->email}}</td>
+                                    </tr>
+                                @endforeach
+                                
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="memberlist" role="tabpanel" aria-labelledby="nav-memberlist">
+        <div class="tab-pane fade" id="memberlist" role="tabpanel" aria-labelledby="nav-memberlist">
             <h2>Member List</h2>
             <br>
             <div class="nav nav-tabs text-center" id="nav-memb">
@@ -175,11 +174,11 @@
 
 
                 </div>
-                <div class="tab-pane" id="nonmemlist" role="tabpanel" aria-labelledby="nav-nonmemlist">
+                <div class="tab-pane fade" id="nonmemlist" role="tabpanel" aria-labelledby="nav-nonmemlist">
                     <br>
                     <div class="row">
                         <div class="col-8">
-                            <h2>Non-Members List</h2>
+                            <h2>Non-Members List({{ DateTime::createFromFormat('!m', date('m'))->format('F'). ' '. date('d Y') }})</h2>
 
                         </div>
                         <div class="col-4"><input type="text" id="search_non_member" class="form-control"
@@ -194,16 +193,16 @@
                                     <th>ID</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Not</td>
-                                    <td>yet</td>
-                                    <td>implemented</td>
-                                    <td>-Happy 2.0 Friends</td>
-                                </tr>
+                                @foreach ($non_members as $non)
+                                    <tr>
+                                        <td>{{$non["ID"]}}</td>
+                                        <td>{{$non["fname"]}}</td>
+                                        <td>{{$non["lname"]}}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -211,7 +210,7 @@
             </div>
 
         </div>
-        <div class="tab-pane" id="newmember" role="tabpanel" aria-labelledby="nav-newmember">
+        <div class="tab-pane fade" id="newmember" role="tabpanel" aria-labelledby="nav-newmember">
             <h2>Registration Form</h2><br>
             <div class="nav nav-tabs text-center" id="nav-regmemb">
                 <div class="col">
@@ -227,12 +226,12 @@
             <div class="tab-content" id="nav-regmembContent">
                 <div class="tab-pane  fade show active" id="regmemlist" role="tabpanel"
                     aria-labelledby="nav-regmemlist"><br>
-                    <form action="{{ route('register') }}" method="POST">
+                    <form action="{{ route('register.POST') }}" method="POST">
                         @csrf
                         <input type="hidden" name="regID" value="{{ $id }}">
-                        <input type="text" name="regMem" id="regMem" class="d-none" value="Member">
 
                         <div class="row text-center border border-black">
+                            <br>
                             <h4>Profile</h4>
                         </div>
                         <br>
@@ -257,15 +256,9 @@
 
                                 <div class=" justify-content-center align-items-center d-flex">
 
-                                    <input type="hidden" name="regContactPrefix" id="regContactPrefix">
 
-                                    <div class="dropdown">
-                                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                            aria-expanded="false" id="contact_prefix_dropdown"></button>
-                                        <ul class="dropdown-menu" id="contact_prefix"
-                                            style="max-height: 250px;overflow-y:scroll;">
-
-                                        </ul>
+                                    <div class="col-1">
+                                        <select name="regContactPrefix" class="form-select" id="regContactPrefix"></select>
                                     </div>
                                     <input type="tel" name="regContactDetails" id="regContactDetails"
                                         placeholder="Enter your contact number" class="form-control" required="required">
@@ -312,6 +305,7 @@
                         <br>
 
                         <div class="row text-center border border-black">
+                            <br>
                             <h4>Membership</h4>
                         </div>
                         <br>
@@ -343,12 +337,13 @@
                                 <select name="regTrainer" id="regTrainer" class="form-select">
                                     <option selected>Choose the trainer</option>
                                     @foreach ($trainers as $trainer)    
-                                        <option value="{{$trainer->firstname}} {{$trainer->lastname}}">{{$trainer->firstname}} {{$trainer->lastname}}</option>
+                                        <option value="{{$trainer->name}}">{{$trainer->name}} | Specialty:{{$trainer->specialty}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div><br>
                         <div class="row text-center border border-black">
+                            <br>
                             <h4>Credentials</h4>
                         </div>
                         <br>
@@ -380,12 +375,24 @@
                     </form>
                 </div>
                 <div class="tab-pane" id="regnonmemlist" role="tabpanel" aria-labelledby="nav-regnonmemlist">
-                    Non-Members
+                    <br>
+                    <form action="{{route('nonmem_check_in')}}" method="post">
+                        @csrf
+                        <div class="row">
+                            <div class="col-1"><label for="firstname" class="form-label">First Name:</label></div>
+                            <div class="col-5"><input type="text" name="firstname" id="firstname" placeholder="Enter Non-Member's first name" class="form-control"></div>
+                            <br>
+                            <div class="col-1"><label for="lastname" class="form-label">Last Name: </label></div>
+                            <div class="col-5"><input type="text" name="lastname" id="lastname" class="form-control" placeholder="Enter Non-Member's last name"></div>
+                            <br>
+                        </div>
+                        <br>
+                        <div class="row"><button type="submit" class="btn btn-primary">submit</button></div>
+                    </form>
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="assignto" role="tabpanel" aria-labelledby="nav-assign">Assign Trainer</div>
-        <div class="tab-pane" id="check" role="tabpanel"
+        <div class="tab-pane fade" id="check" role="tabpanel"
             aria-labelledby="nav-check">
             <div class="container">
                 

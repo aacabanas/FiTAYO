@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\user_membership;
+use App\Models\user_profile;
 use App\Models\UserProfile;
 use App\Models\UserMembership;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class ProfileController extends Controller
     public function edit()
     {
         $user = Auth::user();
-        $userProfile = UserProfile::where('user_ID', $user->id)->first();
+        $userProfile = user_profile::where('profile_ID', Auth::id())->first();
 
         if (!$userProfile) {
             return back()->withErrors(['message' => 'User profile not found.']);
@@ -31,11 +32,11 @@ class ProfileController extends Controller
             'firstName' => 'required|string|max:255',
             'lastName' => 'required|string|max:255',
             'birthdate' => 'required|date',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'profile_image' => 'nullable|image|mimes:jpeg,png|max:2048',  // Size limit of 2048 KB (2 MB)
         ]);
 
-        $userProfile = UserProfile::where('user_ID', $user->id)->first();
+        $userProfile = user_profile::where('profile_ID', Auth::id())->first();
 
         if (!$userProfile) {
             return back()->withErrors(['message' => 'User profile not found.']);
@@ -63,7 +64,7 @@ class ProfileController extends Controller
     public function showProfile()
     {
         $user = Auth::user();
-        $userProfile = UserProfile::where('user_ID', $user->id)->first();
+        $userProfile = user_profile::where('profile_ID', Auth::id())->first();
 
         if (!$userProfile) {
             return back()->withErrors(['message' => 'User profile not found.']);

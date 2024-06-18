@@ -28,13 +28,13 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function userProfile(): HasOne
+    public function user_profile(): HasOne
     {
-        return $this->hasOne(UserProfile::class, 'user_ID');
+        return $this->hasOne(user_profile::class, 'profile_ID');
     }
 
-    public function userMembership(): HasOne
+    public function user_membership(): HasOne
     {
-        return $this->hasOne(UserMembership::class, 'user_id');
+        return $this->hasOne(user_membership::class, 'userMem_id');
     }
 }

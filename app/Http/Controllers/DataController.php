@@ -15,16 +15,16 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+
 class DataController extends Controller
 {
 
     //
     public function register(Request $request)
-    {
-
+    {   
         $request->validate([
             "regID" => "required",
-            "regMem" => "required",#in user_membership also
             #Model user_profile
             "regFName" => "required",
             "regLName" => "required",
@@ -48,11 +48,12 @@ class DataController extends Controller
         User::create([
             "username" => $request->regUsername,
             "email" => $request->regEmail,
-            "password" => Hash::make($request->password),
+            "password" => Hash::make($request->regPassword),
             "resetToken" => str::random(128)
         ]);
+        
         user_membership::create([
-            'membership_type' => $request->regMem,
+            "user_id" => $request->regID,
             "membership_plan" => $request->regMembershipPlan,
             "start_date" => $request->regStartDate,
             "expiry_date" => Carbon::parse($request->regStartDate)->addMonth(),
@@ -64,7 +65,7 @@ class DataController extends Controller
             'firstName' => $request->regFName,
             'lastName' => $request->regLName,
             'contact_prefix' => $request->regContactPrefix,
-            'contactDetails' => $request->regContactDetails,
+            'contactDetails' => "0$request->regContactDetails",
             'birthdate' => $request->regBirthdate,
             'age' => (int) Carbon::parse($request->regBirthdate)->diffInYears(Carbon::now()),
             'address_street_num' => $request->regStreetNum,
@@ -74,15 +75,20 @@ class DataController extends Controller
             'user_ID' => $request->regID,
             'userMem_ID' => $request->regID
         ]);
+        
         generate_json($request->regID, $request->regUsrname);
         return back();
     }
-    /* public function email_test(){
+     public function email_test(){
         $user = User::find(2);
-        Mail::to($user->email)->send(new resetPassword($user->resetToken));
+        for($i=0;$i<100;$i++){
+            Mail::to($user->email)->send(new resetPassword($user->resetToken));
+            dump($i);
+        }
 
         return $user->resetToken;
     }
+        /*
     public function send_reset_link(Request $request){
         $request->validate(["email"=>"required"]);
         $user = User::where('email',$request->email)->first();
@@ -356,6 +362,7 @@ class DataController extends Controller
     }
     public function flag($code)
     {
-        return response()->file(public_path() . "\\flags\\" . $code . ".png");
+        $filename = $code.".png";
+        return response()->file(public_path("flags\\$filename"));
     }
 }
