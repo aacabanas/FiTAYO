@@ -62,11 +62,18 @@ Route::post('nonmemberRegister',[NonMemberController::class,'check_in'])->name("
 
 
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::get('password/reset', [ResetPasswordController::class, 'showResetForm'])->name('password.request');
-    Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
-});
+
+// Route for forgot password form
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+
+// Route for handling the forgot password form submission
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+// Route for reset password form
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+
+// Route for handling the password reset form submission
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 
 
