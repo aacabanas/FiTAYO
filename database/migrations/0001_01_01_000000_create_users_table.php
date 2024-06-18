@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('MilestoneProgress',function(Blueprint $table){
             $table->id();
             $table->string('lift');
+            $table->integer('reps');
             $table->string('username');
             $table->string('status')->default("pending");
             $table->timestamps();
@@ -66,14 +67,15 @@ return new class extends Migration {
             $table->string('Trainer', length: 255)->nullable()->default(null);
             $table->timestamps();
         });
-        Schema::create('milestone_details', function (Blueprint $table) {
-            $table->id('milestone_ID');
-            $table->string('milestoneName', length: 255);
-            $table->string('milestoneDetails', length: 1000);
-            $table->string('repetitions', length: 255);
-            $table->string('weight_increment', length: 255);
-            $table->string('goal', length: 255);
-            $table->timestamps();
+        
+        Schema::create('user_milestones', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();//do not remove
+            $table->string('username');
+            $table->string('lift');
+            $table->integer('reps');
+            $table->integer('weight');
+
         });
         //tables with foreign keys(FK)
         Schema::create('user_profile', function (Blueprint $table) {
@@ -93,15 +95,7 @@ return new class extends Migration {
             $table->foreignId('user_ID')->constrained('users', 'id')->onDelete('cascade');
             $table->foreignId('userMem_ID')->constrained('user_membership', 'userMem_ID')->onDelete('cascade');
         });
-        Schema::create('user_milestones', function (Blueprint $table) {
-            $table->id('userMilestone_ID');
-            $table->timestamps();//do not remove
-            $table->float('currentProgress');
-            $table->boolean('status');
-            $table->boolean('checked_in');
-            $table->foreignId('profile_ID')->constrained('user_profile', 'profile_ID')->onDelete('cascade');
-
-        });
+        
         Schema::create('user_assessment', function (Blueprint $table) {
             $table->integer('userAsses_ID');
             $table->primary('userAsses_ID');

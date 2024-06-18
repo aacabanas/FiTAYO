@@ -4,9 +4,11 @@ use App\Http\Controllers\NonMemberController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DataController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MilestoneProgressController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 
@@ -58,8 +60,9 @@ Route::middleware('auth')->group(function () {
 //Route::get('/reset-password',[DataController::class,'reset_view']);
 Route::post('nonmemberRegister',[NonMemberController::class,'check_in'])->name("nonmem_check_in");
 
-
-
+Route::post('milestoneProgress',[MilestoneProgressController::class,'create_request'])->name('milestoneProgress.POST');
+Route::get('/approve/{id}',[MilestoneProgressController::class,'approve'])->name('approve');
+Route::get('/reject/{id}',[MilestoneProgressController::class,'reject'])->name('reject');
 
 
 
@@ -80,4 +83,4 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 //Route::post('/reset-password',[DataController::class,'reset_password'])->name('reset_pass');
 //Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');

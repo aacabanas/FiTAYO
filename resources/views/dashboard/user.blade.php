@@ -547,21 +547,40 @@
                                         <div class="progress" style="height: 30px;">
                                             <div id="benchPress1RM" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-
+                                        
                                         <div class="progress-text-indicators">
                                             <span style="left: 0%;">0KG</span>
                                             <span style="left: 20%;">20KG</span>
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
+                                            <span style="left: 99%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="BenchPress" reps="1">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BenchPress" reps="1">Advance Progress</button>
+                                        <div class="progbtn row" style="margin-top: 30px">
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="Bench Press">
+                                                        <input type="text" name="reps" id="reps" value="1">
+                                                        <input type="text" name="progress" id="progress" value="-20">
+                                                    </div>
+                                                    <button class="btn btn-danger mt-2" type="submit" lift="BenchPress" reps="1">I slacked off</button>
+                                                </form>
+                                            </div>
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="Bench Press">
+                                                        <input type="text" name="reps" id="reps" value="1">
+                                                        <input type="text" name="progress" id="progress" value="+20">
+                                                    </div>
+                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
+                                                </form>
+                                            </div>
                                         </div>
-                                        
                                     </div>
                                 </div>
                                 <div class="box">
@@ -577,12 +596,32 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
+                                            <span style="left: 99%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="Deadlift" reps="1">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="Deadlift" reps="1">Advance Progress</button>
+                                        <div class="progbtn row" style="margin-top: 30px">
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="Deadlift">
+                                                        <input type="text" name="reps" id="reps" value="1">
+                                                        <input type="text" name="progress" id="progress" value="-20">
+                                                    </div>
+                                                    <button class="btn btn-danger mt-2" type="submit">I slacked off</button>
+                                                </form>
+                                            </div>
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="Deadlift">
+                                                        <input type="text" name="reps" id="reps" value="1">
+                                                        <input type="text" name="progress" id="progress" value="+20">
+                                                    </div>
+                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
+                                                </form>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -590,7 +629,7 @@
                                 <div class="box">
                                     <h3>BARBELL SQUATS</h3>
                                     <div class="progress-container">
-                                        <div class="row" style="height: 30px; width:40%;background-color:green">
+                                        <div class="row" style="height: 30px; width:40%;background-color:green;display:flex">
                                            
                                         </div>
 
@@ -600,12 +639,32 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
+                                            <span style="left: 99%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="BarbelSquats" reps="1">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BarbelSquats" reps="1">Advance Progress</button>
+                                        <div class="progbtn row" style="margin-top: 30px">
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="BarbelSquats">
+                                                        <input type="text" name="reps" id="reps" value="1">
+                                                        <input type="text" name="progress" id="progress" value="-20">
+                                                    </div>
+                                                    <button class="btn btn-danger mt-2" type="submit">I slacked off</button>
+                                                </form>
+                                            </div>
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="BarbelSquats">
+                                                        <input type="text" name="reps" id="reps" value="1">
+                                                        <input type="text" name="progress" id="progress" value="+20">
+                                                    </div>
+                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
+                                                </form>
+                                            </div>
                                         </div>
                                         
                                     </div>
@@ -628,12 +687,32 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
+                                            <span style="left: 99%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="BenchPress" reps="6">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BenchPress" reps="6">Advance Progress</button>>
+                                        <div class="progbtn row" style="margin-top: 30px">
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="Bench Press">
+                                                        <input type="text" name="reps" id="reps" value="6">
+                                                        <input type="text" name="progress" id="progress" value="-20">
+                                                    </div>
+                                                    <button class="btn btn-danger mt-2" type="submit" lift="BenchPress" reps="1">I slacked off</button>
+                                                </form>
+                                            </div>
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="Bench Press">
+                                                        <input type="text" name="reps" id="reps" value="6">
+                                                        <input type="text" name="progress" id="progress" value="+20">
+                                                    </div>
+                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
+                                                </form>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -651,12 +730,32 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
+                                            <span style="left: 99%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="Deadlift" reps="6">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="Deadlift" reps="6">Advance Progress</button>
+                                        <div class="progbtn row" style="margin-top: 30px">
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="Deadlift">
+                                                        <input type="text" name="reps" id="reps" value="6">
+                                                        <input type="text" name="progress" id="progress" value="-20">
+                                                    </div>
+                                                    <button class="btn btn-danger mt-2" type="submit">I slacked off</button>
+                                                </form>
+                                            </div>
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="Deadlift">
+                                                        <input type="text" name="reps" id="reps" value="6">
+                                                        <input type="text" name="progress" id="progress" value="+20">
+                                                    </div>
+                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
+                                                </form>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -674,12 +773,32 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
+                                            <span style="left: 99%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="BarbelSquats" reps="6">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BarbelSquats" reps="6">Advance Progress</button>
+                                        <div class="progbtn row" style="margin-top: 30px">
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="BarbelSquats">
+                                                        <input type="text" name="reps" id="reps" value="6">
+                                                        <input type="text" name="progress" id="progress" value="-20">
+                                                    </div>
+                                                    <button class="btn btn-danger mt-2" type="submit">I slacked off</button>
+                                                </form>
+                                            </div>
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="BarbelSquats">
+                                                        <input type="text" name="reps" id="reps" value="6">
+                                                        <input type="text" name="progress" id="progress" value="+20">
+                                                    </div>
+                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -701,12 +820,32 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
+                                            <span style="left: 99%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="BenchPress" reps="12">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BenchPress" reps="12">Advance Progress</button>
+                                        <div class="progbtn row" style="margin-top: 30px">
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="Bench Press">
+                                                        <input type="text" name="reps" id="reps" value="12">
+                                                        <input type="text" name="progress" id="progress" value="-20">
+                                                    </div>
+                                                    <button class="btn btn-danger mt-2" type="submit" lift="BenchPress" reps="1">I slacked off</button>
+                                                </form>
+                                            </div>
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="Bench Press">
+                                                        <input type="text" name="reps" id="reps" value="12">
+                                                        <input type="text" name="progress" id="progress" value="+20">
+                                                    </div>
+                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
+                                                </form>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -724,13 +863,32 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
+                                            <span style="left: 99%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="Deadlift" reps="12">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="Deadlift" reps="12
-                                            ">Advance Progress</button>
+                                        <div class="progbtn row" style="margin-top: 30px">
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="Deadlift">
+                                                        <input type="text" name="reps" id="reps" value="12">
+                                                        <input type="text" name="progress" id="progress" value="-20">
+                                                    </div>
+                                                    <button class="btn btn-danger mt-2" type="submit">I slacked off</button>
+                                                </form>
+                                            </div>
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="Deadlift">
+                                                        <input type="text" name="reps" id="reps" value="12">
+                                                        <input type="text" name="progress" id="progress" value="+20">
+                                                    </div>
+                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     
                                     </div>
@@ -748,12 +906,32 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
+                                            <span style="left: 99%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="BarbelSquats" reps="12">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BarbelSquats" reps="12">Advance Progress</button>
+                                        <div class="progbtn row" style="margin-top: 30px">
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="BarbelSquats">
+                                                        <input type="text" name="reps" id="reps" value="12">
+                                                        <input type="text" name="progress" id="progress" value="-20">
+                                                    </div>
+                                                    <button class="btn btn-danger mt-2" type="submit">I slacked off</button>
+                                                </form>
+                                            </div>
+                                            <div class="col">
+                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
+                                                    @csrf
+                                                    <div class="d-none">
+                                                        <input type="text" name="lift" id="lift" value="BarbelSquats">
+                                                        <input type="text" name="reps" id="reps" value="12">
+                                                        <input type="text" name="progress" id="progress" value="+20">
+                                                    </div>
+                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

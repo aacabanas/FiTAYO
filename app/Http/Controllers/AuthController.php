@@ -9,6 +9,7 @@ use App\Models\user_assessment;
 use App\Models\checkins;
 use App\Models\user_profile;
 use App\Models\user_membership;
+use App\Models\MilestoneProgress;
 use App\Models\trainers;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -115,7 +116,9 @@ class AuthController extends Controller
             }
 
             if (Auth::user()->user_type == "coach") {
-                return view('dashboard.coach');
+                return view('dashboard.coach',[
+                    "pendings" => MilestoneProgress::whereDate("date",Carbon::now()->toDateString())->where('status','pending')->get()
+                ]);
             }
 
             return view('dashboard.index', [

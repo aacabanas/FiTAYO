@@ -9,22 +9,6 @@ console.log("app.js is loaded!");
 window.$ = jQuery;
 
 
-$.each(['work','lazy'],function(i,v){
-    var operator = v=="work"?"+":"-"
-    $.each($(`button[type='${v}']`),function(i,x){
-        $(x).on('click',function(e){
-            e.preventDefault()
-            var lift = $(this).attr('lift')
-            var reps = $(this).attr('reps')
-            var prog = `${operator}20`
-            var data = JSON.parse(`{
-                "lift":"${lift}",
-                "reps" : ${reps},
-                "progress":"${prog}"}`)
-            console.log(data)
-        })
-    })
-})
 
 // Profile tab navigation
 $("li>a.nav-link").on('click',function(e){

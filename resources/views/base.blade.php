@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @if (auth()->user()==null||auth()->user()->user_type == "user")
         @vite(['resources/js/user/app.js'])
+    @elseif (auth()->user()==null||auth()->user()->user_type == "coach")
+        @vite(['resources/js/coach/app.js'])
+
     @else
         @vite(['resources/js/admin/app.js'])
     @endif
@@ -14,7 +17,7 @@
 </head>
 
 <body>
-
+    
     @if (View::getSection('title') == 'Login' )
         <div class="container-fluid d-flex my-auto mx-auto align-items-center justify-content-center" style="height:75vh">
             
