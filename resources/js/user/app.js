@@ -8,7 +8,7 @@ console.log("app.js is loaded!");
 
 window.$ = jQuery;
 
-
+$("#hasAssessment").text()==1?$("#showModal").click():null
 $.each(['work','lazy'],function(i,v){
     var operator = v=="work"?"+":"-"
     $.each($(`button[type='${v}']`),function(i,x){

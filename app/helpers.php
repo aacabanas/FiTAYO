@@ -2,6 +2,7 @@
 use App\Models\checkins;
 use App\Models\user_membership;
 use App\Models\user_profile;
+use App\Models\user_milestones;
 use App\Models\NonMemberModel;
 use App\Models\User;
 use Carbon\Carbon;
@@ -139,6 +140,19 @@ if(!function_exists("generate_json")){
 }
 if(!function_exists("check_in_count")){
     function check_in_count(){return checkins::where("date",Carbon::now()->format("Y-m-d"))->count();}
+}
+if(!function_exists("get_top")){
+    function get_top($limit = 5){
+        $press = ["Bench Press","Deadlift","Squats"];
+        $reps = [1,6,12];
+        $data = [];
+        for($_=0;$_<3;$_++){
+            $pre = $press[$_];
+            $rep = $reps[$_];
+            $dat = [];
+            
+        }
+    }
 }
 class JSON_DATA{
     private static function json_file(){

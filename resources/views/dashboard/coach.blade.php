@@ -6,10 +6,7 @@
 <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="js/user/app.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/1L_dstPt3HV5HzF6Gvk/e3s4Wz6iJgD/+ub2oU" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+
         
         <style>
             .navbar-nav {
@@ -60,9 +57,7 @@
                 font-size: 0.9em;
             }
             
-            .table th:first-child, .table td:first-child {
-                min-width: 120px;
-            }
+            
              
         </style>
 
@@ -70,8 +65,7 @@
 
     <body> 
         <header class="container-fluid bg-primary text-white" style="padding: 20px; margin-bottom: 20px; margin-top: 20px">
-            <h1>Leaderboards</h1>
-            <p class="d-none" id="hasAssessment">{{ $withAssessment }}</p>
+            <h1 id="title">Leaderboards</h1>
             <p id="date">
                 {{ DateTime::createFromFormat('!m', date('m'))->format('F'). ' '. date('d Y') }}
             </p>
@@ -84,7 +78,8 @@
                     </li>
                     <li class="nav-item">
                         <a href="#" id="nav-trainees-tab" data-bs-toggle="tab" data-bs-target="#nav-trainees" class="nav-link" role="tab" aria-controls="nav-milestones" aria-selected="false">Trainees</a>
-                    </li>  
+                    </li>
+                    <li class="nav-item"><a href="{{route('logout')}}" class="nav-link">Logout</a></li>
                 </ul>
             </nav>
 
@@ -265,36 +260,34 @@
                         </div>
                     </nav>
 
-                    <div class="tab-content" id="nav-tabContent"> 
+                    <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="nav-advancements" role="tabpanel" aria-labelledby="nav-advancements"> 
-                            <table class="table table-striped">
+                            <table class="table table-striped text-center">
                                 <thead>
                                     <tr>
-                                    <th>Name</th>
-                                    <th>Milestone Details</th>
-                                    <th>Actions</th>
+                                        <th>ID</th>
+                                        <th>Username</th>
+                                        <th>Lift</th>
+                                        <th>Weight</th>
+                                        <th>Reps Category</th>
+                                        <th colspan="2">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                    <td>John Doe</td>
-                                    <td>John Doe advances progress for BENCH PRESS with a new record of 80 KG in 6 REPS category.</td>
-                                    <td>
-                                        <button class="btn btn-sm btn-primary">Confirm Advancement</button>
-                                    </td>
-                                    </tr>
-                                    <tr>
-                                    <td>Jane Smith</td>
-                                    <td>
-                                        Jane Smith advances progress for DEADLIFT with a new record of 100 KG in 1 REP MAX category.
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-primary">Confirm Advancement</button>
-                                    </td>
-                                    </tr>
-                                    
+                                    @foreach ($pendings as $pending)
+                                        <td>{{$pending->id}}</td>
+                                        <td>{{$pending->username}}</td>
+                                        <td>{{$pending->lift}}</td>
+                                        <td>{{$pending->action}}</td>
+                                        <td>{{$pending->reps}}</td>
+                                        <td>
+                                            <a href="{{route('approve',$pending->id)}}" class="btn btn-success">Approve</a>
+                                        <a href="{{route('reject',$pending->id)}}" class="btn btn-danger">Reject</a></td>
+                                    @endforeach
                                 </tbody>
                             </table>
+                           
+                            
                                                           
                             
                         </div>

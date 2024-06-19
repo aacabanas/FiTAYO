@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class MilestoneProgress extends Model
 {
     use HasFactory;
+    protected $table = "MilestoneProgress";
     protected $fillable = [
-        'lift','username','status','data','action','request_time'
+        'lift','reps','username','status','date','action','request_time'
     ];
 }
