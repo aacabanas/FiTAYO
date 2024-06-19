@@ -30,11 +30,11 @@ class User extends Authenticatable
 
     public function user_profile(): HasOne
     {
-        return $this->hasOne(user_profile::class, 'profile_ID');
+        return $this->hasOne(user_profile::class, 'user_ID');
     }
 
     public function user_membership(): HasOne
     {
-        return $this->hasOne(user_membership::class, 'userMem_id');
+        return $this->hasOne(user_membership::class, 'user_id');
     }
 }

@@ -10,6 +10,7 @@ use App\Models\checkins;
 use App\Models\user_profile;
 use App\Models\MilestoneProgress;
 use App\Models\user_membership;
+use App\Models\MilestoneProgress;
 use App\Models\trainers;
 use App\Models\User;
 use Illuminate\Http\Request;

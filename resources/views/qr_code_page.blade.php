@@ -1,6 +1,7 @@
 @extends('base')
 @section('title', 'QR Code')
 @section('content')
+
 <div class="container text-center mt-5">
     <div class="row mt-5 justify-content-center">
         <div class="col-md-6">
@@ -17,6 +18,25 @@
     </div>
 </div>
 
+<div id="qrCodePage" class="page-content" style="display: none;">
+    <h3>QR Code</h3>
+    <div class="container text-center mt-5">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-6">
+                <div class="qr-code-container shadow-lg rounded">
+                    <img src="{{ route('qr',auth()->user()->id) }}" alt="QR Code" class="img-fluid qr-code-image rounded">
+                    <div class="scan-me mt-3">
+                        <i class="fa fa-mobile"></i>
+                        <span class="scan-me-text">SCAN ME</span>
+                    </div>
+                    <p class="qr-instruction mt-3">Present this QR code to the Gym Admin to check in/out</p>
+                    <button class="btn btn-secondary mt-3" onclick="showPage('profileTab')"><i class="fa fa-arrow-left"></i> Back</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+	
 <style>
     .qr-code-container {
         background-color: #f8f9fa;
