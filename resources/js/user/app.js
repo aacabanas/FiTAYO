@@ -9,12 +9,25 @@ console.log("app.js is loaded!");
 window.$ = jQuery;
 
 $("#hasAssessment").text()==1?$("#showModal").click():null
-
-
 // Profile tab navigation
 $("li>a.nav-link").on('click',function(e){
     $("#title").text($(this).text())
 })
+$("#regWeight,#regHeight").on('change',function(e){
+    var height = $("#regHeight").val()
+    var weight = $("#regWeight").val()
+    if(height == "" && weight == "")return
+    var user_bmi = bmi(height,weight)
+    $("#regBMI").val(user_bmi)
+    $("#regBMIType").val(bmi_type(user_bmi))
+})
+const bmi = function(height,weight){return Math.round((weight/Math.pow(height,2))*703)}
+const bmi_type = function(bmi){
+    if(bmi<18.5)return "Underweight"
+    if(bmi<=24.9) return "Normal"
+    if(bmi<=29.9) return "Overweight"
+    return "Obese"
+}
 document.addEventListener('DOMContentLoaded', function () {
     console.log("DOM fully loaded and parsed");
 
@@ -64,7 +77,3 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.profile-container').style.display = 'block';
     }
 });
-
-
-
-

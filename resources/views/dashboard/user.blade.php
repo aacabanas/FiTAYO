@@ -161,10 +161,63 @@
             margin-bottom: 15px;
         }
 
-            .form-group label {
-                display: block;
-                margin-bottom: 5px;
-            }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        body.dark-mode .card {
+            background-color: #333 !important; 
+            color: #f1f1f1; 
+        }
+
+        body.light-mode .profile-email, 
+        body.light-mode .text-muted.small {
+            color: #6c757d !important;
+        }
+
+        body.dark-mode {
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
+
+        /* Dark mode specific styles */
+        body.dark-mode .card {
+            background-color: #21262d !important;
+            color: #f1f1f1; 
+        }
+
+        body.dark-mode .card-text, .profile-email, .text-muted.small {
+        color: #f1f1f1; 
+        }
+
+        body.dark-mode .form-control {
+            color: #f1f1f1;
+        }
+
+        body.dark-mode .form-label {
+            color: #f1f1f1; 
+        }
+
+        body.dark-mode .btn-primary {
+            background-color: #007bff; 
+            border-color: #007bff;
+        }
+
+        body.dark-mode .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .form-control {
+        border-radius: 0.25rem;
+        padding: 10px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #343a40;
+        }
 
         .form-group input[type="number"] {
             width: 100%;
@@ -315,85 +368,323 @@
             margin-right: 10px;
         }
 
-            .profile-button-text {
-                margin-left: 10px;
-            }
+        .profile-button-text {
+            margin-left: 10px;
+        }
 
-            /* QR */
+        .toggle-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-right: 20px; 
+        }
 
-            .qr-code-container {
-                background-color: #f8f9fa;
-                padding: 20px;
-                border-radius: 10px;
-                text-align: center;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-                transition: transform 0.3s, box-shadow 0.3s;
-            }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 66px;
+            height: 34px;
+        }
 
-            .qr-code-image {
-                border: 5px solid #000;
-                padding: 10px;
-                background-color: #fff;
-                max-width: 100%;
-                height: auto;
-            }
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
 
-            .scan-me {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                margin-top: 15px;
-                padding: 10px;
-                background-color: #000;
-                color: #fff;
-                border-radius: 10px;
-                font-size: 1.2em;
-                font-weight: bold;
-            }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-            .scan-me i {
-                margin-right: 10px;
-            }
+        .slider:before {
+            position: absolute;
+            content: "\263C";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            font-size: 18px;
+            color: #fdd835;
+        }
 
-            .scan-me-text {
-                margin-left: 10px;
-            }
+        input:checked + .slider {
+            background-color: #1e3a8a;
+        }
 
-            .qr-instruction {
-                margin-top: 10px;
-                font-size: 1.2em;
-                color: #212529;
-            }
+        input:checked + .slider:before {
+            transform: translateX(33px);
+            content: "\263E"; 
+            color: #1e3a8a;
+        }
 
-            .btn-secondary {
-                background-color: #6c757d;
-                border-color: #6c757d;
-                padding: 10px 20px;
-                font-size: 1em;
-                border-radius: 0.25rem;
-                transition: background-color 0.3s, border-color 0.3s;
-            }
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #0d1117;
+            color: #c9d1d9;
+        }
 
-            .btn-secondary:hover {
-                background-color: #5a6268;
-                border-color: #545b62;
-            }
+        .dark-mode .container,
+        .dark-mode .card,
+        .dark-mode .profile-header,
+        .dark-mode .profile-body,
+        .dark-mode .profile-button,
+        .dark-mode .page-content,
+        .dark-mode .navbar,
+        .dark-mode .footer {
+            background-color: #161b22;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
 
-            .rounded {
-                border-radius: 10px;
-            }
-        </style>
+        .dark-mode .navbar .nav-link,
+        .dark-mode .footer .nav-link {
+            color: #c9d1d9;
+        }
+
+        .dark-mode .btn {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .btn:hover {
+            background-color: #30363d;
+            border-color: #484f58;
+        }
+
+        .dark-mode .form-control {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .form-control::placeholder {
+            color: #8b949e;
+        }
+
+        .dark-mode .text-primary {
+            color: #58a6ff !important;
+        }
+
+        .dark-mode .text-secondary, .card-title {
+            color: #8b949e !important;
+        }
+
+        .dark-mode .bg-primary {
+            background-color: #21262d !important;
+        }
+
+        .dark-mode .card-title,
+        .dark-mode .profile-name,
+        .dark-mode .profile-plan {
+            color: #c9d1d9;
+        }
+
+        .dark-mode .form-label {
+            color: #c9d1d9;
+        }
+
+        .dark-mode .qr-code-container {
+            background-color: #21262d;
+        }
+
+        .dark-mode .qr-code-image {
+            border: 5px solid #30363d;
+            color: #000000;
+        }
+
+        .dark-mode .scan-me {
+            background-color: #30363d;
+        }
+
+        .dark-mode .scan-me-text {
+            color: #c9d1d9;
+        }
+
+        .dark-mode .qr-instruction {
+            color: #c9d1d9;
+        }
+
+        .dark-mode .profile-button:hover {
+            background-color: #30363d;
+            color: #c9d1d9;
+        }
+
+        .dark-mode .card.policies-card {
+            background-color: #21262d;
+        }
+
+        .dark-mode .policies-content p,
+        .dark-mode .policies-content ul {
+            color: #c9d1d9;
+        }
+
+        .dark-mode .policies-content h6 {
+            color: #58a6ff;
+        }
+
+        .dark-mode .table {
+        background-color: #21262d;
+        color: #c9d1d9;
+        }
+
+        .dark-mode .table thead th {
+            background-color: #30363d;
+            color: #c9d1d9;
+        }
+
+        .dark-mode .table tbody tr {
+            background-color: #21262d;
+            color: #c9d1d9;
+        }
+
+        .dark-mode .table tbody tr:hover {
+            background-color: #30363d;
+        }
+
+        .dark-mode .nav-link.active {
+            background-color: #21262d;
+            color: #58a6ff;
+        }
+
+        .dark-mode .box {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .progress-container {
+            background-color: #30363d;
+        }
+
+        .dark-mode .progress-bar {
+            background-color: #58a6ff;
+        }
+
+        .dark-mode .progbtn .btn-danger {
+            background-color: #dc3545;
+            border-color: #b32434;
+        }
+
+        .dark-mode .progbtn .btn-danger:hover {
+            background-color: #b32434;
+            border-color: #912123;
+        }
+
+        .dark-mode .progbtn .btn-success {
+            background-color: #28a745;
+            border-color: #218838;
+        }
+
+        .dark-mode .progbtn .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .dark-mode .category-box {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .bmi-metrics-box {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .modal-content {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .modal-header,
+        .dark-mode .modal-footer {
+            border-color: #30363d;
+        }
+
+        .dark-mode #update-metrics-btn {
+            background-color: #0056b3;
+            color: #ffffff;
+            border-color: #0056b3;
+        }
+
+        .dark-mode #update-metrics-btn:hover {
+            background-color: #004494;
+            border-color: #004494;
+        }
+
+        .dark-mode #save-metrics-btn {
+            background-color: #28a745;
+            color: #ffffff;
+            border-color: #28a745;
+        }
+
+        .dark-mode #save-metrics-btn:hover {
+            background-color: #218838;
+            border-color: #218838;
+        }
+
+        .dark-mode .edit-profile-card {
+            background-color: #21262d;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .form-group {
+            background-color: #161b22;
+            border-color: #30363d;
+        }
+
+        .dark-mode .form-control {
+            background-color: #161b22;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        .dark-mode .btn-primary {
+            background-color: #0056b3;
+            color: #ffffff;
+            border-color: #0056b3;
+        }
+
+        .dark-mode .btn-primary:hover {
+            background-color: #004494;
+            border-color: #004494;
+        }
+        
+    </style>
  
      <!-- Dark Mode Toggle Switch -->
-     <div>
-     <div class="toggle-container">
-        <label class="switch">
-            <input type="checkbox" id="darkModeToggle">
-            <span class="slider round"></span>
-        </label>
-    </div>
+     
  <header class="container-fluid bg-primary text-white" style="padding: 20px; margin-bottom: 20px; margin-top: 20px">
-    <h1 id="title">Leaderboards</h1>
+    <div class="row">
+    
+        <div class="col-1"><h1 id="title">Leaderboards</h1></div>
+        <div class="col-10"></div>
+        <div class="col-1"><div>
+            <div class="toggle-container">
+               <label class="switch">
+                   <input type="checkbox" id="darkModeToggle">
+                   <span class="slider round"></span>
+               </label>
+           </div></div>
+    </div>
     <p class="d-none" id="hasAssessment">{{ $withAssessment }}</p>
     <p id="date">
         {{ DateTime::createFromFormat('!m', date('m'))->format('F'). ' '. date('d Y') }}
@@ -609,40 +900,21 @@
                                         <div class="progress" style="height: 30px;">
                                             <div id="benchPress1RM" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-                                        
+
                                         <div class="progress-text-indicators">
                                             <span style="left: 0%;">0KG</span>
                                             <span style="left: 20%;">20KG</span>
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 99%;">100KG</span>
+                                            <span style="left: 100%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn row" style="margin-top: 30px">
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="Bench Press">
-                                                        <input type="text" name="reps" id="reps" value="1">
-                                                        <input type="text" name="progress" id="progress" value="-20">
-                                                    </div>
-                                                    <button class="btn btn-danger mt-2" type="submit" lift="BenchPress" reps="1">I slacked off</button>
-                                                </form>
-                                            </div>
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="Bench Press">
-                                                        <input type="text" name="reps" id="reps" value="1">
-                                                        <input type="text" name="progress" id="progress" value="+20">
-                                                    </div>
-                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
-                                                </form>
-                                            </div>
+                                        <div class="progbtn" style="margin-top: 30px">
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="BenchPress" reps="1">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BenchPress" reps="1">Advance Progress</button>
                                         </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="box">
@@ -658,32 +930,12 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 99%;">100KG</span>
+                                            <span style="left: 100%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn row" style="margin-top: 30px">
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="Deadlift">
-                                                        <input type="text" name="reps" id="reps" value="1">
-                                                        <input type="text" name="progress" id="progress" value="-20">
-                                                    </div>
-                                                    <button class="btn btn-danger mt-2" type="submit">I slacked off</button>
-                                                </form>
-                                            </div>
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="Deadlift">
-                                                        <input type="text" name="reps" id="reps" value="1">
-                                                        <input type="text" name="progress" id="progress" value="+20">
-                                                    </div>
-                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
-                                                </form>
-                                            </div>
+                                        <div class="progbtn" style="margin-top: 30px">
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="Deadlift" reps="1">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="Deadlift" reps="1">Advance Progress</button>
                                         </div>
 
                                     </div>
@@ -691,7 +943,7 @@
                                 <div class="box">
                                     <h3>BARBELL SQUATS</h3>
                                     <div class="progress-container">
-                                        <div class="row" style="height: 30px; width:40%;background-color:green;display:flex">
+                                        <div class="row" style="height: 30px; width:40%;background-color:green">
                                            
                                         </div>
 
@@ -701,32 +953,12 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 99%;">100KG</span>
+                                            <span style="left: 100%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn row" style="margin-top: 30px">
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="BarbelSquats">
-                                                        <input type="text" name="reps" id="reps" value="1">
-                                                        <input type="text" name="progress" id="progress" value="-20">
-                                                    </div>
-                                                    <button class="btn btn-danger mt-2" type="submit">I slacked off</button>
-                                                </form>
-                                            </div>
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="BarbelSquats">
-                                                        <input type="text" name="reps" id="reps" value="1">
-                                                        <input type="text" name="progress" id="progress" value="+20">
-                                                    </div>
-                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
-                                                </form>
-                                            </div>
+                                        <div class="progbtn" style="margin-top: 30px">
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="BarbelSquats" reps="1">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BarbelSquats" reps="1">Advance Progress</button>
                                         </div>
                                         
                                     </div>
@@ -749,32 +981,12 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 99%;">100KG</span>
+                                            <span style="left: 100%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn row" style="margin-top: 30px">
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="Bench Press">
-                                                        <input type="text" name="reps" id="reps" value="6">
-                                                        <input type="text" name="progress" id="progress" value="-20">
-                                                    </div>
-                                                    <button class="btn btn-danger mt-2" type="submit" lift="BenchPress" reps="1">I slacked off</button>
-                                                </form>
-                                            </div>
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="Bench Press">
-                                                        <input type="text" name="reps" id="reps" value="6">
-                                                        <input type="text" name="progress" id="progress" value="+20">
-                                                    </div>
-                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
-                                                </form>
-                                            </div>
+                                        <div class="progbtn" style="margin-top: 30px">
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="BenchPress" reps="6">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BenchPress" reps="6">Advance Progress</button>>
                                         </div>
 
                                     </div>
@@ -792,32 +1004,12 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 99%;">100KG</span>
+                                            <span style="left: 100%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn row" style="margin-top: 30px">
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="Deadlift">
-                                                        <input type="text" name="reps" id="reps" value="6">
-                                                        <input type="text" name="progress" id="progress" value="-20">
-                                                    </div>
-                                                    <button class="btn btn-danger mt-2" type="submit">I slacked off</button>
-                                                </form>
-                                            </div>
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="Deadlift">
-                                                        <input type="text" name="reps" id="reps" value="6">
-                                                        <input type="text" name="progress" id="progress" value="+20">
-                                                    </div>
-                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
-                                                </form>
-                                            </div>
+                                        <div class="progbtn" style="margin-top: 30px">
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="Deadlift" reps="6">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="Deadlift" reps="6">Advance Progress</button>
                                         </div>
 
                                     </div>
@@ -835,32 +1027,12 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 99%;">100KG</span>
+                                            <span style="left: 100%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn row" style="margin-top: 30px">
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="BarbelSquats">
-                                                        <input type="text" name="reps" id="reps" value="6">
-                                                        <input type="text" name="progress" id="progress" value="-20">
-                                                    </div>
-                                                    <button class="btn btn-danger mt-2" type="submit">I slacked off</button>
-                                                </form>
-                                            </div>
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="BarbelSquats">
-                                                        <input type="text" name="reps" id="reps" value="6">
-                                                        <input type="text" name="progress" id="progress" value="+20">
-                                                    </div>
-                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
-                                                </form>
-                                            </div>
+                                        <div class="progbtn" style="margin-top: 30px">
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="BarbelSquats" reps="6">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BarbelSquats" reps="6">Advance Progress</button>
                                         </div>
                                     </div>
                                 </div>
@@ -882,32 +1054,12 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 99%;">100KG</span>
+                                            <span style="left: 100%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn row" style="margin-top: 30px">
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="Bench Press">
-                                                        <input type="text" name="reps" id="reps" value="12">
-                                                        <input type="text" name="progress" id="progress" value="-20">
-                                                    </div>
-                                                    <button class="btn btn-danger mt-2" type="submit" lift="BenchPress" reps="1">I slacked off</button>
-                                                </form>
-                                            </div>
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="Bench Press">
-                                                        <input type="text" name="reps" id="reps" value="12">
-                                                        <input type="text" name="progress" id="progress" value="+20">
-                                                    </div>
-                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
-                                                </form>
-                                            </div>
+                                        <div class="progbtn" style="margin-top: 30px">
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="BenchPress" reps="12">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BenchPress" reps="12">Advance Progress</button>
                                         </div>
 
                                     </div>
@@ -925,32 +1077,13 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 99%;">100KG</span>
+                                            <span style="left: 100%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn row" style="margin-top: 30px">
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="Deadlift">
-                                                        <input type="text" name="reps" id="reps" value="12">
-                                                        <input type="text" name="progress" id="progress" value="-20">
-                                                    </div>
-                                                    <button class="btn btn-danger mt-2" type="submit">I slacked off</button>
-                                                </form>
-                                            </div>
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="Deadlift">
-                                                        <input type="text" name="reps" id="reps" value="12">
-                                                        <input type="text" name="progress" id="progress" value="+20">
-                                                    </div>
-                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
-                                                </form>
-                                            </div>
+                                        <div class="progbtn" style="margin-top: 30px">
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="Deadlift" reps="12">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="Deadlift" reps="12
+                                            ">Advance Progress</button>
                                         </div>
                                     
                                     </div>
@@ -968,32 +1101,12 @@
                                             <span style="left: 40%;">40KG</span>
                                             <span style="left: 60%;">60KG</span>
                                             <span style="left: 80%;">80KG</span>
-                                            <span style="left: 99%;">100KG</span>
+                                            <span style="left: 100%;">100KG</span>
                                         </div>
 
-                                        <div class="progbtn row" style="margin-top: 30px">
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="BarbelSquats">
-                                                        <input type="text" name="reps" id="reps" value="12">
-                                                        <input type="text" name="progress" id="progress" value="-20">
-                                                    </div>
-                                                    <button class="btn btn-danger mt-2" type="submit">I slacked off</button>
-                                                </form>
-                                            </div>
-                                            <div class="col">
-                                                <form action="{{route('milestoneProgress.POST')}}" method="post">
-                                                    @csrf
-                                                    <div class="d-none">
-                                                        <input type="text" name="lift" id="lift" value="BarbelSquats">
-                                                        <input type="text" name="reps" id="reps" value="12">
-                                                        <input type="text" name="progress" id="progress" value="+20">
-                                                    </div>
-                                                    <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="submit">Advance Progress</button>
-                                                </form>
-                                            </div>
+                                        <div class="progbtn" style="margin-top: 30px">
+                                            <button class="btn btn-danger mt-2" type="lazy" lift="BarbelSquats" reps="12">I slacked off</button>
+                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BarbelSquats" reps="12">Advance Progress</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1300,5 +1413,146 @@
 
             </div>
         </div>
+
+        @if ($withAssessment)
+        <button type="button" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+            id="showModal">
+        </button>
+
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Health Assessment</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('new_assessment') }}" method="post" id="assessmentForm">
+                            
+                            <div class="row">
+                                <div class="col-1"><label for="regHeight" class="form-label">Height<br>(in):&nbsp;</label></div>
+                                <div class="col-5"><input type="number" step="0.01" name="regHeight" id="regHeight" class="form-control" required="required"></div>
+                                <div class="col-1"><label for="regWeight" class="form-label">Weight<br>(lb):&nbsp;</label></div>
+                                <div class="col-5"><input type="number" step="0.01" name="regWeight" id="regWeight" class="form-control" required="required"></div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-1">
+                                    <label for="regBMI" class="form-label">BMI:&nbsp;</label>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control" id="regBMI" name="regBMI" readonly="readonly" step="0.01">
+                                </div>
+                                <div class="col-1">
+                                    <label for="regBMIType" class="form-label">BMI Type:&nbsp;</label>
+                                </div>
+                                <div class="col-5">
+                                    <input type="text" class="form-control" id="regBMIType" name="regBMIType" readonly="readonly">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="regFit" class="form-label">Are you physically fit?</label><br>
+                                    <div class="form-radio form-radio-inline">
+                                        <label class="form-radio-label" for="regFit">Yes</label>
+                                        <input class="form-radio-input" type="radio" name="regFit" id="regFit" value="Yes" required="required">
+                                      </div>
+                                      <div class="form-radio form-radio-inline">
+                                          <label class="form-radio-label" for="regFit">No</label>
+                                        <input class="form-radio-input" type="radio" name="regFit" id="regFit" value="No" required="required">
+                                      </div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="regOper" class="form-label">Have you undergone an operation?</label>
+                                    <div class="form-radio form-radio-inline">
+                                        <label for="regOper" class="form-radio-label">Yes</label>
+                                        <input type="radio" name="regOper" id="regOper" class="form-radio-input" value="Yes" required="required">
+                                    </div>
+                                    <div class="form-radio form-radio-inline">
+                                        <label for="regOper" class="form-radio-label">No</label>
+                                        <input type="radio" name="regOper" id="regOper" class="form-radio-input" value="No" required="required">
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="regBP" class="form-label">Do you have high blood pressure?</label>
+                                    <div class="form-radio form-radio-inline">
+                                        <label for="regBP" class="form-radio-label">Yes</label>
+                                        <input type="radio" name="regBP" id="regBP" class="form-radio-input" value="Yes" required="required">
+                                    </div>
+                                    <div class="form-radio form-radio-inline">
+                                        <label for="regBP" class="form-radio-label">No</label>
+                                        <input type="radio" name="regBP" id="regBP" class="form-radio-input" value="No" required="required">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="regHeart" class="form-label">Do you have heart problem?</label>
+                                    <div class="form-radio form-radio-inline">
+                                        <label for="regHeart" class="form-radio-label">Yes</label>
+                                        <input type="radio" name="regHeart" id="regHeart" class="form-radio-input" value="Yes" required="required">
+                                    </div>
+                                    <div class="form-radio form-radio-inline">
+                                        <label for="regHeart" class="form-radio-label">No</label>
+                                        <input type="radio" name="regHeart" id="regHeart" class="form-radio-input" value="No" required="required">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="regEmergName" class="form-label">Emergency Contact Name</label>
+                                    <input type="text" name="regEmergName" id="regEmergName" class="form-control" required="required">
+                                </div>
+                                <div class="col-6">
+                                    <label for="regEmergContact" class="form-label">Emergency Contact Number</label>
+                                    <input type="tel" name="regEmergContact" id="regEmergContact" class="form-control" required="required">
+                                </div>
+                            </div>
+                            @csrf
+                            <br>
+                            <div class="row">
+
+                                <button type="submit" class="btn btn-primary" id="alertBtn">Submit</button>
+                            </div>
+                        </form>
+                        <br>
+                        
+                        <div class="row"  id="alertBtnPlace">
+                            <div class="col">
+
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    @endif
+        <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+
+            // Load saved dark mode preference
+            if (localStorage.getItem('dark-mode') === 'enabled') {
+                body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+            }
+
+            darkModeToggle.addEventListener('change', () => {
+                body.classList.toggle('dark-mode');
+                if (body.classList.contains('dark-mode')) {
+                    localStorage.setItem('dark-mode', 'enabled');
+                } else {
+                    localStorage.setItem('dark-mode', 'disabled');
+                }
+            });
+        });
+    </script>
 
 @endsection

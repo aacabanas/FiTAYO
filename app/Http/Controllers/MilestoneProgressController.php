@@ -40,7 +40,7 @@ class MilestoneProgressController extends Controller
         if($is_request){
             MilestoneProgress::where('id',$id)->update(['status'=>'approved']);
             $milestone = MilestoneProgress::where('id',$id)->get()->first();
-            $exists = user_milestones::where("username",Auth::user()->username)->where("reps",$milestone->reps)->where("lift",$milestone->lift)->count == 1;
+            $exists = user_milestones::where("username",Auth::user()->username)->where("reps",$milestone->reps)->where("lift",$milestone->lift)->count() == 1;
             if(!$exists){
                 user_milestones::create([
                     'username' => Auth::user()->username,

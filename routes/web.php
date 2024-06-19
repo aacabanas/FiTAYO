@@ -83,4 +83,4 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 //Route::post('/reset-password',[DataController::class,'reset_password'])->name('reset_pass');
 //Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');

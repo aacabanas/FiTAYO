@@ -8,7 +8,6 @@ use App\Models\NonMemberModel;
 use App\Models\user_assessment;
 use App\Models\checkins;
 use App\Models\user_profile;
-use App\Models\MilestoneProgress;
 use App\Models\user_membership;
 use App\Models\MilestoneProgress;
 use App\Models\trainers;
@@ -30,8 +29,8 @@ class AuthController extends Controller
     public function push()
     {   
         User::create([
-            "username" => "fitayo",
-            "email" => "mail1@mail.com",
+            "username" => "fitayo1",
+            "email" => "mail@mail.com",
             "password" => Hash::make("passw"),
             "resetToken" => str::random(128)
         ]);
@@ -54,14 +53,14 @@ class AuthController extends Controller
             'address_barangay' => "sda",
             'address_city' => "dsd",
             'address_region' => "asd",
-            'user_ID' => 1,
-            'userMem_ID' => 1
+            'user_ID' => 2,
+            'userMem_ID' => 2
         ]);
-        $trainers = [['name'=>"John Doe",'email'=>'jdoe@mail.com','phone'=>'09123456781','specialty'=>'abs'],['name' => "Alice Smith",'email'=>"alice@mail.com",'phone'=>'09123456782','specialty'=>'legs'],['name' => "Bob-d Builder",'email'=>"bob@mail.com",'phone'=>"09123456783",'specialty'=>"cardio"]];
+        User::where('id',2)->update(["user_type"=>"coach"]);
+        /* $trainers = [['name'=>"John Doe",'email'=>'jdoe@mail.com','phone'=>'09123456781','specialty'=>'abs'],['name' => "Alice Smith",'email'=>"alice@mail.com",'phone'=>'09123456782','specialty'=>'legs'],['name' => "Bob-d Builder",'email'=>"bob@mail.com",'phone'=>"09123456783",'specialty'=>"cardio"]];
         foreach($trainers as $t){
             trainers::create($t);
-        }
-        generate_json(1,"fitayo");
+        } */
     }
 
     public function index()

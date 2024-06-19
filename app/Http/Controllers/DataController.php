@@ -6,7 +6,6 @@ use App\Mail\resetPassword;
 use App\Models\user_assessment;
 use App\Models\user_profile;
 use App\Models\user_membership;
-use App\Models\user_milestones;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
