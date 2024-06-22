@@ -2,7 +2,40 @@
 @section('title', 'Dashboard')
 @section('content')
 
-<style>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .header #date {
+            font-size: 1.1em;
+            color: #f8f9fa;
+        }
+
+        .header .toggle-container span {
+            font-size: 1em;
+            color: #f8f9fa;
+        }
+
+        .header .switch {
+            margin-left: 10px;
+        }
+
         .qr-code-container {
             background-color: #f8f9fa;
             padding: 20px;
@@ -11,7 +44,6 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s, box-shadow 0.3s;
         }
-
         .qr-code-image {
             border: 5px solid #000;
             padding: 10px;
@@ -19,7 +51,6 @@
             max-width: 100%;
             height: auto;
         }
-
         .scan-me {
             display: flex;
             align-items: center;
@@ -32,21 +63,17 @@
             font-size: 1.2em;
             font-weight: bold;
         }
-
         .scan-me i {
             margin-right: 10px;
         }
-
         .scan-me-text {
             margin-left: 10px;
         }
-
         .qr-instruction {
             margin-top: 10px;
             font-size: 1.2em;
             color: #212529;
         }
-
         .btn-secondary {
             background-color: #6c757d;
             border-color: #6c757d;
@@ -55,96 +82,78 @@
             border-radius: 0.25rem;
             transition: background-color 0.3s, border-color 0.3s;
         }
-
         .btn-secondary:hover {
             background-color: #5a6268;
             border-color: #545b62;
         }
-
         .rounded {
             border-radius: 10px;
         }
-
         .btn-secondary, .btn-primary {
             padding: 10px 20px;
             font-size: 1em;
             border-radius: 0.25rem;
             transition: background-color 0.3s, border-color 0.3s;
         }
-
         .navbar-nav {
             display: flex;
             justify-content: center;
         }
-
         .nav-link.active {
             font-weight: bold; 
         }
-
         .nav-link:hover,
         .nav-link:focus {
             color: rgba(255, 255, 255, 0.75); 
             text-decoration: none; 
         }
-            .nav-link:hover,
-            .nav-link:focus {
-                color: black; 
-                text-decoration: none; 
-            }
-
+        .nav-link:hover,
+        .nav-link:focus {
+            color: black; 
+            text-decoration: none; 
+        }
         .container-fluid {
             padding: 10px;
             margin-bottom: 20px;
         }
-
         .card-body {
             padding: 40px;
         }
-
         .bg-primary {
             background-color: #007bff;
         }
-
         .text-white {
             color: white;
         }
-
         h1 {
             font-size: 1.2em;
         }
-
         #date {
             font-size: 0.9em;
         }
-
         .box {
             background-color: #FEFBF6;
             margin-bottom: 10px;
             padding: 15px;
             border: 1px solid #ddd;
         }
-
         .progress-text-indicators {
-        position: relative;
-        top: 8px;
-        font-size: 12px;
-        color: #666;
+            position: relative;
+            top: 8px;
+            font-size: 12px;
+            color: #666;
         }
-
         .progress-text-indicators span {
             position: absolute;
             top: 0;
             transform: translateX(-50%);
         }
-
         .progress-text-indicators span:first-child {
             left: 0%;
         }
-
         .progress-text-indicators span:last-child {
-            left: 100%;
+            left: 0%;
         }
-
         .bmi-metrics-box {
             background-color: #f9f9f9;
             padding: 15px;
@@ -152,73 +161,58 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
         .bmi-metrics-box h2 {
             margin-top: 0;
         }
-
         .form-group {
             margin-bottom: 15px;
         }
-
         .form-group label {
             display: block;
             margin-bottom: 5px;
         }
-
         body.dark-mode .card {
             background-color: #333 !important; 
             color: #f1f1f1; 
         }
-
         body.light-mode .profile-email, 
         body.light-mode .text-muted.small {
             color: #6c757d !important;
         }
-
         body.dark-mode {
             background-color: #0d1117;
             color: #c9d1d9;
         }
-
         /* Dark mode specific styles */
         body.dark-mode .card {
             background-color: #21262d !important;
             color: #f1f1f1; 
         }
-
         body.dark-mode .card-text, .profile-email, .text-muted.small {
-        color: #f1f1f1; 
+            color: #f1f1f1; 
         }
-
         body.dark-mode .form-control {
             color: #f1f1f1;
         }
-
         body.dark-mode .form-label {
             color: #f1f1f1; 
         }
-
         body.dark-mode .btn-primary {
             background-color: #007bff; 
             border-color: #007bff;
         }
-
         body.dark-mode .btn-secondary {
             background-color: #6c757d;
             border-color: #6c757d;
         }
-
         .form-control {
-        border-radius: 0.25rem;
-        padding: 10px;
+            border-radius: 0.25rem;
+            padding: 10px;
         }
-
         .form-label {
             font-weight: bold;
             color: #343a40;
         }
-
         .form-group input[type="number"] {
             width: 100%;
             height: 40px;
@@ -227,12 +221,10 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-
         .form-group input[type="number"]:read-only {
             background-color: #f0f0f0;
             cursor: not-allowed;
         }
-
         #update-metrics-btn,
         #save-metrics-btn {
             width: 100%;
@@ -243,17 +235,14 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
         #update-metrics-btn {
             background-color: #337ab7;
             color: #fff;
         }
-
         #update-metrics-btn:hover,
         #save-metrics-btn:hover {
             background-color: #23527c;
         }
-
         .modal-dialog {
             max-width: 100%;
             margin: 10% auto;
@@ -263,12 +252,10 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
         .modal-header {
             padding: 10px;
             border-bottom: 1px solid #ddd;
         }
-
         .modal-header .btn-close {
             font-size: 24px;
             line-height: 1;
@@ -277,38 +264,30 @@
             opacity: 0.5;
             cursor: pointer;
         }
-
         .modal-header .btn-close:hover {
             opacity: 1;
         }
-
         .modal-body {
             padding: 10px;
         }
-
         .modal-footer {
             padding: 10px;
             border-top: 1px solid #ddd;
             text-align: right;
         }
-
         .modal-footer .btn {
             margin-left: 5px;
         }
-
         .profile-content,
         .page-content {
             display: none;
         }
-
         .active-content {
             display: block;
         }
-
         .profile-section {
             margin-top: 20px;
         }
-
         .profile-header {
             background-color: #f8f9fa;
             padding: 20px;
@@ -316,14 +295,12 @@
             border-radius: 0.25rem 0.25rem 0 0;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-
         .profile-picture {
             width: 120px;
             height: 120px;
             object-fit: cover;
             border: 3px solid #007bff;
         }
-
         .profile-name,
         .profile-plan {
             font-size: 1.5em;
@@ -331,20 +308,17 @@
             color: #343a40;
             margin-top: 15px;
         }
-
         .profile-email {
             font-size: 1em;
-            color: #6c757d;
+            color: #fff;
             margin-top: 5px;
         }
-
         .profile-body {
             padding: 20px;
             background-color: #ffffff;
             border: 1px solid #dee2e6;
             border-radius: 0 0 0.25rem 0.25rem;
         }
-
         .profile-button {
             display: flex;
             align-items: center;
@@ -358,40 +332,32 @@
             transition: background-color 0.2s ease-in-out;
             width: 100%;
         }
-
         .profile-button:hover {
             background-color: #e9ecef;
             color: #212529;
         }
-
         .profile-button i {
             margin-right: 10px;
         }
-
         .profile-button-text {
             margin-left: 10px;
         }
-
         .toggle-container {
             display: flex;
-            justify-content: flex-start;
+            justify-content: flex-end;
             align-items: center;
-            margin-right: 20px; 
         }
-
         .switch {
             position: relative;
             display: inline-block;
             width: 66px;
             height: 34px;
         }
-
         .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
-
         .slider {
             position: absolute;
             cursor: pointer;
@@ -404,7 +370,6 @@
             border-radius: 34px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
         .slider:before {
             position: absolute;
             content: "\263C";
@@ -420,23 +385,20 @@
             font-size: 18px;
             color: #fdd835;
         }
-
+        
         input:checked + .slider {
             background-color: #1e3a8a;
         }
-
         input:checked + .slider:before {
             transform: translateX(33px);
             content: "\263E"; 
             color: #1e3a8a;
         }
-
         /* Dark Mode Styles */
         body.dark-mode {
             background-color: #0d1117;
             color: #c9d1d9;
         }
-
         .dark-mode .container,
         .dark-mode .card,
         .dark-mode .profile-header,
@@ -449,18 +411,16 @@
             color: #c9d1d9;
             border-color: #30363d;
         }
-
         .dark-mode .navbar .nav-link,
         .dark-mode .footer .nav-link {
             color: #c9d1d9;
         }
-
+        
         .dark-mode .btn {
             background-color: #21262d;
             color: #c9d1d9;
             border-color: #30363d;
         }
-
         .dark-mode .btn:hover {
             background-color: #30363d;
             border-color: #484f58;
@@ -471,128 +431,102 @@
             color: #c9d1d9;
             border-color: #30363d;
         }
-
         .dark-mode .form-control::placeholder {
             color: #8b949e;
         }
-
         .dark-mode .text-primary {
             color: #58a6ff !important;
         }
-
         .dark-mode .text-secondary, .card-title {
             color: #8b949e !important;
         }
-
         .dark-mode .bg-primary {
             background-color: #21262d !important;
         }
-
         .dark-mode .card-title,
         .dark-mode .profile-name,
         .dark-mode .profile-plan {
             color: #c9d1d9;
         }
-
         .dark-mode .form-label {
             color: #c9d1d9;
         }
-
         .dark-mode .qr-code-container {
             background-color: #21262d;
         }
-
         .dark-mode .qr-code-image {
             border: 5px solid #30363d;
             color: #000000;
         }
-
         .dark-mode .scan-me {
             background-color: #30363d;
         }
-
         .dark-mode .scan-me-text {
             color: #c9d1d9;
         }
-
         .dark-mode .qr-instruction {
             color: #c9d1d9;
         }
-
         .dark-mode .profile-button:hover {
             background-color: #30363d;
             color: #c9d1d9;
         }
-
         .dark-mode .card.policies-card {
             background-color: #21262d;
         }
-
         .dark-mode .policies-content p,
         .dark-mode .policies-content ul {
             color: #c9d1d9;
         }
-
         .dark-mode .policies-content h6 {
             color: #58a6ff;
         }
-
         .dark-mode .table {
-        background-color: #21262d;
-        color: #c9d1d9;
+            background-color: #21262d;
+            color: #c9d1d9;
         }
-
         .dark-mode .table thead th {
             background-color: #30363d;
             color: #c9d1d9;
         }
-
         .dark-mode .table tbody tr {
             background-color: #21262d;
             color: #c9d1d9;
         }
-
         .dark-mode .table tbody tr:hover {
             background-color: #30363d;
         }
-
         .dark-mode .nav-link.active {
             background-color: #21262d;
             color: #58a6ff;
         }
-
         .dark-mode .box {
             background-color: #21262d;
             color: #c9d1d9;
             border-color: #30363d;
         }
-
         .dark-mode .progress-container {
             background-color: #30363d;
         }
-
         .dark-mode .progress-bar {
-            background-color: #58a6ff;
+            background-color: #fff;
+        }
+        .dark-mode .btn-danger {
+            background-color: #cc0000;
+            border-color: #990000;
+        }
+        .dark-mode .btn-danger:hover {
+            background-color: #990000;
+            border-color: #660000;
         }
 
-        .dark-mode .progbtn .btn-danger {
-            background-color: #dc3545;
-            border-color: #b32434;
+        .dark-mode .btn-success {
+            background-color: #1e7e34;
+            border-color: #155724;
         }
-
-        .dark-mode .progbtn .btn-danger:hover {
-            background-color: #b32434;
-            border-color: #912123;
-        }
-
-        .dark-mode .progbtn .btn-success {
-            background-color: #28a745;
-            border-color: #218838;
-        }
-
-        .dark-mode .progbtn .btn-success:hover {
-            background-color: #218838;
-            border-color: #1e7e34;
+        .dark-mode .btn-success:hover {
+            background-color: #155724;
+            border-color: #0b3d19;
         }
 
         .dark-mode .category-box {
@@ -600,96 +534,141 @@
             color: #c9d1d9;
             border-color: #30363d;
         }
-
         .dark-mode .bmi-metrics-box {
             background-color: #21262d;
             color: #c9d1d9;
             border-color: #30363d;
         }
-
         .dark-mode .modal-content {
             background-color: #21262d;
             color: #c9d1d9;
             border-color: #30363d;
         }
-
         .dark-mode .modal-header,
         .dark-mode .modal-footer {
             border-color: #30363d;
         }
-
         .dark-mode #update-metrics-btn {
             background-color: #0056b3;
             color: #ffffff;
             border-color: #0056b3;
         }
-
         .dark-mode #update-metrics-btn:hover {
             background-color: #004494;
             border-color: #004494;
         }
-
         .dark-mode #save-metrics-btn {
             background-color: #28a745;
             color: #ffffff;
             border-color: #28a745;
         }
-
         .dark-mode #save-metrics-btn:hover {
             background-color: #218838;
             border-color: #218838;
         }
-
         .dark-mode .edit-profile-card {
             background-color: #21262d;
             color: #c9d1d9;
             border-color: #30363d;
         }
-
         .dark-mode .form-group {
             background-color: #161b22;
             border-color: #30363d;
         }
-
         .dark-mode .form-control {
             background-color: #161b22;
             color: #c9d1d9;
             border-color: #30363d;
         }
-
         .dark-mode .btn-primary {
             background-color: #0056b3;
             color: #ffffff;
             border-color: #0056b3;
         }
-
         .dark-mode .btn-primary:hover {
             background-color: #004494;
             border-color: #004494;
         }
-        
+        /* New styles for redesigned Milestones tab */
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-title {
+            font-weight: bold;
+            text-align: center;
+        }
+        .progress-container {
+            margin-top: 20px;
+        }
+        .progress-text-indicators span {
+            position: relative;
+            font-size: 12px;
+            color: #666;
+        }
+        .progress-bar {
+            background-color: #007bff;
+        }
+        .btn-success,
+        .btn-danger {
+            width: 45%;
+            margin: 5px 2.5%;
+            font-size: 1em;
+        }
+        .tab-content .tab-pane {
+            padding: 20px;
+        }
+        .category-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .nav-tabs {
+            border-bottom: none;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .nav-link {
+            color: #000;
+            border: none;
+            font-size: 1.1em;
+        }
+        .nav-link.active {
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
     </style>
  
-     <!-- Dark Mode Toggle Switch -->
-     
- <header class="container-fluid bg-primary text-white" style="padding: 20px; margin-bottom: 20px; margin-top: 20px">
-    <div class="row">
-    
-        <div class="col-1"><h1 id="title">Leaderboards</h1></div>
-        <div class="col-10"></div>
-        <div class="col-1"><div>
-            <div class="toggle-container">
-               <label class="switch">
-                   <input type="checkbox" id="darkModeToggle">
-                   <span class="slider round"></span>
-               </label>
-           </div></div>
+<!-- Dark Mode Toggle Switch -->
+<header class="container-fluid bg-primary text-white py-3 mb-4 mt-3 shadow-sm rounded">
+    <div class="row align-items-center">
+        <div class="col-8 col-md-9">
+            <h1 id="title" class="mb-0 display-4" style="font-weight: bold;">Leaderboards</h1>
+        </div>
+        <div class="col-4 col-md-3 text-end">
+            <div class="toggle-container d-inline-flex align-items-center">
+                <label class="switch mb-0">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
     </div>
-    <p class="d-none" id="hasAssessment">{{ $withAssessment }}</p>
-    <p id="date">
-        {{ DateTime::createFromFormat('!m', date('m'))->format('F'). ' '. date('d Y') }}
-    </p>
+    <div class="row mt-2">
+        <div class="col">
+            <p class="d-none" id="hasAssessment">{{ $withAssessment }}</p>
+            <p id="date" class="mb-0 fs-5">
+                {{ DateTime::createFromFormat('!m', date('m'))->format('F'). ' '. date('d Y') }}
+            </p>
+        </div>
+    </div>
 </header> 
+
 
 <div class="container-fluid bg-orange footer">
     <nav class="navbar navbar-expand navbar-dark bg-primary text-white fixed-bottom">
@@ -713,7 +692,6 @@
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-leaderboards" role="tabpanel" aria-labelledby="nav-leaderboards-tab">
                     <!-- Leaderboards content goes here -->
-                    
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist" style="margin-bottom: 20px">
                             <h1 style="margin-left: 5px; margin-right: 15px">LIFTS</h1>
@@ -879,241 +857,253 @@
                             
                 </div>
 
-                <div class="tab-pane fade" id="nav-milestones" role="tabpanel" aria-labelledby="nav-milestones-tab">
-                    
 
-                    <nav>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist" style="margin-bottom: 20px">
-                            <h1 style="margin-left: 5px; margin-right: 15px">CATEGORIES</h1>
-                            <button class="nav-link active" id="nav-1rep-tab" data-bs-toggle="tab" data-bs-target="#nav-1rep" type="button" role="tab" aria-controls="nav-1rep" aria-selected="true">1 REP MAX</button>
-                            <button class="nav-link" id="nav-6reps-tab" data-bs-toggle="tab" data-bs-target="#nav-6reps" type="button" role="tab" aria-controls="nav-6reps" aria-selected="false">6 REPS</button>
-                            <button class="nav-link" id="nav-12reps-tab" data-bs-toggle="tab" data-bs-target="#nav-12reps" type="button" role="tab" aria-controls="nav-12reps" aria-selected="false">12 REPS</button>
-                        </div>
-                    </nav>
+        <!-- Milestones tab and content goes here -->
+        <div class="tab-pane fade" id="nav-milestones" role="tabpanel" aria-labelledby="nav-milestones-tab">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist" style="margin-bottom: 20px">
+                    <h1 class="text-primary" style="margin-left: 5px; margin-right: 15px; font-weight: bold;">CATEGORIES</h1>
+                    <button class="nav-link active text-primary" id="nav-1rep-tab" data-bs-toggle="tab" data-bs-target="#nav-1rep" type="button" role="tab" aria-controls="nav-1rep" aria-selected="true">1 REP MAX</button>
+                    <button class="nav-link text-primary" id="nav-6reps-tab" data-bs-toggle="tab" data-bs-target="#nav-6reps" type="button" role="tab" aria-controls="nav-6reps" aria-selected="false">6 REPS</button>
+                    <button class="nav-link text-primary" id="nav-12reps-tab" data-bs-toggle="tab" data-bs-target="#nav-12reps" type="button" role="tab" aria-controls="nav-12reps" aria-selected="false">12 REPS</button>
+                </div>
+            </nav>
 
-                    <div class="tab-content" id="nav-tabContent"> 
-                        <div class="tab-pane fade show active" id="nav-1rep" role="tabpanel" aria-labelledby="nav-1rep"> 
-                            <div class="row">
-                                <div class="box">
-                                    <h3>BENCH PRESS</h3>
-                                    <div class="progress-container">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-1rep" role="tabpanel" aria-labelledby="nav-1rep-tab">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">BENCH PRESS</h3>
+                                    <div class="progress-container mb-3">
                                         <div class="progress" style="height: 30px;">
-                                            <div id="benchPress1RM" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div id="benchPress1RM" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-
-                                        <div class="progress-text-indicators">
-                                            <span style="left: 0%;">0KG</span>
-                                            <span style="left: 20%;">20KG</span>
-                                            <span style="left: 40%;">40KG</span>
-                                            <span style="left: 60%;">60KG</span>
-                                            <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
+                                        <div class="progress-text-indicators mt-2 d-flex justify-content-between">
+                                            <span>0KG</span>
+                                            <span>20KG</span>
+                                            <span>40KG</span>
+                                            <span>60KG</span>
+                                            <span>80KG</span>
+                                            <span>100KG</span>
                                         </div>
-
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="BenchPress" reps="1">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BenchPress" reps="1">Advance Progress</button>
-                                        </div>
-                                        
                                     </div>
-                                </div>
-                                <div class="box">
-                                    <h3>DEADLIFT</h3>
-                                    <div class="progress-container">
-                                        <div class="progress" style="height: 30px;">
-                                            <div id="deadlift1RM" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-
-                                        <div class="progress-text-indicators">
-                                            <span style="left: 0%;">0KG</span>
-                                            <span style="left: 20%;">20KG</span>
-                                            <span style="left: 40%;">40KG</span>
-                                            <span style="left: 60%;">60KG</span>
-                                            <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
-                                        </div>
-
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="Deadlift" reps="1">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="Deadlift" reps="1">Advance Progress</button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="box">
-                                    <h3>BARBELL SQUATS</h3>
-                                    <div class="progress-container">
-                                        <div class="row" style="height: 30px; width:40%;background-color:green">
-                                           
-                                        </div>
-
-                                        <div class="progress-text-indicators">
-                                            <span style="left: 0%;">0KG</span>
-                                            <span style="left: 20%;">20KG</span>
-                                            <span style="left: 40%;">40KG</span>
-                                            <span style="left: 60%;">60KG</span>
-                                            <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
-                                        </div>
-
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="BarbelSquats" reps="1">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BarbelSquats" reps="1">Advance Progress</button>
-                                        </div>
-                                        
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-danger" type="lazy" lift="BenchPress" reps="1">I Slacked Off</button>
+                                        <button class="btn btn-success" type="work" lift="BenchPress" reps="1">Advance Progress</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    
-                        <div class="tab-pane fade" id="nav-6reps" role="tabpanel" aria-labelledby="nav-6reps"> 
-                            <div class="row">
-                                <div class="box">
-                                    <h3>BENCH PRESS</h3>
-                                    <div class="progress-container">
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">DEADLIFT</h3>
+                                    <div class="progress-container mb-3">
                                         <div class="progress" style="height: 30px;">
-                                            <div id="benchPress6RM" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div id="deadlift1RM" class="progress-bar bg-warning" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-
-                                        <div class="progress-text-indicators">
-                                            <span style="left: 0%;">0KG</span>
-                                            <span style="left: 20%;">20KG</span>
-                                            <span style="left: 40%;">40KG</span>
-                                            <span style="left: 60%;">60KG</span>
-                                            <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
+                                        <div class="progress-text-indicators mt-2 d-flex justify-content-between">
+                                            <span>0KG</span>
+                                            <span>20KG</span>
+                                            <span>40KG</span>
+                                            <span>60KG</span>
+                                            <span>80KG</span>
+                                            <span>100KG</span>
                                         </div>
-
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="BenchPress" reps="6">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BenchPress" reps="6">Advance Progress</button>>
-                                        </div>
-
                                     </div>
-                                </div>
-                                <div class="box">
-                                    <h3>DEADLIFT</h3>
-                                    <div class="progress-container">
-                                        <div class="progress" style="height: 30px;">
-                                            <div id="deadlift6RM" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-
-                                        <div class="progress-text-indicators">
-                                            <span style="left: 0%;">0KG</span>
-                                            <span style="left: 20%;">20KG</span>
-                                            <span style="left: 40%;">40KG</span>
-                                            <span style="left: 60%;">60KG</span>
-                                            <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
-                                        </div>
-
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="Deadlift" reps="6">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="Deadlift" reps="6">Advance Progress</button>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="box">
-                                    <h3>BARBELL SQUATS</h3>
-                                    <div class="progress-container">
-                                        <div class="progress" style="height: 30px;">
-                                            <div id="barbellSquats6RM" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-
-                                        <div class="progress-text-indicators">
-                                            <span style="left: 0%;">0KG</span>
-                                            <span style="left: 20%;">20KG</span>
-                                            <span style="left: 40%;">40KG</span>
-                                            <span style="left: 60%;">60KG</span>
-                                            <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
-                                        </div>
-
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="BarbelSquats" reps="6">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BarbelSquats" reps="6">Advance Progress</button>
-                                        </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-danger" type="lazy" lift="Deadlift" reps="1">I Slacked Off</button>
+                                        <button class="btn btn-success" type="work" lift="Deadlift" reps="1">Advance Progress</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="tab-pane fade" id="nav-12reps" role="tabpanel" aria-labelledby="nav-12reps"> 
-                            <div class="row">
-                                <div class="box">
-                                    <h3>BENCH PRESS</h3>
-                                    <div class="progress-container">
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">BARBELL SQUATS</h3>
+                                    <div class="progress-container mb-3">
                                         <div class="progress" style="height: 30px;">
-                                            <div id="benchPress12RM" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div id="barbellSquats1RM" class="progress-bar bg-danger" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
-
-                                        <div class="progress-text-indicators">
-                                            <span style="left: 0%;">0KG</span>
-                                            <span style="left: 20%;">20KG</span>
-                                            <span style="left: 40%;">40KG</span>
-                                            <span style="left: 60%;">60KG</span>
-                                            <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
+                                        <div class="progress-text-indicators mt-2 d-flex justify-content-between">
+                                            <span>0KG</span>
+                                            <span>20KG</span>
+                                            <span>40KG</span>
+                                            <span>60KG</span>
+                                            <span>80KG</span>
+                                            <span>100KG</span>
                                         </div>
-
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="BenchPress" reps="12">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BenchPress" reps="12">Advance Progress</button>
-                                        </div>
-
                                     </div>
-                                </div>
-                                <div class="box">
-                                    <h3>DEADLIFT</h3>
-                                    <div class="progress-container">
-                                        <div class="progress" style="height: 30px;">
-                                            <div id="deadlift12RM" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-
-                                        <div class="progress-text-indicators">
-                                            <span style="left: 0%;">0KG</span>
-                                            <span style="left: 20%;">20KG</span>
-                                            <span style="left: 40%;">40KG</span>
-                                            <span style="left: 60%;">60KG</span>
-                                            <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
-                                        </div>
-
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="Deadlift" reps="12">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="Deadlift" reps="12
-                                            ">Advance Progress</button>
-                                        </div>
-                                    
-                                    </div>
-                                </div>
-                                <div class="box">
-                                    <h3>BARBELL SQUATS</h3>
-                                    <div class="progress-container">
-                                        <div class="progress" style="height: 30px;">
-                                            <div id="barbellSquats12RM" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-
-                                        <div class="progress-text-indicators">
-                                            <span style="left: 0%;">0KG</span>
-                                            <span style="left: 20%;">20KG</span>
-                                            <span style="left: 40%;">40KG</span>
-                                            <span style="left: 60%;">60KG</span>
-                                            <span style="left: 80%;">80KG</span>
-                                            <span style="left: 100%;">100KG</span>
-                                        </div>
-
-                                        <div class="progbtn" style="margin-top: 30px">
-                                            <button class="btn btn-danger mt-2" type="lazy" lift="BarbelSquats" reps="12">I slacked off</button>
-                                            <button class="btn btn-success mt-2" style="float: right; margin-bottom: 5px;" type="work" lift="BarbelSquats" reps="12">Advance Progress</button>
-                                        </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-danger" type="lazy" lift="BarbellSquats" reps="1">I Slacked Off</button>
+                                        <button class="btn btn-success" type="work" lift="BarbellSquats" reps="1">Advance Progress</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="tab-pane fade" id="nav-6reps" role="tabpanel" aria-labelledby="nav-6reps-tab">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">BENCH PRESS</h3>
+                                    <div class="progress-container mb-3">
+                                        <div class="progress" style="height: 30px;">
+                                            <div id="benchPress6RM" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <div class="progress-text-indicators mt-2 d-flex justify-content-between">
+                                            <span>0KG</span>
+                                            <span>20KG</span>
+                                            <span>40KG</span>
+                                            <span>60KG</span>
+                                            <span>80KG</span>
+                                            <span>100KG</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-danger" type="lazy" lift="BenchPress" reps="6">I Slacked Off</button>
+                                        <button class="btn btn-success" type="work" lift="BenchPress" reps="6">Advance Progress</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">DEADLIFT</h3>
+                                    <div class="progress-container mb-3">
+                                        <div class="progress" style="height: 30px;">
+                                            <div id="deadlift6RM" class="progress-bar bg-warning" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <div class="progress-text-indicators mt-2 d-flex justify-content-between">
+                                            <span>0KG</span>
+                                            <span>20KG</span>
+                                            <span>40KG</span>
+                                            <span>60KG</span>
+                                            <span>80KG</span>
+                                            <span>100KG</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-danger" type="lazy" lift="Deadlift" reps="6">I Slacked Off</button>
+                                        <button class="btn btn-success" type="work" lift="Deadlift" reps="6">Advance Progress</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">BARBELL SQUATS</h3>
+                                    <div class="progress-container mb-3">
+                                        <div class="progress" style="height: 30px;">
+                                            <div id="barbellSquats6RM" class="progress-bar bg-danger" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <div class="progress-text-indicators mt-2 d-flex justify-content-between">
+                                            <span>0KG</span>
+                                            <span>20KG</span>
+                                            <span>40KG</span>
+                                            <span>60KG</span>
+                                            <span>80KG</span>
+                                            <span>100KG</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-danger" type="lazy" lift="BarbellSquats" reps="6">I Slacked Off</button>
+                                        <button class="btn btn-success" type="work" lift="BarbellSquats" reps="6">Advance Progress</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="nav-12reps" role="tabpanel" aria-labelledby="nav-12reps-tab">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">BENCH PRESS</h3>
+                                    <div class="progress-container mb-3">
+                                        <div class="progress" style="height: 30px;">
+                                            <div id="benchPress12RM" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <div class="progress-text-indicators mt-2 d-flex justify-content-between">
+                                            <span>0KG</span>
+                                            <span>20KG</span>
+                                            <span>40KG</span>
+                                            <span>60KG</span>
+                                            <span>80KG</span>
+                                            <span>100KG</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-danger" type="lazy" lift="BenchPress" reps="12">I Slacked Off</button>
+                                        <button class="btn btn-success" type="work" lift="BenchPress" reps="12">Advance Progress</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">DEADLIFT</h3>
+                                    <div class="progress-container mb-3">
+                                        <div class="progress" style="height: 30px;">
+                                            <div id="deadlift12RM" class="progress-bar bg-warning" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <div class="progress-text-indicators mt-2 d-flex justify-content-between">
+                                            <span>0KG</span>
+                                            <span>20KG</span>
+                                            <span>40KG</span>
+                                            <span>60KG</span>
+                                            <span>80KG</span>
+                                            <span>100KG</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-danger" type="lazy" lift="Deadlift" reps="12">I Slacked Off</button>
+                                        <button class="btn btn-success" type="work" lift="Deadlift" reps="12">Advance Progress</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h3 class="card-title text-center">BARBELL SQUATS</h3>
+                                    <div class="progress-container mb-3">
+                                        <div class="progress" style="height: 30px;">
+                                            <div id="barbellSquats12RM" class="progress-bar bg-danger" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <div class="progress-text-indicators mt-2 d-flex justify-content-between">
+                                            <span>0KG</span>
+                                            <span>20KG</span>
+                                            <span>40KG</span>
+                                            <span>60KG</span>
+                                            <span>80KG</span>
+                                            <span>100KG</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-danger" type="lazy" lift="BarbellSquats" reps="12">I Slacked Off</button>
+                                        <button class="btn btn-success" type="work" lift="BarbellSquats" reps="12">Advance Progress</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Milestones tab -->
+
 
                 <div class="tab-pane fade" id="nav-bmi" role="tabpanel" aria-labelledby="nav-bmi-tab">
                     <!-- BMI content goes here -->
@@ -1168,24 +1158,26 @@
                     </div>
                 </div>
 
+                <!-- Profile Tab -->
                 <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                  
                     <div class="container mt-5 profile-container">
-                        <div class="profile-header text-center">
-                            <img src="{{ auth()->user()->profile_image ? asset('images/' . auth()->user()->profile_image) : asset('images/blankprofile.png') }}" alt="Profile Picture" class="rounded-circle profile-picture">
-                            <h4 class="profile-name">{{ optional(auth()->user()->userProfile)->firstName }} {{ optional(auth()->user()->userProfile)->lastName }}</h4>
-                            <p class="profile-email">{{ auth()->user()->email }}</p>
-                            <p class="profile-plan">Monthly plan</p>
+                        <div class="profile-header text-center p-4 bg-primary text-white rounded shadow">
+                            <img src="{{ auth()->user()->profile_image ? asset('images/' . auth()->user()->profile_image) : asset('images/blankprofile.png') }}" alt="Profile Picture" class="rounded-circle profile-picture mb-3">
+                            <h4 class="profile-name mb-1">{{ optional(auth()->user()->userProfile)->firstName }} {{ optional(auth()->user()->userProfile)->lastName }}</h4>
+                            <p class="profile-email mb-2">{{ auth()->user()->email }}</p>
+                            <p class="profile-plan badge bg-light text-dark">Monthly plan</p>
                         </div>    
                         <div class="d-grid gap-2 mt-4">
-                            <button id="qrCodeBtn" class="btn btn-outline-secondary">QR Code</button>
-                            <button id="editProfileBtn" class="btn btn-outline-secondary">Edit Profile</button>
-                            <button id="membershipDetailsBtn" class="btn btn-outline-secondary">Membership Details</button>
-                            <a href="{{ route('password.request') }}" id="passwordSecurityBtn" class="btn btn-outline-secondary">Password and Security</a>
-                            <button id="policiesRegulationsBtn" class="btn btn-outline-secondary">Policies and Regulations</button>
-                            <a class="btn btn-outline-secondary" href="{{route('logout')}}">Logout</a>
+                            <button id="qrCodeBtn" class="btn btn-outline-primary">QR Code</button>
+                            <button id="editProfileBtn" class="btn btn-outline-primary">Edit Profile</button>
+                            <button id="membershipDetailsBtn" class="btn btn-outline-primary">Membership Details</button>
+                            <a href="{{ route('password.request') }}" id="passwordSecurityBtn" class="btn btn-outline-primary">Password and Security</a>
+                            <button id="policiesRegulationsBtn" class="btn btn-outline-primary">Policies and Regulations</button>
+                            <a class="btn btn-outline-danger" href="{{route('logout')}}">Logout</a>
                         </div>
                     </div>
+                </div>
+
 
                     <!-- QR Code Page -->
                     <div id="qrCodePage" class="page-content" style="display: none;">
