@@ -16,7 +16,7 @@ Route::get("/", [AuthController::class, "index"])->name('index');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
+Route::get('/register',[AuthController::class,'register'])->name('register');
 Route::post('/login', [AuthController::class, 'loginPost'])->name('login.POST');
 Route::post('/register', [DataController::class, 'register'])->name('register.POST');
 Route::get('/delete/{id}', [DataController::class, 'delete'])->name('delete');
@@ -44,28 +44,21 @@ Route::get('/profile/membership', 'App\Http\Controllers\ProfileController@member
 Route::get('/profile/membership/change', [ProfileController::class, 'changeSubscriptionPlan'])->name('change_subscription_plan');
 Route::get('/profile/policies', [ProfileController::class, 'policies'])->name('profile.policies');
 Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-
+//password related
 Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
-
-Route::middleware('auth')->group(function () {
-    Route::post('/milestone/{milestone_id}/update-progress', [MilestoneController::class, 'updateProgress']);
-    Route::post('/milestone/{milestone_id}/verify-advancement', [MilestoneController::class, 'verifyAdvancement']);
-    Route::post('/milestone/advancement/{request_id}/confirm', [MilestoneController::class, 'confirmAdvancement'])->middleware('role:coach');
-    Route::post('/milestone/advancement/{request_id}/reject', [MilestoneController::class, 'rejectAdvancement'])->middleware('role:coach');
-});
-//reset password related views
-//Route::get('/reset-password',[DataController::class,'reset_view']);
+//for non-members
 Route::post('nonmemberRegister',[NonMemberController::class,'check_in'])->name("nonmem_check_in");
-
-Route::post('milestoneProgress',[MilestoneProgressController::class,'create_request'])->name('milestoneProgress.POST');
+//user milestones
+Route::get('/request',[MilestoneProgressController::class,'request']);
+Route::get('/milestones',[DataController::class,'milestones']);
 Route::get('/approve/{id}',[MilestoneProgressController::class,'approve'])->name('approve');
 Route::get('/reject/{id}',[MilestoneProgressController::class,'reject'])->name('reject');
 
 
-
+Route::post("/registration/finish",[DataController::class,"fill_details"])->name('registrationFinish.POST');
 // Route for forgot password form
 Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 
@@ -84,3 +77,8 @@ Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('
 //Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/admin/{id}',[DataController::class,'register_admin']);
+Route::get('/coach/{id}',[DataController::class,'register_coach']);
+
+Route::get("/user-paid/{plan}/{id}",[DataController::class,'user_paid']);

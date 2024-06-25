@@ -1,7 +1,7 @@
 export const profileButtons = [
-    { id: 'qrCodeBtn', page: 'qrCodePage' },
-    { id: 'editProfileBtn', page: 'editProfilePage' },
-    { id: 'membershipDetailsBtn', page: 'membershipDetailsPage' },
-    { id: 'passwordSecurityBtn', page: 'passwordSecurityPage' },
-    { id: 'policiesRegulationsBtn', page: 'policiesRegulationsPage' }
+    { target: 'qrCodeBtn', page: 'qrCodePage' },
+    { target: 'editProfileBtn', page: 'editProfilePage' },
+    { target: 'membershipDetailsBtn', page: 'membershipDetailsPage' },
+    { target: 'passwordSecurityBtn', page: 'passwordSecurityPage' },
+    { target: 'policiesRegulationsBtn', page: 'policiesRegulationsPage' }
 ];

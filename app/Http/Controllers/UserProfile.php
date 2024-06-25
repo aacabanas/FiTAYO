@@ -37,11 +37,11 @@ class UserProfile extends Model
 
     public function userMembership(): HasOne
     {
-        return $this->hasOne(UserMembership::class, 'userMem_ID', 'userMem_ID');
+        return $this->hasOne(user_membership::class, 'userMem_ID', 'userMem_ID');
     }
 
     public function userMilestones(): BelongsTo
     {
-        return $this->belongsTo(UserMilestones::class, 'profile_ID', 'profile_ID');
+        return $this->belongsTo(user_milestones::class, 'profile_ID', 'profile_ID');
     }
 }

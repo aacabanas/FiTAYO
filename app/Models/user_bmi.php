@@ -5,11 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MilestoneProgress extends Model
+class user_bmi extends Model
 {
     use HasFactory;
-    protected $table = "MilestoneProgress";
+    protected $table = "user_bmi";
     protected $fillable = [
-        'lift','reps','username','date','action','request_time'
+        'username',
+        'height',
+        'weight',
+        'bmi',
+        'bmi_classification',
+        'date'
     ];
 }

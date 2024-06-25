@@ -10,6 +10,16 @@ return new class extends Migration {
      */
     public function up(): void
     {   
+        Schema::create("user_bmi",function(Blueprint $table){
+            $table->id();
+            $table->string('username');
+            $table->decimal('height', 5, 2);
+            $table->decimal('weight', 6, 2);
+            $table->decimal('bmi', 5, 2);
+            $table->string('bmi_classification', length: 255);
+            $table->date('date');
+            $table->timestamps();
+        });
         Schema::create('MilestoneProgress',function(Blueprint $table){
             $table->id();
             $table->string('lift');
@@ -44,6 +54,9 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->string('specialty')->nullable();
+            $table->time('time_in')->nullable();
+            $table->time('time_out')->nullable();
+            $table->integer('trainee_count')->default(0);
             $table->timestamps();
         });
         Schema::create('users', function (Blueprint $table) {
@@ -54,17 +67,19 @@ return new class extends Migration {
             $table->string('user_type')->default('user');
             $table->string('resetToken',length:128);
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('data_filled')->default(false);
+            $table->boolean('payment_status')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
         Schema::create('user_membership', function (Blueprint $table) {
             $table->id('userMem_ID');
-            $table->string('membership_plan', length: 255);
-            $table->date('start_date');
-            $table->date('expiry_date');
-            $table->date('next_payment');
-            $table->boolean('payment_status');
-            $table->string('Trainer', length: 255)->nullable()->default(null);
+            $table->string('membership_plan', length: 255)->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('expiry_date')->nullable();
+            $table->date('next_payment')->nullable();
+            $table->string('Trainer', length: 255)->nullable();
+            $table->foreignId('user_ID')->constrained('users', 'id')->onDelete('cascade');
             $table->timestamps();
         });
         
@@ -75,42 +90,40 @@ return new class extends Migration {
             $table->string('lift');
             $table->integer('reps');
             $table->integer('weight');
+            $table->date('date');
 
         });
+        
         //tables with foreign keys(FK)
         Schema::create('user_profile', function (Blueprint $table) {
             $table->id('profile_ID');
-            $table->string('firstName', length: 255);
-            $table->string('lastName', length: 255);
+            $table->string("profile_image")->default("images/blankprofile.png");
+            $table->string('firstName', length: 255)->nullable();
+            $table->string('lastName', length: 255)->nullable();
             $table->string('profileBio', length: 500)->nullable();
-            $table->string("contact_prefix");
-            $table->string('contactDetails', length: 11);
-            $table->date('birthdate');
-            $table->integer('age');
-            $table->string('address_street_num', length: 255);
-            $table->string('address_barangay', length: 255);
-            $table->string('address_city', length: 255);
-            $table->string('address_region', length: 255);
+            $table->string("contact_prefix")->default("+63");
+            $table->string('contactDetails', length: 11)->nullable();
+            $table->date('birthdate')->nullable();
+            $table->integer('age')->nullable();
+            $table->string('address_street_num', length: 255)->nullable();
+            $table->string('address_barangay', length: 255)->nullable();
+            $table->string('address_city', length: 255)->nullable();
+            $table->string('address_region', length: 255)->nullable();
             $table->timestamps();
             $table->foreignId('user_ID')->constrained('users', 'id')->onDelete('cascade');
             $table->foreignId('userMem_ID')->constrained('user_membership', 'userMem_ID')->onDelete('cascade');
         });
         
         Schema::create('user_assessment', function (Blueprint $table) {
-            $table->integer('userAsses_ID');
-            $table->primary('userAsses_ID');
+            $table->id('userAsses_ID');
             $table->foreignId('profile_ID')->constrained('user_profile', 'profile_ID')->onDelete('cascade');
-            $table->decimal('height', 5, 2)->default(0);
-            $table->decimal('weight', 6, 2)->default(0);
-            $table->decimal('bmi', 5, 2)->default(0);
-            $table->string('bmi_classification', length: 255);
             $table->string('medical_history', length: 999)->nullable();
-            $table->boolean('physically_fit');
-            $table->boolean('operation');
-            $table->boolean('high_blood');
-            $table->boolean('heart_problem');
-            $table->string("emergency_contact_name");
-            $table->string('emergency_contact_num','11');
+            $table->boolean('physically_fit')->nullable();
+            $table->boolean('operation')->nullable();
+            $table->boolean('high_blood')->nullable();
+            $table->boolean('heart_problem')->nullable();
+            $table->string("emergency_contact_name")->nullable();
+            $table->string('emergency_contact_num','11')->nullable();
             $table->timestamps();
         });
         Schema::create('password_reset_tokens', function (Blueprint $table) {

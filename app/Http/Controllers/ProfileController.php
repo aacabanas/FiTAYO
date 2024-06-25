@@ -60,6 +60,7 @@ class ProfileController extends Controller
 
     public function showProfile()
     {
+        
         $user = Auth::user();
         $userProfile = $user->user_profile;
         $userMembership = $user->user_membership;
@@ -67,7 +68,6 @@ class ProfileController extends Controller
         if (!$userProfile || !$userMembership) {
             return back()->withErrors(['message' => 'User profile or membership not found.']);
         }
-
         // Debugging: Check if userMembership data is being fetched correctly
         // Uncomment this line to debug
         // dd($userMembership);

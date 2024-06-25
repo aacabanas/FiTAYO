@@ -14,10 +14,6 @@
                 aria-controls="memberlist" aria-selected="false"><i class="fa-solid fa-list"></i> Member List</a>
         </div>
         <div class="col border-dark">
-            <a href="#newmember" class="nav-link" id="nav-newmember" data-bs-toggle="tab" role="tab"
-                aria-controls="newmember" aria-selected="false"><i class="fa-solid fa-user-plus"></i> Register Member</a>
-        </div>
-        <div class="col border-dark">
             <a href="#check" class="nav-link" id="nav-check" role="tab" aria-selected="false" aria-controls="check"
                 data-bs-toggle="tab">Check in/Check out</a>
         </div>
@@ -85,15 +81,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($deadlines as $deadline)
-                                    <tr>
-                                        <td>{{$deadline->lname}}</td>
-                                        <td>{{$deadline->fname}}</td>
-                                        <td>{{$deadline->deadline}}</td>
-                                        <td>{{$deadline->email}}</td>
-                                    </tr>
-                                @endforeach
-                                
+                               
                             </tbody>
                         </table>
                     </div>
@@ -139,7 +127,7 @@
                                     <th>Membership Date</th>
                                     <th>Membership Expiry</th>
                                     <th>Payment Status</th>
-                                    <th>Action</th>
+                                    <th colspan="10">Action</th>
 
                                 </tr>
                             </thead>
@@ -163,6 +151,15 @@
                                             <button class="btn btn-secondary" type="fitayo-edit"
                                                 edit-key="{{ $members[$i]['ID'] }}" data-bs-toggle="modal"
                                                 data-bs-target="#editMemberModal">Edit</button>
+                                                <button class="btn btn-success" type="personnel" make="admin"
+                                                edit-key="{{ $members[$i]['ID'] }}">Make Admin</button>
+                                                <button class="btn btn-info" type="personnel" make="coach"
+                                                edit-key="{{ $members[$i]['ID'] }}">Make Coach</button>
+                                                @if (!Auth::user()->payment_status)
+                                                <button class="btn btn-outline-primary" edit-key="{{ $members[$i]['ID'] }}" type="paid" mode="Standard">Standard</button>
+                                                <button class="btn btn-outline-primary" edit-key="{{ $members[$i]['ID'] }}" type="paid" mode="Premium">Premium</button>
+                                                @endif
+
                                             <button class="btn btn-danger">Delete</button>
                                         </td>
                                     </tr>
@@ -213,188 +210,7 @@
             </div>
 
         </div>
-        <div class="tab-pane fade" id="newmember" role="tabpanel" aria-labelledby="nav-newmember">
-            <h2>Registration Form</h2><br>
-            <div class="nav nav-tabs text-center" id="nav-regmemb">
-                <div class="col">
-                    <a href="#regmemlist" class="nav-link active border-dark" id="nav-regmemlist" data-bs-toggle="tab"
-                        role="tab" aria-controls="regmemlist" aria-selected="true">Member</a>
-                </div>
-                <div class="col">
-                    <a href="#regnonmemlist" class="nav-link border-dark" id="nav-regnonmemlist" data-bs-toggle="tab"
-                        role="tab" aria-controls="regnonmemlist" aria-selected="false">Non-Member</a>
-
-                </div>
-            </div>
-            <div class="tab-content" id="nav-regmembContent">
-                <div class="tab-pane  fade show active" id="regmemlist" role="tabpanel"
-                    aria-labelledby="nav-regmemlist"><br>
-                    <form action="{{ route('register.POST') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="regID" value="{{ $id }}">
-
-                        <div class="row text-center border border-black">
-                            <br>
-                            <h4>Profile</h4>
-                        </div>
-                        <br>
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col-6">
-                                <label for="regFName">&nbsp;&nbsp;First Name:&nbsp;</label>
-                                <input type="text" class="form-control" name="regFName" id="regFName"
-                                    placeholder="Enter your first name" required="required">
-                            </div>
-                            <div class="col-6">
-                                <label for="regLName">&nbsp;&nbsp;Last Name:&nbsp;</label>
-                                <input type="text" name="regLName" id="regLName" class="form-control"
-                                    placeholder="Enter your last name" required="required">
-                            </div>
-                        </div>
-
-                        <br>
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col-6">
-                                <label for="regContactDetails" class='form-label' required="required">&nbsp;&nbsp;Contact
-                                    Details:&nbsp;</label>
-
-                                <div class=" justify-content-center align-items-center d-flex">
-
-
-                                    <div class="col-1">
-                                        <select name="regContactPrefix" class="form-select" id="regContactPrefix"></select>
-                                    </div>
-                                    <input type="tel" name="regContactDetails" id="regContactDetails"
-                                        placeholder="Enter your contact number" class="form-control" required="required">
-
-                                </div>
-
-
-                            </div>
-                            <div class="col-6">
-                                <label for="regBirthdate" class='form-label'>&nbsp;&nbsp;Birthdate:&nbsp;</label>
-                                <input type="date" name="regBirthdate" id="regBirthdate" class="form-control">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6">
-                                <label for="regRegion" class="form-label">Region:&nbsp;</label>
-
-                                <select name="regRegion" id="regRegion" class="form-select" required="required">
-                                    <option selected region_code="None">Choose a Region</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <label for="regCity" class="form-label">City:&nbsp;</label>
-                                <select name="regCity" id="regCity" class="form-select" required="required">
-                                    <option city_code="None" selected>Choose a City</option>
-                                </select>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-6">
-                                <label for="regBarangay" class="form-label">Barangay</label>
-                                <select name="regBarangay" id="regBarangay" class="form-select" required="required">
-                                    <option selected="selected">Choose a Barangay</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <label for="regStreetNum" class="form-label">Street No./Street</label>
-                                <input type="text" name="regStreetNum" id="regStreetNum" class="form-control"
-                                    required="required">
-                            </div>
-                        </div>
-                        <br>
-
-                        <div class="row text-center border border-black">
-                            <br>
-                            <h4>Membership</h4>
-                        </div>
-                        <br>
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col-6">
-                                <label for="regMembershipPlan" class="form-label">Membership Plan:&nbsp;</label>
-                                <select name="regMembershipPlan" id="regMembershipPlan" class="form-select">
-                                    <option selected>Choose Plan</option>
-                                    <option value="Standard">Standard</option>
-                                    <option value="Premium">Premium</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <label for="regStartDate" class="form-label">Start Date:&nbsp;</label>
-                                <input type="date" name="regStartDate" id="regStartDate" class="form-control" value="{{date('Y-m-d')}}">
-                            </div>
-                        </div><br>
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col-6">
-                                <label for="regPaymentStatus" class="form-label">Payment Status:&nbsp;</label>
-                                <select name="regPaymentStatus" id="regPaymentStatus" class="form-select">
-                                    <option selected>Has Paid?</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                            <div class="col-6">
-                                <label for="regTrainer" class="form-label">Trainer</label>
-                                <select name="regTrainer" id="regTrainer" class="form-select">
-                                    <option selected>Choose the trainer</option>
-                                    @foreach ($trainers as $trainer)    
-                                        <option value="{{$trainer->name}}">{{$trainer->name}} | Specialty:{{$trainer->specialty}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div><br>
-                        <div class="row text-center border border-black">
-                            <br>
-                            <h4>Credentials</h4>
-                        </div>
-                        <br>
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col-6">
-                                <label for="regUsername" class="form-label">Username:&nbsp;</label>
-                                <input type="text" class="form-control" id="regUsername" name="regUsername"
-                                    placeholder="Enter your Username">
-                            </div>
-                            <div class="col-6">
-                                <label for="regPassword">Password:&nbsp;</label>
-                                <input type="password" name="regPassword" id="regPassword" class="form-control"
-                                    placeholder="Enter your Password">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row justify-content-center align-items-center">
-                            <div class="col-6">
-                                <label for="regEmail" class="form-label">Email:&nbsp;</label>
-                                <input type="email" name="regEmail" id="regEmail" class="form-control"
-                                    placeholder="Enter your Email">
-                            </div>
-
-                        </div>
-                        <br>
-                        <div class="row">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="tab-pane" id="regnonmemlist" role="tabpanel" aria-labelledby="nav-regnonmemlist">
-                    <br>
-                    <form action="{{route('nonmem_check_in')}}" method="post">
-                        @csrf
-                        <div class="row">
-                            <div class="col-1"><label for="firstname" class="form-label">First Name:</label></div>
-                            <div class="col-5"><input type="text" name="firstname" id="firstname" placeholder="Enter Non-Member's first name" class="form-control"></div>
-                            <br>
-                            <div class="col-1"><label for="lastname" class="form-label">Last Name: </label></div>
-                            <div class="col-5"><input type="text" name="lastname" id="lastname" class="form-control" placeholder="Enter Non-Member's last name"></div>
-                            <br>
-                        </div>
-                        <br>
-                        <div class="row"><button type="submit" class="btn btn-primary">submit</button></div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        
         <div class="tab-pane fade" id="check" role="tabpanel"
             aria-labelledby="nav-check">
             <div class="container">

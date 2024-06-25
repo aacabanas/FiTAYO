@@ -1,5 +1,6 @@
 <?php
 use App\Models\checkins;
+use App\Models\user_assessment;
 use App\Models\user_membership;
 use App\Models\user_profile;
 use App\Models\user_milestones;
@@ -9,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
+
 class BMI
 {
     public static $bmi;
@@ -35,7 +37,60 @@ class BMI
         }
     }
 }
-
+if(!function_exists("get_leaderboards")){
+    function get_leaderboards(){
+        $data = [];
+        $ids = File::json(Storage::disk('jsons')->path('lifts_data.json'));
+        
+        foreach($ids as $k=>$v){
+            $milestone = user_milestones::where("lift",$v["lift"])->where("reps", $v["reps"])->whereBetween('date',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->limit(5)->get();
+            if($milestone->isEmpty()){
+                $t = [
+                    "id" => strtolower($k),
+                    "weight" => 0,
+                    
+                ];
+                array_push($data,$t);
+                continue;
+            }
+            $t = [
+                "id" => strtolower($k),
+                "weight" => $milestone->first()->weight
+            ];
+            array_push($data,$t);
+        }
+        return $data;
+    }
+}
+if(!function_exists("get_milestones")){
+    function get_milestones($username){
+        $data = [];
+        $ids = File::json(Storage::disk('jsons')->path('lifts_data.json'));
+        
+        foreach($ids as $k=>$v){
+            $milestone = user_milestones::where("username",$username)->where("lift",$v["lift"])->where("reps", $v["reps"])->whereBetween('date',[Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->get();
+            if($milestone->isEmpty()){
+                $t = [
+                    "id" => strtolower($k),
+                    "lift" => $v["lift"],
+                    "weight" => 0,
+                    "reps" => $v["reps"]
+                    
+                ];
+                array_push($data,$t);
+                continue;
+            }
+            $t = [
+                "id" => strtolower($k),
+                "lift"=>$milestone->first()->lift,
+                "weight" => $milestone->first()->weight,
+                "reps" => $milestone->first()->reps
+            ];
+            array_push($data,$t);
+        }
+        return $data;
+    }
+}
 if (!function_exists("latest_mem")) {
     function latest_mem()
     {
@@ -62,28 +117,23 @@ if (!function_exists('members')) {
     function members()
     {
         $data = [];
-        $profile = user_profile::get();
-        $member = user_membership::get();
-        for ($_ = 0; $_ < user_membership::count(); $_++) {
-
-            $prof = $profile[$_];
-            $memb = $member[$_];
-            
-            
-                array_push(
-                    $data,
-                    [
-                        "ID" => $prof["profile_ID"],
-                        "firstName" => $prof["firstName"],
-                        "lastName" => $prof["lastName"],
-                        "membership_plan" => $memb["membership_plan"],
-                        "start_date" => $memb["start_date"],
-                        "expiry_date" => $memb["expiry_date"],
-                        "payment_status" => $memb["payment_status"] == 1 ? "Yes" : "No"
-
-                    ]
-                );
+        $users = User::where("user_type","user")->get();
+        foreach($users as $user){
+            $prof = user_profile::where("user_ID", $user->id)->get()->first();
+            $memb = user_membership::where("user_ID", $user->id)->get()->first();
+            array_push(
+                $data,
+                [
+                    "ID" => !$user->data_filled? "Unfinished" : $prof->user_ID,
+                    "firstName" => !$user->data_filled? "Unfinished" :$prof->firstName,
+                    "lastName" => !$user->data_filled? "Unfinished" :$prof->lastName,
+                    "membership_plan" => !$user->data_filled? "Unfinished" :$memb->membership_plan,
+                    "start_date" => !$user->data_filled? "Unfinished" :$memb->start_date,
+                    "expiry_date" => !$user->data_filled? "Unfinished" :$memb->expiry_date,
+                    "payment_status" => $user->payment_status ? "Yes" : "No"
+                ]);
         }
+        
         
         return $data;
     }

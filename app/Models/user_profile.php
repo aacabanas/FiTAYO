@@ -18,7 +18,6 @@ class user_profile extends Authenticatable
     protected $fillable = [
         'firstName',
         'lastName',
-        'contact_prefix',
         'contactDetails',
         'birthdate',
         'age',
@@ -28,7 +27,6 @@ class user_profile extends Authenticatable
         'address_region',
         'user_ID',
         'userMem_ID',
-        'profile_image', 
     ];
 
     protected $hidden = [

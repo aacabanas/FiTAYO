@@ -12,13 +12,12 @@ class user_membership extends Model
     protected $table = 'user_membership';
 
     protected $fillable = [
+        'user_ID',
         'membership_plan',
         'start_date',
         'expiry_date',
         'next_payment',
-        'payment_status',
-        'Trainer',
-        'user_id'
+        'Trainer'
     ];
 
     public function user()

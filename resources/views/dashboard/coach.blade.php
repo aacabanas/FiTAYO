@@ -2,70 +2,65 @@
 @section('title', 'Dashboard')
 @section('content')
 
+<style>
+    .navbar-nav {
+    display: flex;
+    justify-content: center;
+}
+
+.nav-link.active {
+    font-weight: bold; 
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: black; 
+    text-decoration: none; 
+}
+
+/* Base styles */
+.container-fluid {
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+    max-width: 800px; 
+    margin: 0 auto; 
+    padding: 0 15px; 
+}
+
+.bg-primary {
+    background-color: #007bff;
+    
+}
+
+.text-white {
+    color: white;
+}
+
+h1 {
+    font-size: 1.2em;
+}
+
+#date {
+    font-size: 0.9em;
+}
+
+</style>
+<header class="container-fluid bg-primary text-white" style="padding: 20px; margin-bottom: 20px; margin-top: 20px">
+    <h1 id="title">Leaderboards</h1>
+    <p id="date">
+        {{ DateTime::createFromFormat('!m', date('m'))->format('F'). ' '. date('d Y') }}
+    </p>
+</header> 
+<div class="container-fluid bg-orange footer">
+
         
-        <style>
-            .navbar-nav {
-                display: flex;
-                justify-content: center;
-            }
-
-            .nav-link.active {
-                font-weight: bold; 
-            }
-
-            .nav-link:hover,
-            .nav-link:focus {
-                color: black; 
-                text-decoration: none; 
-            }
-
-            /* Base styles */
-            .container-fluid {
-                padding: 10px;
-                margin-bottom: 20px;
-            }
-
-            .card-body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 30vh;
-                max-width: 800px; 
-                margin: 0 auto; 
-                padding: 0 15px; 
-            }
-
-            .bg-primary {
-                background-color: #007bff;
-                
-            }
-
-            .text-white {
-                color: white;
-            }
-
-            h1 {
-                font-size: 1.2em;
-            }
-
-            #date {
-                font-size: 0.9em;
-            }
-            
-            
-             
-        </style>
-
-    </head>
-
-    <body> 
-        <header class="container-fluid bg-primary text-white" style="padding: 20px; margin-bottom: 20px; margin-top: 20px">
-            <h1 id="title">Leaderboards</h1>
-            <p id="date">
-                {{ DateTime::createFromFormat('!m', date('m'))->format('F'). ' '. date('d Y') }}
-            </p>
-        </header> 
-        <div class="container-fluid bg-orange footer">
             <nav class="navbar navbar-expand navbar-dark bg-primary text-white fixed-bottom">
                 <ul class="navbar-nav nav justified w-100">
                     <li class="nav-item">
@@ -270,15 +265,16 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($pendings as $pending)
+                                    <tr>
                                         <td>{{$pending->id}}</td>
                                         <td>{{$pending->username}}</td>
                                         <td>{{$pending->lift}}</td>
                                         <td>{{$pending->action}}</td>
                                         <td>{{$pending->reps}}</td>
-                                        <td>
-                                            <a href="{{route('approve',$pending->id)}}" class="btn btn-success">Approve</a>
-                                        <a href="{{route('reject',$pending->id)}}" class="btn btn-danger">Reject</a></td>
-                                    @endforeach
+                                        <td><button type="approve" mst_id="{{$pending->id}}">Approve</button></td>
+                                        <td><button type="reject"  mst_id="{{$pending->id}}">Reject</button></td>
+                                    </tr>
+                                        @endforeach
                                 </tbody>
                             </table>
                             

@@ -12,11 +12,7 @@ class user_assessment extends Model
     public $increments = false;
 
     protected $fillable = [
-    'userAsses_ID',
-    'height',
-    'weight',
-    'bmi',
-    'bmi_classification',
+    
     'physically_fit',
     'operation',
     'high_blood',

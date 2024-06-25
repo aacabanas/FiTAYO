@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Mail\resetPassword;
+use App\Models\trainers;
 use App\Models\user_assessment;
+use App\Models\user_bmi;
 use App\Models\user_profile;
 use App\Models\user_membership;
+use App\Models\user_milestones;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,110 +22,55 @@ use Illuminate\Support\Facades\Storage;
 
 class DataController extends Controller
 {
-
+    public function user_paid($plan,$id){
+        if(!Auth::check()){
+            abort(404);
+        }
+        if(Auth::user()->user_type=="admin"){
+            User::where("id",$id)->update(["payment_status"=>1]);
+            user_membership::where("user_ID",$id)->update([
+                "membership_plan" => $plan,
+                "start_date" => Carbon::now()->toDateString(),
+                "expiry_date" => Carbon::now()->addMonth()->toDateString(),
+                "next_payment" => Carbon::now()->addMonth()->toDateString(),
+            ]);
+            return back();
+        }
+        abort(404);
+    }
     //
     public function register(Request $request)
     {   
+        
         $request->validate([
-            "regID" => "required",
-            #Model user_profile
-            "regFName" => "required",
-            "regLName" => "required",
-            "regContactPrefix" => "required",
-            "regContactDetails" => "required",
-            "regBirthdate" => "required",
-            "regRegion" => "required",
-            "regCity" => "required",
-            "regBarangay" => "required",
-            "regStreetNum" => "required",
-            #Model user_membership
-            "regMembershipPlan" => "required",
-            "regStartDate" => "required",
-            "regPaymentStatus" => "required",
-            "regTrainer" => "required",
-            #Model: User
-            "regUsername" => "required",
-            "regPassword" => "required",
-            "regEmail" => "required"
+            "username" => "required",
+            "email" => "required",
+            "password" => "required"
         ]);
         User::create([
-            "username" => $request->regUsername,
-            "email" => $request->regEmail,
-            "password" => Hash::make($request->regPassword),
+            "username" => $request->username,
+            "email" => $request->email,
+            "password" => Hash::make($request->password),
             "resetToken" => str::random(128)
         ]);
-        
-        user_membership::create([
-            "user_id" => $request->regID,
-            "membership_plan" => $request->regMembershipPlan,
-            "start_date" => $request->regStartDate,
-            "expiry_date" => Carbon::parse($request->regStartDate)->addMonth(),
-            "next_payment" => Carbon::parse($request->regStartDate)->addMonth(),
-            "payment_status" => $request->regPaymentStatus == "Yes",
-            "Trainer" => $request->regTrainer
-        ]);
-        user_profile::create([
-            'firstName' => $request->regFName,
-            'lastName' => $request->regLName,
-            'contact_prefix' => $request->regContactPrefix,
-            'contactDetails' => "0$request->regContactDetails",
-            'birthdate' => $request->regBirthdate,
-            'age' => (int) Carbon::parse($request->regBirthdate)->diffInYears(Carbon::now()),
-            'address_street_num' => $request->regStreetNum,
-            'address_barangay' => $request->regBarangay,
-            'address_city' => $request->regCity,
-            'address_region' => $request->regRegion,
-            'user_ID' => $request->regID,
-            'userMem_ID' => $request->regID
-        ]);
-        
-        generate_json($request->regID, $request->regUsrname);
+        $user = User::where("username",$request->username)->get()->first();
+        generate_json($user->id, $user->username);
         return back();
     }
-     public function email_test(){
-        $user = User::find(2);
-        for($i=0;$i<100;$i++){
-            Mail::to($user->email)->send(new resetPassword($user->resetToken));
-            dump($i);
-        }
-
-        return $user->resetToken;
-    }
-        /*
-    public function send_reset_link(Request $request){
-        $request->validate(["email"=>"required"]);
-        $user = User::where('email',$request->email)->first();
-        if($user==null){
-            return back();
-        }
-        Mail::to($request->email)->send(new resetPassword($user->resetToken));
-        return back();
-    }
-    public function reset_view(Request $request){
-        return view('auth.reset');
-    }
-    public function reset_password(Request $request){
-        dd($request->all());
-        $token = $request->get('reset');
-        $user = User::where('resetToken',$token)->first();
-        if($user == null){
+    public function milestones(){
+        if(!Auth::check()){
             abort(404);
         }
-        Password::reset(["username"=>$user->username,"email"=>$user->email],function(User $use,$passw){
-            $password = Hash::make($passw);
-            $use->forceFill(["password"=>$password]);
-            $use->save();
-        });
-    } */
+        return response()->json(get_milestones(Auth::user()->username));
+    }
+    
     public function getUpdatable($id)
     {
-        if ($id > latest_mem()) {
-            return abort(404);
-        }
+        
         $cred = User::where('id', $id)->first();
-        $prof = user_profile::where("profile_ID", $id)->first();
-        $memb = user_membership::where("userMem_ID", $id)->first();
-        $assess = user_assessment::where("userAsses_ID", $id)->first();
+        $prof = user_profile::where("user_ID", $cred->id)->first();
+        $memb = user_membership::where("user_ID", $cred->id)->first();
+        $assess = user_assessment::where("profile_ID", $id)->first();
         return response()->json([
             "editFName" => $prof->firstName,
             "editLName" => $prof->lastName,
@@ -157,13 +105,11 @@ class DataController extends Controller
     }
     public function getUser($id)
     {
-        if ($id > latest_mem()) {
-            return abort(404);
-        }
+        
         $cred = User::where('id', $id)->first();
-        $prof = user_profile::where("profile_ID", $id)->first();
-        $memb = user_membership::where("userMem_ID", $id)->first();
-        $assess = user_assessment::where("userAsses_ID", $id)->first();
+        $prof = user_profile::where("user_ID", $cred->id)->first();
+        $memb = user_membership::where("user_ID", $cred->id)->first();
+        $assess = user_assessment::where("profile_ID", $id)->first();
         return response()->json([
             "viewDetail" => "Details of " . $prof->firstName . " " . $prof->lastName,
             "viewFName" => $prof->firstName,
@@ -286,39 +232,105 @@ class DataController extends Controller
         return back();
 
     }
-    public function create_assessment(Request $request)
-    {
-        $id = Auth::user()->id;
+    public function register_admin($id){
+        if(!Auth::check()){
+            abort(404);
+        }
+        if(Auth::user()->user_type=="admin"){
+            User::where("id",$id)->update(["user_type"=>"admin"]);
+            return back();
+        }
+        abort(404);
+        
+    }
+    public function register_coach($id){
+        if(!Auth::check()){
+            abort(404);
+        }
+        if(Auth::user()->user_type=="admin"){
+            User::where("id",$id)->update(["user_type"=>"coach"]);
+            return back();
+        }
+        abort(404);
+        
+    }
+    public function fill_details(Request $request){
         $request->validate([
+            "data_privacy_accepted" => "required",
+            "regID" =>          "required",
+            "regFname" =>       "required",
+            "regLname" =>       "required",
+            "regBirthdate" =>   "required",
+            "regContactNum" =>  "required",
+            "regRegion" =>      "required",
+            "regCity" =>        "required",
+            "regBarangay" =>    "required",
+            "regStreetNum" =>   "required",
+            "regPhysFit" =>     "required",
+            "regOperation" =>   "required",
+            "regBP" =>          "required",
+            "regHP" =>          "required",
+            "regEmergName" =>   "required",
+            "regEmergNum" =>    "required",
+            "regTrainer" =>     "required",
             "regHeight" => "required",
             "regWeight" => "required",
-            "regBMI" => "required",
-            "regBMIType" => "required",
-            "regFit" => "required",
-            "regOper" => "required",
-            "regBP" => "required",
-            "regHeart" => "required",
-            "regEmergName" => "required",
-            "regEmergContact" => "required"
+            "regBMI"    => "required",
+            "regBMIType"=> "required",
+        ]);
+        User::where("id",$request->input("regID"))->update(["data_filled"=>true]);
+        foreach(File::json(Storage::disk('jsons')->path('lifts_data.json')) as $v){
+            user_milestones::create([
+                "username" => Auth::user()->username,
+                "lift" => $v['lift'],
+                "reps" => $v['reps'],
+                "weight" => 0,
+                "date" => Carbon::now()->toDateString()
+            ]);
+        }
+        user_membership::create([
+            'user_ID'=>$request->regID,
+            'membership_plan'=>null,
+            'start_date'=>null,
+            'expiry_date'=>null,
+            'next_payment'=>null,
+            'Trainer'=>$request->regTrainer
+        ]);
+        user_profile::create([
+            'firstName'       =>  $request->regFname,
+            'lastName'        =>  $request->regLname,
+            'contactDetails'  =>  $request->regContactNum,
+            'birthdate'       =>  $request->regBirthdate,
+            'age' => (int) Carbon::now()->diffInYears(Carbon::parse($request->regBirthdate)),
+            'address_street_num'  =>  $request->regStreetNum,
+            'address_barangay'    =>  $request->regBarangay,
+            'address_city'        =>  $request->regCity,
+            'address_region'      =>  $request->regRegion,
+            'user_ID'             =>  $request->regID,
+            'userMem_ID'          =>  $request->regID,
         ]);
         user_assessment::create([
-            'userAsses_ID' => $id,
-            'height' => $request->regHeight,
-            'weight' => $request->regWeight,
-            'bmi' => $request->regBMI,
-            'bmi_classification' => $request->regBMIType,
-            'physically_fit' => $request->regFit == "Yes",
-            'operation' => $request->regOper == "Yes",
-            'high_blood' => $request->regBP == "Yes",
-            'heart_problem' => $request->regHeart == "Yes",
-            'emergency_contact_name' => $request->regEmergName,
-            'emergency_contact_num' => $request->regEmergContact,
-            'profile_ID' => $id,
-            'medical_history' => ""
-
+            'physically_fit'=>$request->regPhysFit,
+            'operation'=>$request->regOperation,
+            'high_blood'=>$request->regBP,
+            'heart_problem'=>$request->regHP,
+            'emergency_contact_name'=>$request->regContactNum,
+            'emergency_contact_num'=>$request->regContactNum,
+            'profile_ID'=>user_profile::where("user_ID",$request->regID)->get()->first()->profile_ID
         ]);
+        $user = User::where("id",$request->regID)->get()->first();
+        user_bmi::create([
+            'username'=>$user->username,
+            'height'=>$request->regHeight,
+            'weight'=>$request->regWeight,
+            'bmi'=>$request->regBMI,
+            'bmi_classification'=>$request->regBMIType,
+            'date'=>Carbon::now()->toDateString()
+        ]);
+        trainers::where("name",$request->regTrainer)->increment("trainee_count");
         return back();
     }
+    
 
 
 
@@ -334,21 +346,21 @@ class DataController extends Controller
     }
     public function get_region()
     {
-        if (!Auth::check() || Auth::user()->user_type == "user") {
+        if (!Auth::check() ) {
             abort(404);
         }
         return response()->json(\JSON_DATA::get_regions());
     }
     public function get_cities($region_code)
     {
-        if (!Auth::check() || Auth::user()->user_type == "user") {
+        if (!Auth::check() ) {
             abort(404);
         }
         return response()->json(\JSON_DATA::get_cities($region_code));
     }
     public function get_barangays($region_code, $city_code)
     {
-        if (!Auth::check() || Auth::user()->user_type == "user") {
+        if (!Auth::check() ) {
             abort(404);
         }
         return response()->json(\JSON_DATA::get_barangays($region_code, $city_code));

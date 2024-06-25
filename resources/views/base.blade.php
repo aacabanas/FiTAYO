@@ -1,18 +1,24 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     @if (auth()->user()==null||auth()->user()->user_type == "user")
-        @vite(['resources/js/user/app.js'])
+    
+        @vite(['resources/js/user/app.js','resources/css/user.css'])
     @elseif (auth()->user()==null||auth()->user()->user_type == "coach")
-        @vite(['resources/js/coach/app.js'])
+        @vite(['resources/js/coach/app.js','resources/css/coach.css'])
 
     @else
         @vite(['resources/js/admin/app.js'])
+        
+        
+
     @endif
     @vite(['resources/sass/app.scss', 'resources/css/app.css'])
+    @yield('extras')
     <title>@yield('title')</title>
 </head>
 
@@ -22,9 +28,6 @@
         <div class="container-fluid d-flex my-auto mx-auto align-items-center justify-content-center" style="height:75vh">
             
             @yield('content')
-            
-            
-
     </div>
     <footer>
         <div class="row d-flex my-auto mx-auto align-items-center justify-content-center">
