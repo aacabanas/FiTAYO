@@ -2,11 +2,12 @@
 @section('title', 'Dashboard')
 @section('content')
 
-    <style>
+<style>
         body {
             background-color: #f0f0f0;
             color: #333;
         }
+        
 
         .header {
             background-color: #007bff;
@@ -95,6 +96,13 @@
             border-radius: 0.25rem;
             transition: background-color 0.3s, border-color 0.3s;
         }
+        #nav-bot .nav-link {
+            color: #ffffff;
+        }
+
+        #nav-bot .nav-link.active {
+            color: #ffffff;
+        }
         .navbar-nav {
             display: flex;
             justify-content: center;
@@ -175,6 +183,7 @@
             background-color: #333 !important; 
             color: #f1f1f1; 
         }
+        
         body.light-mode .profile-email, 
         body.light-mode .text-muted.small {
             color: #6c757d !important;
@@ -243,41 +252,75 @@
         #save-metrics-btn:hover {
             background-color: #23527c;
         }
+        /* Default light mode styles for modal  */
         .modal-dialog {
             max-width: 100%;
             margin: 10% auto;
             padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ddd;
+            background-color: #fff; 
+            border: none; 
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
         }
         .modal-header {
             padding: 10px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: none; 
+            color: #000; 
         }
-        .modal-header .btn-close {
+        .modal-header .close {
             font-size: 24px;
             line-height: 1;
-            color: #000;
-            text-shadow: 0 1px 0 #fff;
+            color: #000; 
             opacity: 0.5;
             cursor: pointer;
+            background: none; 
+            border: none; 
         }
-        .modal-header .btn-close:hover {
+        .modal-header .close:hover {
             opacity: 1;
         }
         .modal-body {
             padding: 10px;
+            color: #000; 
         }
         .modal-footer {
             padding: 10px;
-            border-top: 1px solid #ddd;
+            border-top: none;
             text-align: right;
+            color: #000; 
         }
         .modal-footer .btn {
             margin-left: 5px;
+            background-color: #555; 
+            border: none; 
+            color: #fff; 
         }
+        .modal-footer .btn:hover {
+            background-color: #666;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode .modal-dialog {
+            background-color: #333; /* Dark background color */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Darker shadow */
+        }
+
+        body.dark-mode .modal-header {
+            color: #fff; /* White text color for dark mode */
+        }
+
+        body.dark-mode .modal-header .close {
+            color: #fff; /* White color for close button in dark mode */
+        }
+
+        body.dark-mode .modal-body {
+            color: #fff; /* White text color for dark mode */
+        }
+
+        body.dark-mode .modal-footer {
+            color: #fff; /* White text color for dark mode */
+        }
+
         .profile-content,
         .page-content {
             display: none;
@@ -407,7 +450,6 @@
         .dark-mode .page-content,
         .dark-mode .navbar,
         .dark-mode .footer {
-            background-color: #161b22;
             color: #c9d1d9;
             border-color: #30363d;
         }
@@ -589,7 +631,6 @@
             background-color: #004494;
             border-color: #004494;
         }
-        /* New styles for redesigned Milestones tab */
         .card {
             border: none;
             border-radius: 10px;
@@ -598,6 +639,13 @@
         .card-title {
             font-weight: bold;
             text-align: center;
+        }
+        .custom-table {
+            background-color: #fff;
+        }
+
+        .custom-table tr:nth-child(odd) {
+            background-color: #f9f9f9;
         }
         .progress-container {
             margin-top: 20px;
@@ -642,6 +690,266 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
+        body.dark-mode .container.mt-5.profile-container {
+            background-color: #0d1117;
+        }
+
+        /* Container and Card Styling Adjustments */
+        .container.mt-5.profile-container {
+            padding: 0 15px;
+        }
+
+        .card.shadow-sm {
+            margin-bottom: 15px;
+        }
+
+        body.dark-mode .nav-link {
+            color: #fff;
+        }
+
+        body.dark-mode .nav-link.active {
+            color: #fff;
+            background-color: #0d1117;
+        }
+
+        /* Home Tab Styles */
+        #nav-home {
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #nav-home h2 {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #nav-home p {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        #nav-home .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        #nav-home .card-title {
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #nav-home .btn-outline-primary {
+            border-color: #007bff;
+            color: #007bff;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #nav-home .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        #nav-home .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        #nav-home .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        #nav-home .profile-picture {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 3px solid #007bff;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        #nav-home .profile-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #343a40;
+            margin-top: 15px;
+        }
+
+        #nav-home .profile-email {
+            font-size: 1em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        #nav-home .profile-plan {
+            font-size: 1.1em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        #nav-home .toggle-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        #nav-home .switch {
+            position: relative;
+            display: inline-block;
+            width: 66px;
+            height: 34px;
+        }
+
+        #nav-home .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        #nav-home .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #nav-home .slider:before {
+            position: absolute;
+            content: "\263C";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            font-size: 18px;
+            color: #fdd835;
+        }
+
+        #nav-home input:checked + .slider {
+            background-color: #1e3a8a;
+        }
+
+        #nav-home input:checked + .slider:before {
+            transform: translateX(33px);
+            content: "\263E";
+            color: #1e3a8a;
+        }
+
+        /* Chart Sizes */
+        #workoutPlanChart, #progressChart, #attendanceChart {
+            width: 100%;
+            height: 400px; 
+        }
+
+        @media (max-width: 768px) {
+            #workoutPlanChart, #progressChart, #attendanceChart {
+                height: 400px;
+            }
+            .card-body {
+                padding: 0 !important;
+            }
+            .card {
+                width: 100%;
+            }
+
+            #title {
+                font-size: 1.5rem;
+            }
+            .toggle-container {
+                margin-top: 10px; 
+            }
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode #nav-home {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            border-color: #30363d;
+        }
+
+        body.dark-mode #nav-home h2 {
+            color: #c9d1d9;
+        }
+
+        body.dark-mode #nav-home p {
+            color: #8b949e;
+        }
+
+        body.dark-mode #nav-home .card {
+            background-color: #333;
+            color: #f1f1f1;
+            border-color: #444;
+        }
+
+        body.dark-mode #nav-home .card-title {
+            color: #c9d1d9;
+        }
+
+        body.dark-mode #nav-home .btn-outline-primary {
+            border-color: #58a6ff;
+            color: #58a6ff;
+        }
+
+        body.dark-mode #nav-home .btn-outline-primary:hover {
+            background-color: #58a6ff;
+            color: #fff;
+        }
+
+        body.dark-mode #nav-home .btn-primary {
+            background-color: #58a6ff;
+            border-color: #58a6ff;
+        }
+
+        body.dark-mode #nav-home .btn-primary:hover {
+            background-color: #1e7e34;
+            border-color: #1e7e34;
+        }
+
+        body.dark-mode #nav-home .profile-picture {
+            border-color: #58a6ff;
+        }
+
+        body.dark-mode #nav-home .profile-name, 
+        body.dark-mode #nav-home .profile-email,
+        body.dark-mode #nav-home .profile-plan {
+            color: #c9d1d9;
+        }
+
+        body.dark-mode #nav-home .toggle-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        body.dark-mode .container.mt-6.profile-container {
+            background-color: #21262d;
+        }
+
+        /* Dark Mode Nav Link Styles */
+        body.dark-mode .nav-link {
+            color: #c9d1d9;
+        }
+
     </style>
  
 <!-- Dark Mode Toggle Switch -->
@@ -673,33 +981,315 @@
 <div class="container-fluid bg-orange footer">
     <nav class="navbar navbar-expand navbar-dark bg-primary text-white fixed-bottom">
         <ul class="navbar-nav nav justified w-100" id="nav-bot">
-                    <li class="nav-item">
-                    <a href="#" id="nav-leaderboards-tab" data-bs-toggle="tab" data-bs-target="#nav-leaderboards" class="nav-link active" role="tab" aria-controls="nav-leaderboards" aria-selected="true">Leaderboards</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" id="nav-milestones-tab" data-bs-toggle="tab" data-bs-target="#nav-milestones" class="nav-link" role="tab" aria-controls="nav-milestones" aria-selected="false">Milestones</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" id="nav-bmi-tab" data-bs-toggle="tab" data-bs-target="#nav-bmi" class="nav-link" role="tab" aria-controls="nav-bmi" aria-selected="false">My BMI</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" class="nav-link" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
-                    </li>     
-                </ul>
-            </nav>
+            <li class="nav-item">
+                <a href="#" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" class="nav-link active" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" id="nav-leaderboards-tab" data-bs-toggle="tab" data-bs-target="#nav-leaderboards" class="nav-link" role="tab" aria-controls="nav-leaderboards" aria-selected="false">Leaderboards</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" id="nav-milestones-tab" data-bs-toggle="tab" data-bs-target="#nav-milestones" class="nav-link" role="tab" aria-controls="nav-milestones" aria-selected="false">Milestones</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" id="nav-bmi-tab" data-bs-toggle="tab" data-bs-target="#nav-bmi" class="nav-link" role="tab" aria-controls="nav-bmi" aria-selected="false">My BMI</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" class="nav-link" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+            </li>
+        </ul>
+    </nav>
 
-            <!-- Tab content -->
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-leaderboards" role="tabpanel" aria-labelledby="nav-leaderboards-tab">
-                    <!-- Leaderboards content goes here -->
-                    <nav>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist" style="margin-bottom: 20px">
-                            <h1 style="margin-left: 5px; margin-right: 15px">LIFTS</h1>
-                            <button class="nav-link active" id="nav-bench-tab" data-bs-toggle="tab" data-bs-target="#nav-bench" type="button" role="tab" aria-controls="nav-bench" aria-selected="true">BENCH PRESS</button>
-                            <button class="nav-link" id="nav-deadlift-tab" data-bs-toggle="tab" data-bs-target="#nav-deadlift" type="button" role="tab" aria-controls="nav-deadlift" aria-selected="false">DEADLIFT</button>
-                            <button class="nav-link" id="nav-squats-tab" data-bs-toggle="tab" data-bs-target="#nav-squats" type="button" role="tab" aria-controls="nav-squats" aria-selected="false">SQUATS</button>
+    <!-- Tab content -->
+    <div class="tab-content" id="nav-tabContent">
+        <!-- Home Tab -->
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="container mt-5 profile-container">
+                <!-- Combined Sections -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <!-- Welcome Message -->
+                        <div class="text-center mb-4">
+                            <h2>Welcome Back, {{ auth()->user()->username }}!</h2>
+                            <p>Let's make today a great workout day!</p>
                         </div>
-                    </nav>
+                        <hr>
+
+                        <!-- Recent Activity -->
+                        <h3 class="card-title d-flex justify-content-between align-items-center">
+                            <span>Recent Activity</span>
+                            <i id="recentActivityChevron" class="fas fa-chevron-right ms-2" style="cursor:pointer;" data-bs-toggle="collapse" data-bs-target="#recentActivityDetails"></i>
+                        </h3>
+                        <table class="table table-striped table-dark-mode">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Activity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>June 25, 2024</td>
+                                    <td>Completed Deadlift - 2 sets of 8 reps with 30kg and Squats - 3 sets of 10 reps with 40kg</td>
+                                </tr>
+                                <tr>
+                                    <td>June 23, 2024</td>
+                                    <td>Completed Bench Press - 3 sets of 8 reps with 20kg and Deadlift - 2 sets of 8 reps with 30kg</td>
+                                </tr>
+                                <tr>
+                                    <td>June 21, 2024</td>
+                                    <td>Completed Deadlift - 2 sets of 8 reps with 30kg and Squats - 3 sets of 10 reps with 40kg</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div id="recentActivityDetails" class="collapse">
+                            <table class="table table-striped table-dark-mode">
+                                <tbody>
+                                    <tr>
+                                        <td>June 19, 2024</td>
+                                        <td>Completed Bench Press - 3 sets of 8 reps with 20kg and Squats - 3 sets of 10 reps with 40kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>June 17, 2024</td>
+                                        <td>Completed Deadlift - 2 sets of 8 reps with 30kg and Bench Press - 3 sets of 8 reps with 20kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>June 15, 2024</td>
+                                        <td>Completed Bench Press - 3 sets of 8 reps with 20kg and Deadlift - 2 sets of 8 reps with 30kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>June 13, 2024</td>
+                                        <td>Completed Deadlift - 2 sets of 8 reps with 30kg and Squats - 3 sets of 10 reps with 40kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>June 11, 2024</td>
+                                        <td>Completed Bench Press - 3 sets of 8 reps with 20kg and Squats - 3 sets of 10 reps with 40kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>June 9, 2024</td>
+                                        <td>Completed Deadlift - 2 sets of 8 reps with 30kg and Bench Press - 3 sets of 8 reps with 20kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>June 7, 2024</td>
+                                        <td>Completed Bench Press - 3 sets of 8 reps with 20kg and Squats - 3 sets of 10 reps with 40kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>June 5, 2024</td>
+                                        <td>Completed Deadlift - 2 sets of 8 reps with 30kg and Squats - 3 sets of 10 reps with 40kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>June 3, 2024</td>
+                                        <td>Attended Beginner Yoga Class</td>
+                                    </tr>
+                                    <tr>
+                                        <td>June 2, 2024</td>
+                                        <td>Completed Deadlift - 2 sets of 8 reps with 30kg and Bench Press - 3 sets of 8 reps with 20kg</td>
+                                    </tr>
+                                    <tr>
+                                        <td>June 1, 2024</td>
+                                        <td>Completed Bench Press - 3 sets of 8 reps with 20kg and Squats - 3 sets of 10 reps with 40kg</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+
+                        <!-- Attendance Section -->
+                        <h3 class="card-title d-flex justify-content-between align-items-center">
+                            <span class="ms-3">Gym Visits this month</span>
+                            <div class="d-flex align-items-center ms-auto">
+                                <span class="badge bg-primary ms-2" id="attendanceCount">14</span>
+                                <i id="attendanceChevron" class="fas fa-chevron-right ms-2" style="cursor:pointer;" data-bs-toggle="collapse" data-bs-target="#visitHistory"></i>
+                            </div>
+                        </h3>
+                        <p class="text-left ms-3">Tap to view your full visit history</p>
+                        <div id="visitHistory" class="collapse">
+                            <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Check-in Time</th>
+                                    <th>Check-out Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>June 1, 2024</td>
+                                    <td>08:10 AM</td>
+                                    <td>10:05 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 2, 2024</td>
+                                    <td>08:05 AM</td>
+                                    <td>10:00 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 3, 2024</td>
+                                    <td>08:15 AM</td>
+                                    <td>10:10 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 5, 2024</td>
+                                    <td>08:20 AM</td>
+                                    <td>10:15 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 7, 2024</td>
+                                    <td>08:10 AM</td>
+                                    <td>10:05 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 9, 2024</td>
+                                    <td>08:25 AM</td>
+                                    <td>10:20 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 11, 2024</td>
+                                    <td>08:10 AM</td>
+                                    <td>10:05 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 13, 2024</td>
+                                    <td>08:00 AM</td>
+                                    <td>10:00 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 15, 2024</td>
+                                    <td>08:05 AM</td>
+                                    <td>10:00 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 17, 2024</td>
+                                    <td>08:10 AM</td>
+                                    <td>10:10 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 19, 2024</td>
+                                    <td>08:15 AM</td>
+                                    <td>10:05 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 21, 2024</td>
+                                    <td>08:00 AM</td>
+                                    <td>09:55 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 23, 2024</td>
+                                    <td>08:00 AM</td>
+                                    <td>10:00 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>June 25, 2024</td>
+                                    <td>08:20 AM</td>
+                                    <td>10:15 AM</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <!-- Today's Workout Plan -->
+                            <div class="col-lg-6 col-md-12">
+                                <div class="card shadow-sm mb-4">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Today's Workout Plan</h3>
+                                        <canvas id="workoutPlanChart"></canvas>
+                                        <div id="chartInsights" class="mt-3"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Progress Overview with Charts -->
+                            <div class="col-lg-6 col-md-12">
+                                <div class="card shadow-sm mb-4">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Progress Overview</h3>
+                                        <canvas id="progressChart"></canvas>
+                                        <div id="progressInsights" class="mt-3"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Upcoming Events/Classes -->
+                            <div class="col-lg-6 col-md-12">
+                                <div class="card shadow-sm mb-4">
+                                    <div class="card-body">
+                                        <h3 class="card-title">Upcoming Events/Classes</h3>
+                                        <div id="calendar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Goals and Challenges -->
+                        <div class="container mt-5">
+                            <div class="card shadow-sm mb-4">
+                                <div class="card-body text-center">
+                                    <h3 class="card-title text-center">Goals and Challenges</h3>
+                                    <p class="text-center"><strong>Current Goal:</strong> Assigned by Trainer - Lose 2kg by the end of July.</p>
+                                    <p class="text-center"><strong>Challenge:</strong> Participate in the 15-day beginner squat challenge (starting with 10 squats per day).</p>
+                                </div>
+                            </div>
+
+                            <!-- Trainer's Corner & Gym News -->
+                            <div class="card shadow-sm mb-4">
+                                <div class="card-body text-center">
+                                    <h3 class="card-title text-center">Trainer's Corner & Gym News</h3>
+                                    <hr>
+                                    <div class="text-center">
+                                        <h4>Trainer's Corner</h4>
+                                        <p>Message from your trainer: <em>"Keep pushing yourself and stay consistent. You're doing great!"</em></p>
+                                        <p>Watch this tutorial on proper deadlift form:</p>
+                                        <a href="https://www.youtube.com/watch?v=r4MzxtBKyNE" class="btn btn-primary" target="_self">Watch Video</a>
+                                    </div>
+                                    <hr>
+                                    <div class="text-center">
+                                        <h4>Gym News and Updates</h4>
+                                        <p>We're excited to announce the arrival of new state-of-the-art equipment in the gym!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal for event details -->
+                        <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="eventDetailsModalLabel">Event Details</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p id="eventTitle"></p>
+                                        <p id="eventTime"></p>
+                                        <p id="eventDescription"></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End of event details modal -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of home tab -->
+
+        <!-- Leaderboards Tab -->
+        <div class="tab-pane fade" id="nav-leaderboards" role="tabpanel" aria-labelledby="nav-leaderboards-tab">
+            <!-- Leaderboards content goes here -->
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist" style="margin-bottom: 20px">
+                    <h1 style="margin-left: 5px; margin-right: 15px">LIFTS</h1>
+                    <button class="nav-link active" id="nav-bench-tab" data-bs-toggle="tab" data-bs-target="#nav-bench" type="button" role="tab" aria-controls="nav-bench" aria-selected="true">BENCH PRESS</button>
+                    <button class="nav-link" id="nav-deadlift-tab" data-bs-toggle="tab" data-bs-target="#nav-deadlift" type="button" role="tab" aria-controls="nav-deadlift" aria-selected="false">DEADLIFT</button>
+                    <button class="nav-link" id="nav-squats-tab" data-bs-toggle="tab" data-bs-target="#nav-squats" type="button" role="tab" aria-controls="nav-squats" aria-selected="false">SQUATS</button>
+                </div>
+            </nav>
 
                     <!-- Tables for each category -->
                     
@@ -1525,6 +2115,31 @@
             </div>
         </div>
     @endif
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- FullCalendar CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
+
+    <!-- Chart.js for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
+    <!-- Popper.js (required for Bootstrap 4) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+
         <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             const darkModeToggle = document.getElementById('darkModeToggle');
@@ -1545,6 +2160,315 @@
                 }
             });
         });
-    </script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Workout Plan Chart
+            var ctxWorkout = document.getElementById('workoutPlanChart').getContext('2d');
+            var workoutPlanChart = new Chart(ctxWorkout, {
+                type: 'bar',
+                data: {
+                    labels: ['Deadlift', 'Squats'],
+            datasets: [
+                {
+                    label: 'Sets',
+                    data: [2, 3], 
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Reps',
+                    data: [8, 10],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Weight (kg)',
+                    data: [30, 40], 
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Count / Weight (kg)',
+                                color: '#666'
+                            }
+                        }
+                    },
+                    onClick: function(event, elements) {
+                        if (elements.length > 0) {
+                            var elementIndex = elements[0].index;
+                            var datasetIndex = elements[0].datasetIndex;
+                            var datasetLabel = workoutPlanChart.data.datasets[datasetIndex].label;
+                            var datasetValue = workoutPlanChart.data.datasets[datasetIndex].data[elementIndex];
+                            var exerciseLabel = workoutPlanChart.data.labels[elementIndex];
+
+                            generateInsight(datasetLabel, datasetValue, exerciseLabel);
+                        }
+                    }
+                }
+            });
+
+            function generateInsight(label, value, exercise) {
+                var insightText = '';
+                if (label === 'Sets') {
+                    insightText = `You have planned ${value} sets of ${exercise}.`;
+                } else if (label === 'Reps') {
+                    insightText = `You have planned ${value} reps for each set of ${exercise}.`;
+                } else if (label === 'Weight (kg)') {
+                    insightText = `You have planned to lift ${value} kg for ${exercise}.`;
+                }
+
+                document.getElementById('chartInsights').innerText = insightText;
+            }
+
+            // Workout Duration Chart
+            var ctxDuration = document.getElementById('progressChart').getContext('2d');
+            var durationChart = new Chart(ctxDuration, {
+                type: 'line',
+                data: {
+                    labels: [
+                        'June 1', 'June 2', 'June 3', 'June 5', 'June 7', 'June 9', 'June 11',
+                        'June 13', 'June 15', 'June 17', 'June 19', 'June 21', 'June 23', 'June 25'
+                    ],
+                    datasets: [{
+                        label: 'Workout Duration (minutes)',
+                        data: [
+                            115, 
+                            115, 
+                            115, 
+                            115, 
+                            115, 
+                            115, 
+                            115, 
+                            120, 
+                            115, 
+                            120, 
+                            110, 
+                            115, 
+                            120, 
+                            115
+                        ],
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Insights for Workout Duration Chart
+            function generateDurationInsights() {
+                var insights = '';
+                var data = durationChart.data.datasets[0].data;
+
+                // Calculate total duration
+                var totalDuration = data.reduce((a, b) => a + b, 0);
+
+                // Calculate average duration
+                var averageDuration = totalDuration / data.length;
+
+                insights += `<p>Total Workout Duration: ${totalDuration} minutes over 14 days.</p>`;
+                insights += `<p>Average Daily Workout Duration: ${averageDuration.toFixed(2)} minutes.</p>`;
+
+                document.getElementById('progressInsights').innerHTML = insights;
+            }
+
+            // Generate insights after the chart is rendered
+            durationChart.options.animation.onComplete = generateDurationInsights;
+
+            // Calendar
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: [
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-01T08:10:00',
+                        end: '2024-06-01T10:05:00',
+                        description: 'Bench Press - 3 sets of 8 reps with 20kg and Squats - 3 sets of 10 reps with 40kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-02T08:05:00',
+                        end: '2024-06-02T10:00:00',
+                        description: 'Deadlift - 2 sets of 8 reps with 30kg and Bench Press - 3 sets of 8 reps with 20kg.'
+                    },
+                    { 
+                        title: 'Yoga Class', 
+                        start: '2024-06-03T08:15:00',
+                        end: '2024-06-03T10:10:00',
+                        description: 'Beginner Yoga Class.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-05T08:20:00',
+                        end: '2024-06-05T10:15:00',
+                        description: 'Deadlift - 2 sets of 8 reps with 30kg and Squats - 3 sets of 10 reps with 40kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-07T08:10:00',
+                        end: '2024-06-07T10:05:00',
+                        description: 'Bench Press - 3 sets of 8 reps with 20kg and Squats - 3 sets of 10 reps with 40kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-09T08:25:00',
+                        end: '2024-06-09T10:20:00',
+                        description: 'Deadlift - 2 sets of 8 reps with 30kg and Bench Press - 3 sets of 8 reps with 20kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-11T08:10:00',
+                        end: '2024-06-11T10:05:00',
+                        description: 'Bench Press - 3 sets of 8 reps with 20kg and Squats - 3 sets of 10 reps with 40kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-13T08:00:00',
+                        end: '2024-06-13T10:00:00',
+                        description: 'Deadlift - 2 sets of 8 reps with 30kg and Squats - 3 sets of 10 reps with 40kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-15T08:05:00',
+                        end: '2024-06-15T10:00:00',
+                        description: 'Bench Press - 3 sets of 8 reps with 20kg and Deadlift - 2 sets of 8 reps with 30kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-17T08:10:00',
+                        end: '2024-06-17T10:10:00',
+                        description: 'Deadlift - 2 sets of 8 reps with 30kg and Bench Press - 3 sets of 8 reps with 20kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-19T08:15:00',
+                        end: '2024-06-19T10:05:00',
+                        description: 'Bench Press - 3 sets of 8 reps with 20kg and Squats - 3 sets of 10 reps with 40kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-21T08:00:00',
+                        end: '2024-06-21T09:55:00',
+                        description: 'Deadlift - 2 sets of 8 reps with 30kg and Squats - 3 sets of 10 reps with 40kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-23T08:00:00',
+                        end: '2024-06-23T10:00:00',
+                        description: 'Bench Press - 3 sets of 8 reps with 20kg and Deadlift - 2 sets of 8 reps with 30kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-25T08:20:00',
+                        end: '2024-06-25T10:15:00',
+                        description: 'Deadlift - 2 sets of 8 reps with 30kg and Squats - 3 sets of 10 reps with 40kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-27T08:05:00',
+                        end: '2024-06-27T09:50:00',
+                        description: 'Bench Press - 3 sets of 8 reps with 20kg and Squats - 3 sets of 10 reps with 40kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-29T08:10:00',
+                        end: '2024-06-29T10:05:00',
+                        description: 'Deadlift - 2 sets of 8 reps with 30kg and Bench Press - 3 sets of 8 reps with 20kg.'
+                    },
+                    { 
+                        title: 'Workout session with Coach Alex', 
+                        start: '2024-06-30T08:00:00',
+                        end: '2024-06-30T09:55:00',
+                        description: 'Bench Press - 3 sets of 8 reps with 20kg and Squats - 3 sets of 10 reps with 40kg.'
+                    }
+                ],
+                eventClick: function(info) {
+                    // Display event details in the modal
+                    document.getElementById('eventTitle').innerText = 'Title: ' + info.event.title;
+                    document.getElementById('eventTime').innerText = 'Time: ' + info.event.start.toLocaleString() + ' - ' + info.event.end.toLocaleString();
+                    document.getElementById('eventDescription').innerText = 'Description: ' + info.event.extendedProps.description;
+
+                    // Show the modal
+                    var eventDetailsModal = new bootstrap.Modal(document.getElementById('eventDetailsModal'));
+                    eventDetailsModal.show();
+                }
+            });
+            calendar.render();
+
+        // Toggle visit history
+        document.getElementById('attendanceChevron').addEventListener('click', function() {
+            var visitHistory = document.getElementById('visitHistory');
+            var chevron = this;
+            if (visitHistory.classList.contains('show')) {
+                visitHistory.classList.remove('show');
+                chevron.classList.remove('fa-chevron-down');
+                chevron.classList.add('fa-chevron-right');
+            } else {
+                visitHistory.classList.add('show');
+                chevron.classList.remove('fa-chevron-right');
+                chevron.classList.add('fa-chevron-down');
+            }
+        });
+
+        document.getElementById('recentActivityChevron').addEventListener('click', function() {
+            var recentActivityDetails = document.getElementById('recentActivityDetails');
+            var chevron = this;
+            if (recentActivityDetails.classList.contains('show')) {
+                recentActivityDetails.classList.remove('show');
+                chevron.classList.remove('fa-chevron-down');
+                chevron.classList.add('fa-chevron-right');
+            } else {
+                recentActivityDetails.classList.add('show');
+                chevron.classList.remove('fa-chevron-right');
+                chevron.classList.add('fa-chevron-down');
+            }
+        });
+
+        document.getElementById('visitHistory').addEventListener('hidden.bs.collapse', function () {
+            var chevron = document.getElementById('attendanceChevron');
+            chevron.classList.remove('fa-chevron-down');
+            chevron.classList.add('fa-chevron-right');
+        });
+
+        document.getElementById('visitHistory').addEventListener('shown.bs.collapse', function () {
+            var chevron = document.getElementById('attendanceChevron');
+            chevron.classList.remove('fa-chevron-right');
+            chevron.classList.add('fa-chevron-down');
+        });
+
+        document.getElementById('recentActivityDetails').addEventListener('hidden.bs.collapse', function () {
+            var chevron = document.getElementById('recentActivityChevron');
+            chevron.classList.remove('fa-chevron-down');
+            chevron.classList.add('fa-chevron-right');
+        });
+
+        document.getElementById('recentActivityDetails').addEventListener('shown.bs.collapse', function () {
+            var chevron = document.getElementById('recentActivityChevron');
+            chevron.classList.remove('fa-chevron-right');
+            chevron.classList.add('fa-chevron-down');
+        });
+    });
+        </script>
 
 @endsection
