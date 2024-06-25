@@ -206,6 +206,22 @@
         body.dark-mode .form-label {
             color: #f1f1f1; 
         }
+
+        body.dark-mode .form-control {
+            color: #f1f1f1;
+            background-color: #161b22;
+            border-color: #555;
+        }
+
+        body.dark-mode .form-control:focus,
+        body.dark-mode .form-control:active {
+            color: #f1f1f1;
+            background-color: #161b22; 
+            border-color: #555; 
+            outline: none; 
+            box-shadow: none; 
+        }
+
         body.dark-mode .btn-primary {
             background-color: #007bff; 
             border-color: #007bff;
