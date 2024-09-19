@@ -153,7 +153,7 @@ class Logic extends Controller
             'date' => Carbon::now()->toDateString()
         ]);
         trainers::where("name", $request->regTrainer)->increment("trainee_count");
-        return redirect("/login");
+        return redirect()->route('login_get');
     }
     public function register_non_member(Request $request){
         $request->validate([
