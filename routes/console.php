@@ -1,35 +1,15 @@
 <?php
 
-use App\Models\user_assessment;
-use App\Models\user_membership;
-use App\Models\user_profile;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
-use Carbon\Carbon;
+use App\Http\Controllers\Logic;
+Artisan::command('inspire', function () {
+    $this->comment(Inspiring::quote());
+})->purpose('Display an inspiring quote')->hourly();    
 
-use App\Models\User;
-
-$i = 0;
-
-
-Schedule::call(function () {
-    $curr = Carbon::now();
-    $data = user_membership::select(['userMem_ID', 'expiry_date', 'membership_type'])->get()->jsonSerialize();
-    foreach ($data as $dat) {
-        if ($dat["membership_type"] == "Member") {
-            $t = round(Carbon::parse($dat['expiry_date'])->diffInDays($curr, false));
-            if ($t >= 30) {
-                $id = $dat["userMem_ID"];
-                User::find($id)->delete();
-                user_membership::where('userMem_ID', $id)->delete();
-            }
-        }
-        if ($t >= 30) {
-            $id = $dat["userMem_ID"];
-            User::find($id)->delete();
-            user_membership::where('userMem_ID', $id)->delete();
-        }
+Schedule::call(function(){
+    foreach(\App\Models\user_milestones::where("weight",">","0")->get() as $s){
+        echo $s->first()->username, $s->first()->lift,$s->first()->reps;
+        $s->update(["weight" => 0]);
     }
-
-})->everySecond()->name("----deleting expired users----");
-Schedule::call(function(){foreach(User::all() as $user){generate_json($user->id,$user->username);}})->everySecond()->name('regenerate qr');
+})->everySecond()->name("reset");

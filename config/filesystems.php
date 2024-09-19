@@ -24,16 +24,12 @@ return [
     | may even configure multiple disks for the same driver. Examples for
     | most supported storage drivers are configured here for reference.
     |
-    | Supported Drivers: "local", "ftp", "sftp", "s3"
+    | Supported drivers: "local", "ftp", "sftp", "s3"
     |
     */
 
     'disks' => [
-        'qr' => [
-            'driver' => 'local',
-            'root' => public_path('qrcodes\\'),
-            'throw' => false
-        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
@@ -59,16 +55,6 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
-        'flags' => [
-            'driver' => 'local',
-            'root' => public_path('flags\\'),
-            'throw' => false
-        ],
-        "jsons" => [
-            'driver' => 'local',
-            'root' => public_path('json\\'),
-            'throw' => false
-        ]
 
     ],
 

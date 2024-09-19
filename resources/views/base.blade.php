@@ -1,73 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    @if (auth()->user()==null||auth()->user()->user_type == "user")
-    
-        @vite(['resources/js/user/app.js','resources/css/user.css'])
-    @elseif (auth()->user()==null||auth()->user()->user_type == "coach")
-        @vite(['resources/js/coach/app.js','resources/css/coach.css'])
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    @if (Auth::check())
+        @if (auth()->user()->user_type == 'user')
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    @else
-        @vite(['resources/js/admin/app.js'])
-        
-        
+            <!-- FullCalendar CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css" rel="stylesheet">
 
+            <!-- Chart.js for charts -->
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+            <!-- FullCalendar JS -->
+            <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+        @endif
     @endif
-    @vite(['resources/sass/app.scss', 'resources/css/app.css'])
-    @yield('extras')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>@yield('title')</title>
 </head>
 
 <body>
-    
-    @if (View::getSection('title') == 'Login' )
-        <div class="container-fluid d-flex my-auto mx-auto align-items-center justify-content-center" style="height:75vh">
-            
-            @yield('content')
-    </div>
-    <footer>
-        <div class="row d-flex my-auto mx-auto align-items-center justify-content-center">
-            
-            <img src="{{asset('images/apc_logo.jpg')}}" alt="APC Logo" class="logo">
-            <img src="{{asset('images/stamina_fitness.jpg')}}" alt="APC Logo" class="logo">
-        </div>
-        
-
-    <div class="row d-flex my-auto mx-auto align-items-center justify-content-center">
-        © 2024. All Rights Reserved
-     </div>
-     <div class="row d-flex my-auto mx-auto align-items-center justify-content-center">Built with Laravel,Bootstrap,jQuery</div>
-</footer>
-
-    
-    
-    @else
-    <div class="container-fluid">
-        
-        @yield('content')
-        
-        
-    </div>
-    <br><br>
-    <footer>
-        <div class="row d-flex my-auto mx-auto align-items-center justify-content-center">
-            
-            <img src="{{asset('images/apc_logo.jpg')}}" alt="APC Logo" class="logo">
-            <img src="{{asset('images/stamina_fitness.jpg')}}" alt="APC Logo" class="logo">
-        </div>
-        
-
-    <div class="row d-flex my-auto mx-auto align-items-center justify-content-center">
-        © 2024. All Rights Reserved
-     </div>
-     <div class="row d-flex my-auto mx-auto align-items-center justify-content-center">Built with Laravel,Bootstrap,jQuery</div>
-</footer>
-    @endif
-    
+    <p class="d-none" id="user_context">
+        @if (Auth::check())
+            {{Auth::user()->user_type}}
+        @else
+            Guest
+        @endif
+    </p>
+    @yield('content')
+    @yield('script')
 </body>
 
 </html>

@@ -38,7 +38,7 @@
         <div class="login-header text-center">
             <h3>Login</h3>
         </div>
-        <form action="{{route('login.POST')}}" method="post" class="login-form">
+        <form action="{{route('login_post')}}" method="post" class="login-form">
             @csrf
             <div class="mb-3">
                 <label for="username" class="form-label">Username:</label>
@@ -52,7 +52,7 @@
                 <button type="submit" class="btn btn-primary">Login</button>
             </div>
             <div class="forgot-password text-center">
-                <a href="{{ route('password.request') }}">Forgot Password?</a>
+                <a href="#">Forgot Password?</a>
             </div>
         </form>
 
