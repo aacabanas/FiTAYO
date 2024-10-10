@@ -19,6 +19,6 @@ class user_assessment extends Model
     'heart_problem',
     'emergency_contact_name',
     'emergency_contact_num',
-    'profile_ID'
+    'username'
     ];
 }

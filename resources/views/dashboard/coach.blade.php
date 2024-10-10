@@ -340,13 +340,6 @@
 @endsection
 @section('script')
         <script type="module">
-            $.each({"1bp":{"lift":"Bench Press","reps":1},"6bp":{"lift":"Bench Press","reps":6},"12bp":{"lift":"Bench Press","reps":12},"1dl":{"lift":"Deadlift","reps":1},"6dl":{"lift":"Deadlift","reps":6},"12dl":{"lift":"Deadlift","reps":12},"1bs":{"lift":"Barbell Squats","reps":1},"6bs":{"lift":"Barbell Squats","reps":6},"12bs":{"lift":"Barbell Squats","reps":12}},(k,v)=>{
-                $.getJSON(`{{route('leaderboard')}}?lift=${v.lift}&reps=${v.reps}`,(v)=>{
-                    if(v.data.length == 0)return
-                    $.each(v.data,(i,v)=>{
-                        $("#"+k).html($("#"+k).html()+`<tr><td>${i+1}</td><td>${v.username}</td><td>${v.weight}</td></tr>`)
-                    })
-                })
-            })
+            
         </script>    
 @endsection

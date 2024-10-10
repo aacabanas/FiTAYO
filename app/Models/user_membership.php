@@ -12,7 +12,7 @@ class user_membership extends Model
     protected $table = 'user_membership';
 
     protected $fillable = [
-        'user_ID',
+        'username',
         'membership_plan',
         'start_date',
         'expiry_date',
@@ -20,8 +20,5 @@ class user_membership extends Model
         'Trainer'
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+   
 }

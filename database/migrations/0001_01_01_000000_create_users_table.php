@@ -8,6 +8,11 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
+    private function tables(){
+        return [
+            "user_bmi","MilestoneProgress","nonmembers","checkins","trainers","users","user_membership","user_milestones","user_profile","user_assessment","password_reset_tokens","sessions"
+        ];
+    }
     public function up(): void
     {   
         Schema::create("user_bmi",function(Blueprint $table){
@@ -67,19 +72,18 @@ return new class extends Migration {
             $table->string('user_type')->default('user');
             $table->string('resetToken',length:128);
             $table->timestamp('email_verified_at')->nullable();
-            $table->boolean('data_filled')->default(false);
             $table->boolean('payment_status')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });
         Schema::create('user_membership', function (Blueprint $table) {
-            $table->id('userMem_ID');
+            $table->id();
+            $table->string('username')->unique();
             $table->string('membership_plan', length: 255)->nullable();
             $table->date('start_date')->nullable();
             $table->date('expiry_date')->nullable();
             $table->date('next_payment')->nullable();
             $table->string('Trainer', length: 255)->nullable();
-            $table->foreignId('user_ID')->constrained('users', 'id')->onDelete('cascade');
             $table->timestamps();
         });
         
@@ -94,9 +98,8 @@ return new class extends Migration {
 
         });
         
-        //tables with foreign keys(FK)
         Schema::create('user_profile', function (Blueprint $table) {
-            $table->id('profile_ID');
+            $table->id();
             $table->string("profile_image")->default("images/blankprofile.png");
             $table->string('firstName', length: 255)->nullable();
             $table->string('lastName', length: 255)->nullable();
@@ -108,21 +111,20 @@ return new class extends Migration {
             $table->string('address_street_num', length: 255)->nullable();
             $table->string('address_barangay', length: 255)->nullable();
             $table->string('address_city', length: 255)->nullable();
+            $table->string('username')->unique();
             $table->string('address_region', length: 255)->nullable();
             $table->timestamps();
-            $table->foreignId('user_ID')->constrained('users', 'id')->onDelete('cascade');
-            $table->foreignId('userMem_ID')->constrained('user_membership', 'userMem_ID')->onDelete('cascade');
         });
         
         Schema::create('user_assessment', function (Blueprint $table) {
-            $table->id('userAsses_ID');
-            $table->foreignId('profile_ID')->constrained('user_profile', 'profile_ID')->onDelete('cascade');
+            $table->id();
             $table->string('medical_history', length: 999)->nullable();
             $table->boolean('physically_fit')->nullable();
             $table->boolean('operation')->nullable();
             $table->boolean('high_blood')->nullable();
             $table->boolean('heart_problem')->nullable();
             $table->string("emergency_contact_name")->nullable();
+            $table->string('username')->unique();
             $table->string('emergency_contact_num','11')->nullable();
             $table->timestamps();
         });
@@ -146,9 +148,11 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
+    {   
+        foreach([
+            "user_bmi","MilestoneProgress","nonmembers","checkins","trainers","users","user_membership","user_milestones","user_profile","user_assessment","password_reset_tokens","sessions"
+        ] as $t){
+            Schema::dropIfExists($t);
+        }
     }
 };

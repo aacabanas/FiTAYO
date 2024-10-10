@@ -25,8 +25,7 @@ class user_profile extends Authenticatable
         'address_barangay',
         'address_city',
         'address_region',
-        'user_ID',
-        'userMem_ID',
+        'username'
     ];
 
     protected $hidden = [
@@ -34,19 +33,6 @@ class user_profile extends Authenticatable
         'remember_token',
     ];
 
-    public function user_credentials(): HasOne
-    {
-        return $this->hasOne(User::class, 'user_ID', 'profile_ID');
-    }
-
-    public function user_membership(): HasOne
-    {
-        return $this->hasOne(user_membership::class, 'userMem_ID', 'profile_ID');
-    }
-
-    public function user_milestones(): BelongsTo
-    {
-        return $this->belongsTo(user_milestones::class);
-    }
+    
 }
  

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use BaconQrCode\Encoder\QrCode;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Mail;
@@ -25,8 +26,7 @@ use Illuminate\Support\Facades\Storage;
 class Logic extends Controller
 {
     //STATIC FILE PATHS HERE
-    private function lifts_data()
-    {
+    private function lifts_data() {
         return [
             "1bp" => [
                 "lift" => "Bench Press",
@@ -66,16 +66,18 @@ class Logic extends Controller
             ]
         ];
     }
-    private function regions_json()
-    {
-        return public_path("json\\regions\\regions.json");
-    }
+    
+    
+    
+    
     //HELPER FUNCTIONS HERE
-
+    public function generate_qr(){
+        return;
+    }
     //REGISTER FUNCTIONS HERE
     public function register(Request $request)
     {
-
+        
         $request->validate([
             "data_privacy_accepted" => "required",
             "regID" => "required",
@@ -107,7 +109,7 @@ class Logic extends Controller
             "email" => $request->email,
             "password" => Hash::make($request->password),
             "resetToken" => str::random(128)
-        ]);
+        ]); 
         foreach (self::lifts_data() as $v) {
             user_milestones::create([
                 "username" => $request->username,
@@ -117,11 +119,14 @@ class Logic extends Controller
                 "date" => Carbon::now()->toDateString()
             ]);
         }
-        user_membership::create([
-            "user_ID" => $request->regID,
+        $regID = User::where("username",$request->username)->get()->first()->id;
+         user_membership::create([
+            "username" => $request->username,
+            "user_ID" => $regID,
             "Trainer" => $request->trainer
         ]);
         user_profile::create([
+            'username' => $request->username,
             'firstName' => $request->firstname,
             'lastName' => $request->lastname,
             'contactDetails' => $request->contactnum,
@@ -131,8 +136,8 @@ class Logic extends Controller
             'address_barangay' => $request->barangay,
             'address_city' => $request->city,
             'address_region' => $request->region,
-            'user_ID' => $request->regID,
-            'userMem_ID' => $request->regID,
+            'user_ID' => $regID,
+            'userMem_ID' => $regID,
         ]);
         user_assessment::create([
             'physically_fit' => $request->physfit,
@@ -141,19 +146,20 @@ class Logic extends Controller
             'heart_problem' => $request->hp,
             'emergency_contact_name' => $request->emergencyname,
             'emergency_contact_num' => $request->emergencycontact,
-            'profile_ID' => $request->regID
+            'username' => $request->username
         ]);
-        $user = User::where("id", $request->regID)->get()->first();
         user_bmi::create([
-            'username' => $user->username,
+            'username' => $request->username,
             'height' => $request->height,
             'weight' => $request->weight,
             'bmi' => $request->bmi,
             'bmi_classification' => $request->bmitype,
             'date' => Carbon::now()->toDateString()
         ]);
-        trainers::where("name", $request->regTrainer)->increment("trainee_count");
-        return redirect()->route('login_get');
+        $count = trainers::where("name", $request->trainer)->get()->first()->trainee_count;
+        trainers::where("name",$request->trainer)->update(["trainee_count"=>$count+1]);
+        
+        return redirect("/login")->with("success","Registration successful");
     }
     public function register_non_member(Request $request){
         $request->validate([
@@ -185,10 +191,14 @@ class Logic extends Controller
                 ->withSuccess('You have Successfully logged in');
         }
 
-        return redirect("login")->withSuccess('Oppes! You have entered invalid credentials');
+        return redirect("/")->with("fail","Invalid credentials");
     }
     //API-like FUNCTIONS HERE
+    public function trainers(){
+        return response()->json(trainers::where('trainee_count', '<', 10)->whereTime('time_in', '<=', Carbon::now()->toTimeString())->whereTime('time_out', '>=', Carbon::now()->toTimeString())->get());
+    }
     public function check_in(Request $request){
+        if(!Auth::check())return abort(404);
         $id = $request->get("id");
         $username = $request->get("username");
         $date = Carbon::now()->toDateString();
@@ -206,6 +216,7 @@ class Logic extends Controller
         return response()->json(["check_in" => "The user with the ID $id and username $username has checked-in"]);
     }
     public function check_out(Request $request){
+        if(!Auth::check())return abort(404);
         $id = $request->get("id");
         $username = $request->get("username");
         $date = Carbon::now()->toDateString();
@@ -217,18 +228,15 @@ class Logic extends Controller
         return response()->json(["check_out" => "The user with the ID $id and username $username has checked out"]);
     }
     public function get_user(Request $request){
-        $id = $request->get("id");  
-        $user = User::where("id",$id)->get()->first();
-        $membership = $user->user_membership->get()->first();
-        $profile = $user->user_profile->get()->first();
-        $assessment = user_assessment::where("profile_ID",$profile->profile_ID)->get()->first();
-        $bmis = user_bmi::where("username",$user->username)->get();
-        return response()->json(["user" => $user,"membership"=>$membership,"profile"=>$profile,"assessment"=>$assessment,"bmis"=>$bmis]);
+        
+        return !Auth::check()? abort(404) : response()->json(["user" => User::find($request->get("id")),
+                    "membership"=>user_membership::where("username",User::find($request->get("id"))->username)->get()->first(),
+                    "profile"=>user_profile::where("username",User::find($request->get("id"))->username)->get()->first(),
+                    "assessment"=>user_assessment::where("username",User::find($request->get("id"))->username)->get()->first(),
+                    "bmis"=>user_bmi::where("username",User::find($request->get("id"))->username)->get()]);
     }       
     public function request_milestone_progress(Request $request){
-        if(!Auth::check()){
-            return abort(404);
-        }
+        if(!Auth::check())return abort(404);
         $lift = $request->get("lift");
         $reps = $request->get("reps");
         $mode = $request->get("mode") == "work"? "+20" : ($request->get("mode") == "lazy" ? "-20":null);
@@ -245,18 +253,42 @@ class Logic extends Controller
             "request" => "Your request of Lift: $lift\nReps: $reps\nWith:$mode\nwill be processed"
         ]);
     }
+    public function get_milestones(Request $request){
+        return;
+    }
     public function get_leaderboards(Request $request){
-        if(!Auth::check()){
-            return abort(404);
-        }
+        if(!Auth::check())return abort(404);
         return response()->json(["data"=>user_milestones::limit(5)->orderByDesc("weight")->where("lift",$request->get("lift"))->where("reps",$request->get("reps"))->whereNot("weight",0)->get(["username","weight"])->toArray()]) ;
     }
+    public function all(){
+        if(!Auth::check())return abort(404);
+        return response()->json(User::where("user_type","user")->get()->toArray());
+    }
     public function confirm_and_set(Request $request){
+        if(!Auth::check())return abort(404);
         $id = $request->get("id");
+        $username = User::find($id,"username")->username;
         $membership = $request->get("membership");
         User::where("id",$id)->update(["payment_status"=>true]);
-        user_membership::where("userMem_ID",$id)->update(["membership_type"=>$membership, "start_date"=>Carbon::now()->toDateString(),"expiry_date"=>Carbon::now()->addMonth()->toDateString(),"next_payment"=>Carbon::now()->addMonth()->toDateString()]);
+        user_membership::where("username",$username)->update(["membership_plan"=>$membership, "start_date"=>Carbon::now()->toDateString(),"expiry_date"=>Carbon::now()->addMonth()->toDateString(),"next_payment"=>Carbon::now()->addMonth()->toDateString()]);
         return response()->json(["response"=>"User id $id confirmed"]);
-        
+    }
+    public function delete_user(Request $request){
+        $id = $request->get("id");
+        $username = User::where("id",$id)->get()->first()->username;
+        user_membership::where("username",$username)->delete();
+        user_profile::where("username",$username)->delete();
+        user_assessment::where("username",$username)->delete();
+        user_milestones::where("username",$username)->delete();
+        user_bmi::where("username",$username)->delete();
+        MilestoneProgress::where("username",$username)->delete();
+        User::where("id",$id)->delete();
+        return response()->json(["response"=>"User $id has successfully been deleted"]);
+    }
+    public function non_mem(){
+        return (!Auth::check() || Auth::user()->user_type!="admin")?abort(404) : response()->json(NonMemberModel::whereDate("date",Carbon::now()->toDateString())->get()->toArray());
+    }
+    public function set_user(Request $request){
+        if(!Auth::check() || Auth::user()->user_type != "admin")return abort(404);
     }
 }   

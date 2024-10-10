@@ -1,0 +1,12 @@
+.swal-lg{
+    width:  860px !important;
+    height: 860px !important;
+    border: 2px solid #000!important;
+    border-style:groove;
+}
+.swal-lg .row{
+    font-size: 24px !important;
+}
+.swal-lg label{
+    font-size: 18px !important;
+}

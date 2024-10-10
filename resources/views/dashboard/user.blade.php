@@ -876,11 +876,11 @@
             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <div class="container mt-5 profile-container" id="profile">
                     <div class="profile-header text-center p-4 bg-primary text-white rounded shadow">
-                        <img src="{{ asset(\App\Models\user_profile::where('user_ID', auth()->user()->id)->get()->first()->profile_image) }}"
+                        <img src="{{ asset(\App\Models\user_profile::where('username', auth()->user()->username)->get()->first()->profile_image) }}"
                             alt="Profile Picture" class="rounded-circle profile-picture mb-3">
                         <h4 class="profile-name mb-1">
-                            {{ \App\Models\user_profile::where('user_ID', auth()->user()->id)->get()->first()->firstName }}
-                            {{ \App\Models\user_profile::where('user_ID', auth()->user()->id)->get()->first()->lastName }}
+                            {{ \App\Models\user_profile::where('username', auth()->user()->username)->get()->first()->firstName }}
+                            {{ \App\Models\user_profile::where('username', auth()->user()->username)->get()->first()->lastName }}
                         </h4>
                         <p class="profile-email mb-2">{{ auth()->user()->email }}</p>
                         <p class="profile-plan badge bg-light text-dark">Monthly plan</p>
@@ -936,7 +936,7 @@
                                             enctype="multipart/form-data">
                                             @csrf
                                             <label for="profile_image" style="cursor: pointer;">
-                                                <img src="{{ asset(\App\Models\user_profile::where('user_ID', auth()->user()->id)->get()->first()->profile_image) }}"
+                                                <img src="{{ asset(\App\Models\user_profile::where('username', auth()->user()->username)->get()->first()->profile_image) }}"
                                                     alt="Profile Image"
                                                     class="rounded-circle border border-secondary shadow-sm"
                                                     width="120" height="120">
@@ -946,8 +946,8 @@
                                             </label>
                                         </form>
                                         <h4 class="card-title mt-3">
-                                            {{ \App\Models\user_profile::where('user_ID', auth()->user()->id)->get()->first()->firstName }}
-                                            {{ \App\Models\user_profile::where('user_ID', auth()->user()->id)->get()->first()->lastName }}
+                                            {{ \App\Models\user_profile::where('username', auth()->user()->username)->get()->first()->firstName }}
+                                            {{ \App\Models\user_profile::where('username', auth()->user()->username)->get()->first()->lastName }}
                                         </h4>
                                         <p class="card-text text-muted">{{ !Auth::user()->email }}</p>
                                     </div>
@@ -957,19 +957,19 @@
                                         <div class="form-group text-left">
                                             <label for="firstName" class="form-label">First Name</label>
                                             <input type="text" class="form-control" id="firstName" name="firstName"
-                                                value="{{ \App\Models\user_profile::where('user_ID', auth()->user()->id)->get()->first()->firstName }}"
+                                                value="{{ \App\Models\user_profile::where('username', auth()->user()->username)->get()->first()->firstName }}"
                                                 required>
                                         </div>
                                         <div class="form-group text-left">
                                             <label for="lastName" class="form-label">Last Name</label>
                                             <input type="text" class="form-control" id="lastName" name="lastName"
-                                                value="{{ \App\Models\user_profile::where('user_ID', auth()->user()->id)->get()->first()->lastName }}"
+                                                value="{{ \App\Models\user_profile::where('username', auth()->user()->username)->get()->first()->lastName }}"
                                                 required>
                                         </div>
                                         <div class="form-group text-left">
                                             <label for="birthdate" class="form-label">Date of Birth</label>
                                             <input type="date" class="form-control" id="birthdate" name="birthdate"
-                                                value="{{ \App\Models\user_profile::where('user_ID', auth()->user()->id)->get()->first()->birthdate }}"
+                                                value="{{ \App\Models\user_profile::where('username', auth()->user()->username)->get()->first()->birthdate }}"
                                                 required>
                                         </div>
                                         <div class="form-group text-left">
@@ -1181,23 +1181,6 @@
 @endsection
 @section('script')
     <script type="module">
-        $("li>a.nav-link").on('click', function(e) {
-            $("#title").text($(this).text())
-        })
-        $("button[type='mst']").on("click",function(e){
-            $.getJSON(`{{route('milestone_request')}}?lift=${$(this).attr('lift')}&reps=${$(this).attr('reps')}&mode=${$(this).attr('mode')}`,(data)=>{
-                alert(data.request)
-            })
-        })
-        $.each({"1bp":{"lift":"Bench Press","reps":1},"6bp":{"lift":"Bench Press","reps":6},"12bp":{"lift":"Bench Press","reps":12},"1dl":{"lift":"Deadlift","reps":1},"6dl":{"lift":"Deadlift","reps":6},"12dl":{"lift":"Deadlift","reps":12},"1bs":{"lift":"Barbell Squats","reps":1},"6bs":{"lift":"Barbell Squats","reps":6},"12bs":{"lift":"Barbell Squats","reps":12}},(k,v)=>{
-                $.getJSON(`{{route('leaderboard')}}?lift=${v.lift}&reps=${v.reps}`,(v)=>{
-                    if(v.data.length == 0)return
-                    $.each(v.data,(i,v)=>{
-                        $("#"+k).html($("#"+k).html()+`<tr><td>${i+1}</td><td>${v.username}</td><td>${v.weight}</td></tr>`)
-                    })
-                })
-            })
-            
         document.addEventListener('DOMContentLoaded', (event) => {
             const darkModeToggle = document.getElementById('darkModeToggle');
             const body = document.body;

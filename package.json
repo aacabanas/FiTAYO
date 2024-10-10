@@ -11,8 +11,14 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "base-64": "^1.0.0",
+        "@fullcalendar/core": "^6.1.15",
+        "@fullcalendar/daygrid": "^6.1.15",
+        "bootstrap": "^5.3.3",
+        "chart.js": "^4.4.4",
         "html5-qrcode": "^2.3.8",
-        "jquery": "^3.7.1"
+        "jquery": "^3.7.1",
+        "js-base64": "^3.7.7",
+        "random": "^5.1.1",
+        "sweetalert2": "^11.6.13"
     }
 }
